@@ -6,6 +6,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A0203264-51EA-4AA6-9394-3DC14A0760A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.Atuarial.Test", "Vital.PrevidenciaFechada.Core.Domain.Test\Vital.Atuarial.Test.csproj", "{20CBD40F-F646-419E-8C0D-E5A6718C046E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.PrevidenciaFechada.Core.Domain.Test", "Vital.PrevidenciaFechada.Core.Domain.Test\Vital.PrevidenciaFechada.Core.Domain.Test.csproj", "{20CBD40F-F646-419E-8C0D-E5A6718C046E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
