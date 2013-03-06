@@ -85,7 +85,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)Vital.PrevidenciaFechada.Core.Domain.dll" "$(ProjectDir)..\..\Library\Vital.PrevidenciaFechada.Core.Domain.dll"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetDir)Vital.PrevidenciaFechada.Core.Domain.dll" "$(ProjectDir)..\..\..\Library\Vital.PrevidenciaFechada.Core.Domain.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

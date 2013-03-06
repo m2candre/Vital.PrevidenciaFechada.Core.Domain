@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20CBD40F-F646-419E-8C0D-E5A6718C046E}</ProjectGuid>
+    <ProjectGuid>{242D92ED-91F7-4BEB-8EFB-9A1296B4050F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vital.PrevidenciaFechada.Core.Domain.Test</RootNamespace>
