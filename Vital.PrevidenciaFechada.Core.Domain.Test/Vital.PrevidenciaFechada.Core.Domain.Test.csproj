@@ -127,7 +127,6 @@
     <Compile Include="Entities\ComponenteUsuario\UsuarioTest.cs" />
     <Compile Include="Entities\EntidadeTest.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
-    <Compile Include="Services\ServicoObterRelatorioDeAtualizacaoDeFuncionariosTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

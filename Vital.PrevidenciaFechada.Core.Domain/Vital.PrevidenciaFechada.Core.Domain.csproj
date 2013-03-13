@@ -57,7 +57,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ComponenteFuncionarioPreInscricao\FuncionarioPreInscricao.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />
     <Compile Include="Entities\ComponentePlano\CampoDeProposta.cs" />
     <Compile Include="Entities\ComponentePlano\ModeloDeProposta.cs" />
@@ -73,9 +72,6 @@
     <Compile Include="Repository\IRepositorio.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
-    <Compile Include="Services\Interfaces\IServicoObterRelatorioDeAtualizacaoDeFuncionarios.cs" />
-    <Compile Include="Services\ServicoObterRelatorioDeAtualizacaoDeFuncionarios.cs" />
-    <Compile Include="ValueObject\RelatorioDeAtualizacaoDeFuncionariosDTO.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
