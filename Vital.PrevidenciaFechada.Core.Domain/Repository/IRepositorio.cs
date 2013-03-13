@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vital.PrevidenciaFechada.Core.Domain.Entities;
+using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
@@ -13,6 +14,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         void AdicionarLista(List<IAggregateRoot<Guid>> entidades);
         void Remover(IAggregateRoot<Guid> entidade);
         T PorId(Guid id);
+        IList<T> FiltrarTodos(ConsultaDTO consulta);
+        IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta);
         IList<T> Todos();
         IList<T> Todas();
 

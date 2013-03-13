@@ -55,6 +55,9 @@
     <Reference Include="Vital.InfraStructure">
       <HintPath>..\..\..\Library\Vital.InfraStructure.dll</HintPath>
     </Reference>
+    <Reference Include="Vital.PrevidenciaFechada.DTO.Messages">
+      <HintPath>..\..\..\Library\Vital.PrevidenciaFechada.DTO.Messages.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />

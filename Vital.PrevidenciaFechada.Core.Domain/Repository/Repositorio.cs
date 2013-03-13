@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using NHibernate;
 using Vital.PrevidenciaFechada.Core.Domain.Entities;
+using NHibernate.Criterion;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
+using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
@@ -46,6 +49,36 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         public IList<T> Todas()
         {
             return base.Todos<T>();
+        }
+
+        public IList<T> FiltrarTodos(ConsultaDTO consulta)
+        {
+            var criteria = Session.CreateCriteria(typeof(T));
+
+            foreach (var filtro in consulta.Filtros)
+                criteria.Add(Expression.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
+
+            Order order = new Order(consulta.CampoOrdenacao, consulta.Ascending);
+
+            criteria.AddOrder(order);
+
+            return criteria.List<T>();
+        }
+
+        public IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta)
+        {
+            var criteria = Session.CreateCriteria(typeof(T))
+                .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Rows))
+                .SetMaxResults(consulta.Rows);
+
+            foreach (var filtro in consulta.Filtros)
+                criteria.Add(Expression.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
+
+            Order order = new Order(consulta.CampoOrdenacao, consulta.Ascending);
+
+            criteria.AddOrder(order);
+
+            return criteria.List<T>();
         }
     }
 }
