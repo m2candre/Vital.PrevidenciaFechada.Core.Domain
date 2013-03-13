@@ -19,7 +19,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Nome do Plano
         /// </summary>
         public virtual string Nome { get; set; }
-        
+
+        /// <summary>
+        /// Modelo de proposta em HTML
+        /// </summary>
+        public virtual string ModeloDePropostaHTML { get; set; }
+
         /// <summary>
         /// Modelo de Proposta do Plano Atual (publicada)
         /// </summary>

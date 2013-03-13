@@ -51,30 +51,30 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return base.Todos<T>();
         }
 
-        public IList<T> FiltrarTodos(ConsultaDTO consulta)
+        public IList<T> FiltrarTodos(ConsultaDTO<T> consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T));
 
             foreach (var filtro in consulta.Filtros)
                 criteria.Add(Expression.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
 
-            Order order = new Order(consulta.CampoOrdenacao, consulta.Ascending);
+            Order order = new Order(consulta.CampoOrdenacao, consulta.OrdemCrescente);
 
             criteria.AddOrder(order);
 
             return criteria.List<T>();
         }
 
-        public IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta)
+        public IList<T> FiltrarPaginandoTodos(ConsultaDTO<T> consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T))
-                .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Rows))
-                .SetMaxResults(consulta.Rows);
+                .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Linhas))
+                .SetMaxResults(consulta.Linhas);
 
             foreach (var filtro in consulta.Filtros)
                 criteria.Add(Expression.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
 
-            Order order = new Order(consulta.CampoOrdenacao, consulta.Ascending);
+            Order order = new Order(consulta.CampoOrdenacao, consulta.OrdemCrescente);
 
             criteria.AddOrder(order);
 

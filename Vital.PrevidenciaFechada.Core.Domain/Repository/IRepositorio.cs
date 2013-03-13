@@ -14,8 +14,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         void AdicionarLista(List<IAggregateRoot<Guid>> entidades);
         void Remover(IAggregateRoot<Guid> entidade);
         T PorId(Guid id);
-        IList<T> FiltrarTodos(ConsultaDTO consulta);
-        IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta);
+        IList<T> FiltrarTodos(ConsultaDTO<T> consulta);
+        IList<T> FiltrarPaginandoTodos(ConsultaDTO<T> consulta);
         IList<T> Todos();
         IList<T> Todas();
 
