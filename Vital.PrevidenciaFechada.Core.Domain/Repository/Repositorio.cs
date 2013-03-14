@@ -51,7 +51,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return base.Todos<T>();
         }
 
-        public IList<T> FiltrarTodos(ConsultaDTO<T> consulta)
+        public IList<T> FiltrarTodos(ConsultaDTO consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T));
 
@@ -65,7 +65,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return criteria.List<T>();
         }
 
-        public IList<T> FiltrarPaginandoTodos(ConsultaDTO<T> consulta)
+        public IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T))
                 .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Linhas))
