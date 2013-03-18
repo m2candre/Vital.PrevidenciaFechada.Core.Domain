@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vital.InfraStructure.AOP;
+using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
@@ -36,9 +38,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual ModeloDeProposta ModeloDePropostaEmRascunho { get; protected set; }
 
         /// <summary>
-        /// Contratos com Patrocinadores e/ou Instituidores
+        /// Termos de Adesão com Patrocinadores e/ou Instituidores
         /// </summary>
-        public virtual IList<Contrato> Contratos { get; set; }
+        public virtual IList<TermoDeAdesao> TermosDeAdesao { get; set; }
+
+        /// <summary>
+        /// Tipos de documento
+        /// </summary>
+        public virtual IList<TipoDeDocumento> TiposDeDocumento { get; set; }
 
 		/// <summary>
 		/// Construtor - inicialização dos agregados de planoB
@@ -47,6 +54,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public Plano()
         {
             ModeloDePropostaEmRascunho = new ModeloDeProposta();
+            TermosDeAdesao = new List<TermoDeAdesao>();
+            TiposDeDocumento = new List<TipoDeDocumento>();
         }
 
         /// <summary>
@@ -58,6 +67,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             this.ModeloDePropostaEmRascunho.Publicar();
             this.ModeloDePropostaAtual = ModeloDePropostaEmRascunho;
             this.ModeloDePropostaEmRascunho = ModeloDePropostaAtual.CopiarParaRascunho();
-		}		
+		}
+
+        /// <summary>
+        /// Adiciona um novo tipo de documento a pessoa jurídica
+        /// </summary>
+        /// <param name="tipoDeDocumento">Tipo de documento</param>
+        public virtual void AdicionarTipoDeDocumento(TipoDeDocumento tipoDeDocumento)
+        {
+            if (TiposDeDocumento == null)
+                TiposDeDocumento = new List<TipoDeDocumento>();
+
+            IAssertion naoExisteDocumento = Assertion.IsFalse(ExisteTipoDeDocumentoComONome(tipoDeDocumento.Descricao), "Nome do tipo de documento já existe!");
+
+            TiposDeDocumento.Add(tipoDeDocumento);
+        }
+
+        private bool ExisteTipoDeDocumentoComONome(string nomeDoTipoDeDocumento)
+        {
+            return TiposDeDocumento.Any(x => x.Descricao == nomeDoTipoDeDocumento);
+        }
     }
 }

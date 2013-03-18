@@ -17,8 +17,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica
         public virtual Guid Id { get; set; }
 
         /// <summary>
-        /// Id do arquivo persistido
+        /// Descrição do arquivo
         /// </summary>
-        public virtual Guid IdDoArquivo { get; set; }
+        public virtual string Descricao { get; set; }
     }
 }

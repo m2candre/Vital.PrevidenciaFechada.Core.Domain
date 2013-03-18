@@ -63,7 +63,7 @@
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\TipoDeDocumento.cs" />
     <Compile Include="Entities\ComponentePlano\CampoDeProposta.cs" />
-    <Compile Include="Entities\ComponentePlano\Contrato.cs" />
+    <Compile Include="Entities\ComponentePlano\TermoDeAdesao.cs" />
     <Compile Include="Entities\ComponentePlano\ModeloDeProposta.cs" />
     <Compile Include="Entities\ComponenteEntidade\Entidade.cs" />
     <Compile Include="Entities\ComponentePlano\Plano.cs" />

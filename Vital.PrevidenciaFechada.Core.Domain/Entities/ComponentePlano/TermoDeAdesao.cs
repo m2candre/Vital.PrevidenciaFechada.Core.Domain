@@ -8,9 +8,9 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
     /// <summary>
-    /// Contrato de um plano com um (Patrocinador/Instituidor)
+    /// termo de adesão de um plano com um (Patrocinador/Instituidor)
     /// </summary>
-    public class Contrato
+    public class TermoDeAdesao
     {
         /// <summary>
         /// Id do contrato
