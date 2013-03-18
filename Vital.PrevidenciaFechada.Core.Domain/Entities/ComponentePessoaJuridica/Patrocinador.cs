@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica
 {
+    /// <summary>
+    /// Patrocinador
+    /// </summary>
     public class Patrocinador : PessoaJuridica
     {
     }

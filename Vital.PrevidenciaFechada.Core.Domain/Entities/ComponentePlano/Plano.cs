@@ -35,6 +35,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual ModeloDeProposta ModeloDePropostaEmRascunho { get; protected set; }
 
+        /// <summary>
+        /// Contratos com Patrocinadores e/ou Instituidores
+        /// </summary>
+        public virtual IList<Contrato> Contratos { get; set; }
+
 		/// <summary>
 		/// Construtor - inicialização dos agregados de planoB
         /// Cria por padrão um modelo de proposta vazio em modo Rascunho

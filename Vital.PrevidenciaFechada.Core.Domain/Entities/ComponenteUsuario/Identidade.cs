@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
 {
@@ -29,6 +30,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
         /// Lista de Entidades as quais o usuário faz parte
         /// </summary>
         public virtual IList<Entidade> Entidades { get; set; }
+
+        /// <summary>
+        /// Pessoa Jurídica
+        /// </summary>
+        public virtual PessoaJuridica PessoaJuridica { get; set; }
 
         /// <summary>
         /// Construtor para serialização
