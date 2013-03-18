@@ -83,7 +83,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             TiposDeDocumento.Add(tipoDeDocumento);
         }
 
-        private bool ExisteTipoDeDocumentoComONome(string nomeDoTipoDeDocumento)
+        public virtual bool ExisteTipoDeDocumentoComONome(string nomeDoTipoDeDocumento)
         {
             return TiposDeDocumento.Any(x => x.Descricao == nomeDoTipoDeDocumento);
         }

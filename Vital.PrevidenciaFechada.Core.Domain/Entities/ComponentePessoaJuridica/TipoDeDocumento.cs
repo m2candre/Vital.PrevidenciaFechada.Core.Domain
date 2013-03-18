@@ -9,7 +9,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica
     /// <summary>
     /// Tipo de documento
     /// </summary>
-    public class TipoDeDocumento
+    public class TipoDeDocumento : IAggregateRoot<Guid>
     {
         /// <summary>
         /// Id do tipo de documento
