@@ -43,6 +43,9 @@
       <HintPath>..\..\..\Library\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="Stateless">
+      <HintPath>..\..\..\Library\Stateless.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -67,6 +70,9 @@
     <Compile Include="Entities\ComponentePlano\ModeloDeProposta.cs" />
     <Compile Include="Entities\ComponenteEntidade\Entidade.cs" />
     <Compile Include="Entities\ComponentePlano\Plano.cs" />
+    <Compile Include="Entities\ComponenteProposta\IRepositorioProposta.cs" />
+    <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaProposta.cs" />
+    <Compile Include="Entities\ComponenteProposta\Proposta.cs" />
     <Compile Include="Entities\ComponenteUsuario\Identidade.cs" />
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />
@@ -76,6 +82,7 @@
     <Compile Include="Repository\IRepositorio.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
+    <Compile Include="Repository\RepositorioProposta.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
