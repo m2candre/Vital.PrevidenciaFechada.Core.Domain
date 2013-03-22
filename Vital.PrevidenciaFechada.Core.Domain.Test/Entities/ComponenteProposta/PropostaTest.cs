@@ -13,12 +13,21 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 	public class PropostaTest
 	{
 		[Test]
-		public void alterar_estado_com_sucesso()
+		public void alterar_estado_para_autorizada_com_sucesso()
 		{
 			Proposta proposta = new Proposta();
 			proposta.Autorizar();
 
 			Assert.That(proposta.Estado, Is.EqualTo("Autorizada"));
+		}
+
+		[Test]
+		public void alterar_estado_para_nao_autorizada_com_sucesso()
+		{
+			Proposta proposta = new Proposta();
+			proposta.Recusar();
+
+			Assert.That(proposta.Estado, Is.EqualTo("NaoAutorizada"));
 		}
 
 		[Test]

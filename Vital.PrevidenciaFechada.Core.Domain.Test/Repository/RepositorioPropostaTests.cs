@@ -16,6 +16,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 	public class RepositorioPropostaTests
 	{
 		[Test]
+		public void construtor_padrao_para_repositorio()
+		{
+			RepositorioProposta repositorio = new RepositorioProposta();
+			Assert.IsNotNull(repositorio);
+		}
+
+		[Test]
 		public void obter_propostas_por_criterio_retorna_lista_corretamente()
 		{
 			Expression<Func<Proposta, bool>> criterio = p => p.Estado == "Iniciada";
