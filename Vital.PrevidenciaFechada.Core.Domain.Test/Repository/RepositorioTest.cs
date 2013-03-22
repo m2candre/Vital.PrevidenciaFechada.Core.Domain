@@ -9,6 +9,11 @@ using Rhino.Mocks;
 using Vital.PrevidenciaFechada.Core.Domain.Entities;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
+using System.Linq.Expressions;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
+using NHibernate.Criterion;
+using NHibernate.Criterion.Lambda;
+using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 {
@@ -153,6 +158,37 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             planos.PorId(Id);
 
             session.VerifyAllExpectations();
+        }
+
+        [Test]
+        [Ignore]
+        public void obter_todos_os_objetos_filtrados_de_acordo_com_criterios_paginados_e_ordenados_em_ordem_crescente()
+        {
+            Expression<Func<Proposta, bool>> criterio = p => p.Estado == "Iniciada";
+
+            var order = MockRepository.GenerateMock<IQueryOverOrderBuilder<Proposta, Proposta>>(MockRepository.GenerateMock<IQueryOver<Proposta, Proposta>>(), MockRepository.GenerateMock<IProjection>());
+
+            var session = MockRepository.GenerateMock<ISession>();
+
+            var query = MockRepository.GenerateStub<IQueryOver<Proposta, Proposta>>();
+
+            query.Expect(x => x.List()).Return(new List<Proposta>());
+
+            query.Expect(x => x.Take(1)).Return(query);
+
+            query.Expect(x => x.Skip(1)).Return(query);
+
+            order.Expect(x => x.Asc).Return(query);
+
+            query.Expect(x => x.OrderBy(Projections.Property("Numero"))).Return(order);
+
+            query.Expect(x => x.Where(criterio)).Return(query);
+
+            session.Expect(x => x.QueryOver<Proposta>()).Return(query);
+
+            RepositorioProposta repositorio = new RepositorioProposta(session);
+
+            repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterio, new ConsultaDTO { OrdemCrescente = true, PaginaAtual = 2, Linhas = 1, CampoOrdenacao = "Numero" });
         }
     }
 }

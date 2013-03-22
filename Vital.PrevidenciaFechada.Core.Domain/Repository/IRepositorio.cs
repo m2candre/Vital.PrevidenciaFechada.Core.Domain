@@ -19,5 +19,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         IList<T> Todos();
         IList<T> Todas();
 
+        /// <summary>
+        /// Obtem Todos os objetos filtrados e paginados de acordo com um critério específico
+        /// </summary>
+        /// <typeparam name="T">Objeto a ser filtrado</typeparam>
+        /// <param name="criterios">criterios</param>
+        /// <param name="consulta">parametros de consulta</param>
+        /// <returns>Lista de objetos</returns>
+        IList<T> ObterTodosFiltradosComCriterio<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios, ConsultaDTO consulta) where T : class;
     }
 }

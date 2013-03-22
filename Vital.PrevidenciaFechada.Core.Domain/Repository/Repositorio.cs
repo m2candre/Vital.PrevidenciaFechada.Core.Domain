@@ -51,6 +51,29 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return base.Todos<T>();
         }
 
+        /// <summary>
+        /// Obtem Todos os objetos filtrados e paginados de acordo com um critério específico
+        /// </summary>
+        /// <typeparam name="T">Objeto a ser filtrado</typeparam>
+        /// <param name="criterios">criterios</param>
+        /// <param name="consulta">parametros de consulta</param>
+        /// <returns>Lista de objetos</returns>
+        public IList<T> ObterTodosFiltradosComCriterio<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios, ConsultaDTO consulta) where T : class
+        {
+            var query = Session.QueryOver<T>().Where(criterios);
+
+            IQueryOver<T,T> queryOrdenada = null;
+
+            if(consulta.OrdemCrescente)
+                queryOrdenada = query.OrderBy(Projections.Property(consulta.CampoOrdenacao)).Asc;
+            else
+                queryOrdenada = query.OrderBy(Projections.Property(consulta.CampoOrdenacao)).Desc;
+
+            return queryOrdenada
+            .Skip(((consulta.PaginaAtual - 1) * consulta.Linhas))
+            .Take(consulta.Linhas).List();
+        }
+
         public IList<T> FiltrarTodos(ConsultaDTO consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T));
