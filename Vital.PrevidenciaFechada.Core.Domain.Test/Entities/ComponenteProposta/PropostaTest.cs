@@ -48,10 +48,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void maquina_da_proposta_sendo_setada_com_sucesso()
 		{
-			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Teste", _proposta);
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Iniciada", _proposta);
 
 			Assert.That(_proposta.MaquinaDeEstado, Is.Not.Null);
-			Assert.That(_proposta.MaquinaDeEstado.Maquina.State, Is.EqualTo("Teste"));
+			Assert.That(_proposta.MaquinaDeEstado.EstadoAtual, Is.EqualTo("Iniciada"));
 		}
 
 		[Test]
@@ -84,17 +84,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 			_proposta.Recusar();
 
 			Assert.That(_proposta.Estado, Is.EqualTo("NaoAutorizada"));
-		}
-
-		[Test]
-		public void iniciar_maquina_de_estado_na_proposta()
-		{
-			MaquinaDeEstadoDaProposta maquina = new MaquinaDeEstadoDaProposta("Iniciada", new Proposta());
-			maquina.Maquina = null;
-
-			StateMachine<string, string> maquinaDeEstado = maquina.Maquina;
-
-			Assert.That(maquinaDeEstado.State, Is.EqualTo("Iniciada"));
 		}
 
 		[Test]
