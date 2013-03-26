@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Rhino.Mocks;
 using Stateless;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,80 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 {
+	/// <summary>
+	/// Stub de Proposta para forçar valor null na MaquinaDeEstado
+	/// </summary>
+	public class PropostaStub : Proposta
+	{
+		/// <summary>
+		/// Propriedade para forçar null no get da MaquinaDeEstado
+		/// </summary>
+		public override MaquinaDeEstadoDaProposta MaquinaDeEstado
+		{
+			get { return null; }
+			set { base.MaquinaDeEstado = value; }
+		}
+	}
+
 	[TestFixture]
 	public class PropostaTest
 	{
+		private Proposta _proposta;
+
+		[SetUp]
+		public void iniciar()
+		{
+			_proposta = new Proposta();
+		}
+
+		[Test]
+		public void se_estado_nao_for_setado_setar_com_estado_inicial()
+		{
+			_proposta.Estado = null;
+
+			Assert.That(_proposta.Estado, Is.Not.Empty);
+			Assert.That(_proposta.Estado, Is.EqualTo("Iniciada"));
+		}
+
+		[Test]
+		public void maquina_da_proposta_sendo_setada_com_sucesso()
+		{
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Teste", _proposta);
+
+			Assert.That(_proposta.MaquinaDeEstado, Is.Not.Null);
+			Assert.That(_proposta.MaquinaDeEstado.Maquina.State, Is.EqualTo("Teste"));
+		}
+
 		[Test]
 		public void alterar_estado_para_autorizada_com_sucesso()
 		{
-			Proposta proposta = new Proposta();
-			proposta.Autorizar();
+			_proposta.Autorizar();
 
-			Assert.That(proposta.Estado, Is.EqualTo("Autorizada"));
+			Assert.That(_proposta.Estado, Is.EqualTo("Autorizada"));
+		}
+
+		[Test]
+		public void autorizar_com_maquina_de_estado_nula_lanca_excecao()
+		{
+			PropostaStub propostaStub = new PropostaStub();
+			
+			Assert.That(() => propostaStub.Autorizar(), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
+		}
+
+		[Test]
+		public void recusar_com_maquina_de_estado_nula_lanca_excecao()
+		{
+			PropostaStub propostaStub = new PropostaStub();
+
+			Assert.That(() => propostaStub.Recusar(), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
 		}
 
 		[Test]
 		public void alterar_estado_para_nao_autorizada_com_sucesso()
 		{
-			Proposta proposta = new Proposta();
-			proposta.Recusar();
+			_proposta.Recusar();
 
-			Assert.That(proposta.Estado, Is.EqualTo("NaoAutorizada"));
+			Assert.That(_proposta.Estado, Is.EqualTo("NaoAutorizada"));
 		}
 
 		[Test]
@@ -42,21 +98,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		}
 
 		[Test]
-		public void alterar_propriedade_estado_na_proposta()
+		public void alterar_estado_sem_informar_parametro_estado_lanca_excecao()
 		{
-			Proposta proposta = new Proposta();
-			proposta.Estado = "Teste";
-
-			Assert.That(proposta.Estado, Is.EqualTo("Teste"));
+			Assert.That(() => _proposta.AlterarEstado(""), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado não foi informado"));
 		}
 
 		[Test]
-		public void maquina_de_estado_da_proposta_esta_nula_ao_autorizar()
+		public void alterar_propriedade_estado_na_proposta()
 		{
-			Proposta proposta = new Proposta();
-			proposta.MaquinaDeEstado = null;
+			_proposta.Estado = "Teste";
 
-			Assert.Throws<Exception>(() => proposta.Autorizar(), "A máquina de estados da proposta deve ser inicializada");
+			Assert.That(_proposta.Estado, Is.EqualTo("Teste"));
 		}
 	}
 }

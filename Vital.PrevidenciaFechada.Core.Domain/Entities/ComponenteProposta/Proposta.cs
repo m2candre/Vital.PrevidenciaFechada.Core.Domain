@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vital.InfraStructure.DSL.DesignByContract;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
@@ -13,6 +9,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 	/// </summary>
 	public class Proposta : IAggregateRoot<Guid>
 	{
+		private MaquinaDeEstadoDaProposta _maquinaDeEstadoDaProposta;
+		private string _estado;
+
 		/// <summary>
 		/// Id
 		/// </summary>
@@ -36,12 +35,32 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <summary>
 		/// Nome do estado atual
 		/// </summary>
-		public virtual string Estado { get; set; }
+		public virtual string Estado
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(_estado))
+					_estado = "Iniciada";
+
+				return _estado;
+			}
+			set { _estado = value; }
+		}
 
 		/// <summary>
 		/// Objeto responsável por controlar a transição de estados da proposta
 		/// </summary>
-		public virtual MaquinaDeEstadoDaProposta MaquinaDeEstado { get; set; }
+		public virtual MaquinaDeEstadoDaProposta MaquinaDeEstado
+		{
+			get
+			{
+				if (_maquinaDeEstadoDaProposta == null)
+					_maquinaDeEstadoDaProposta = new MaquinaDeEstadoDaProposta("Iniciada", this);
+
+				return _maquinaDeEstadoDaProposta;
+			}
+			set { _maquinaDeEstadoDaProposta = value; }
+		}
 
 		/// <summary>
 		/// Plano
@@ -49,23 +68,27 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		public virtual Plano Plano { get; set; }
 
 		/// <summary>
-		/// Construtor
-		/// </summary>
-		public Proposta()
-		{
-			if (MaquinaDeEstado == null) MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Iniciada", this);
-			if (string.IsNullOrWhiteSpace(Estado)) Estado = "Iniciada";
-		}
-
-		/// <summary>
 		/// Autoriza a proposta
 		/// </summary>
 		public virtual void Autorizar()
 		{
+			#region Pré-condições
+
 			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+
+			#endregion
+
 			maquinaDeEstadoEstaInicializada.Validate();
 
 			MaquinaDeEstado.AlterarPelaAcao("Autorizar");
+
+			#region Pós-condições
+
+			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "Autorizada", "O estado na proposta não foi alterado para 'Autorizada'");
+
+			#endregion
+
+			oEstadoDaPropostaFoiAlterado.Validate();
 		}
 
 		/// <summary>
@@ -73,10 +96,23 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// </summary>
 		public virtual void Recusar()
 		{
+			#region Pré-condições
+
 			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+
+			#endregion
+
 			maquinaDeEstadoEstaInicializada.Validate();
 
 			MaquinaDeEstado.AlterarPelaAcao("Recusar");
+
+			#region Pós-condições
+
+			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "NaoAutorizada", "O estado na proposta não foi alterado para 'NaoAutorizada'");
+
+			#endregion
+
+			oEstadoDaPropostaFoiAlterado.Validate();
 		}
 
 		/// <summary>
@@ -85,7 +121,23 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <param name="estado">estado</param>
 		public virtual void AlterarEstado(string estado)
 		{
+			#region Pré-condições
+
+			IAssertion oEstadoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(estado), "O estado não foi informado");
+
+			#endregion
+
+			oEstadoFoiInformado.Validate();
+
 			Estado = estado;
+
+			#region Pós-condições
+
+			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, estado, "O estado não foi alterado corretamente");
+
+			#endregion
+
+			oEstadoDaPropostaFoiAlterado.Validate();
 		}
 	}
 }
