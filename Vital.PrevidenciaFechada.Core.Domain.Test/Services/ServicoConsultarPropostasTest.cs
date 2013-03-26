@@ -16,15 +16,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 	public class ServicoConsultarPropostasTest
 	{
 		private IRepositorio<Proposta> _repositorio;
-		private ConsultaDTO _consultaDto;
 		private ServicoConsultarPropostas _servico;
 
 		[SetUp]
 		public void iniciar()
 		{
 			_repositorio = MockRepository.GenerateMock<IRepositorio<Proposta>>();
-			_consultaDto = new ConsultaDTO();
-			_servico = new ServicoConsultarPropostas(_repositorio, _consultaDto);
+			_servico = new ServicoConsultarPropostas(_repositorio);
 		}
 
 		[Test]
@@ -43,14 +41,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void se_construtor_nao_recebe_injecao_do_repositorio_lanca_excecao()
 		{
 			ServicoConsultarPropostas servico;
-			Assert.That(() => servico = new ServicoConsultarPropostas(null, _consultaDto), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O repositório não foi injetado corretamente"));
-		}
-
-		[Test]
-		public void se_construtor_nao_recebe_o_dto_de_consulta_lanca_excecao()
-		{
-			ServicoConsultarPropostas servico;
-			Assert.That(() => servico = new ServicoConsultarPropostas(_repositorio, null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O DTO de consulta não foi informado corretamente"));
+			Assert.That(() => servico = new ServicoConsultarPropostas(null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O repositório não foi injetado corretamente"));
 		}
 
 		[Test]
@@ -60,20 +51,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			DateTime dataDaBusca = DateTime.Now;
 			Expression<Func<Proposta, bool>> criterios = proposta => proposta.Plano.Id == idDoPlano && proposta.Estado == "Registrada" && proposta.Data >= dataDaBusca;
 
-			var objectQuery = MockRepository.GenerateMock<CriteriosDeConsultaPorPlanoEstadoData>();
-			objectQuery.Expect(x => x.ObterCriterio(idDoPlano, "Registrada", dataDaBusca.AddDays(-20))).Return(criterios);
-			
+			var criteriosDeConsulta = MockRepository.GenerateMock<CriteriosDeConsultaPorPlanoEstadoData>();
+			criteriosDeConsulta.Expect(x => x.ObterCriterio(idDoPlano, "Registrada", dataDaBusca.AddDays(-20))).Return(criterios);
+
+			ConsultaDTO consultaDTO = new ConsultaDTO();
+
 			List<Proposta> listaRetorno = new List<Proposta>
 			{
 				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("10/03/2013 10:00") },
 				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("11/03/2013 10:00") }
 			};
 
-			_servico.CriteriosConsulta = objectQuery;
+			_servico.CriteriosConsulta = criteriosDeConsulta;
 			_servico.Data = dataDaBusca;
-			_repositorio.Expect(x => x.ObterTodosFiltradosComCriterio<Proposta>(criterios, _consultaDto)).Return(listaRetorno);
-			
-			List<Proposta> propostas = _servico.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 20).ToList();
+			_repositorio.Expect(x => x.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO)).Return(listaRetorno);
+
+			List<Proposta> propostas = _servico.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 20, consultaDTO).ToList();
 
 			Assert.IsNotNull(propostas);
 			Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-20)));
@@ -82,19 +75,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		[Test]
 		public void obter_propostas_sem_informar_o_id_do_plano_lanca_excecao()
 		{
-			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.Empty, "Registrada", 20), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O ID do plano deve ser informado"));
+			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.Empty, "Registrada", 20, new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O ID do plano deve ser informado"));
 		}
 
 		[Test]
 		public void obter_propostas_sem_informar_o_estado_da_proposta_lanca_excecao()
 		{
-			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "", 20), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado da proposta deve ser informado"));
+			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "", 20, new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado da proposta deve ser informado"));
 		}
 
 		[Test]
 		public void obter_propostas_sem_informar_a_quantidade_de_dias_lanca_excecao()
 		{
-			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", default(int)), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A quantidade de dias deve ser maior que 0"));
+			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", default(int), new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A quantidade de dias deve ser maior que 0"));
+		}
+
+		[Test]
+		public void obter_propostas_sem_informar_o_dto_de_propostas_lanca_excecao()
+		{
+			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", 20, null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O DTO de consulta não foi informado corretamente"));
 		}
 	}
 }
