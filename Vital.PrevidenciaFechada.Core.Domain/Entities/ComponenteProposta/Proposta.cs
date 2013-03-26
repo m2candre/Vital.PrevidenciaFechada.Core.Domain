@@ -80,7 +80,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			maquinaDeEstadoEstaInicializada.Validate();
 
-			MaquinaDeEstado.AlterarPelaAcao("Autorizar");
+			MaquinaDeEstado.AlterarEstadoPelaAcao("Autorizar");
 
 			#region Pós-condições
 
@@ -104,7 +104,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			maquinaDeEstadoEstaInicializada.Validate();
 
-			MaquinaDeEstado.AlterarPelaAcao("Recusar");
+			MaquinaDeEstado.AlterarEstadoPelaAcao("Recusar");
 
 			#region Pós-condições
 

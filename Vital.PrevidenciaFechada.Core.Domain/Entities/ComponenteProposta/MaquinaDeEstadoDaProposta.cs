@@ -55,10 +55,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		}
 
 		/// <summary>
-		/// Altera o estado da proposta 
+		/// Altera o estado da proposta de acordo com uma ação
 		/// </summary>
 		/// <param name="acao">acao</param>
-		public virtual void AlterarPelaAcao(string acao)
+		public virtual void AlterarEstadoPelaAcao(string acao)
 		{
 			#region Pré-condições
 
