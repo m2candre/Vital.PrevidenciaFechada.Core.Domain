@@ -131,6 +131,7 @@
     <Compile Include="Entities\ComponentePlano\CampoDoModeloDePropostaTest.cs" />
     <Compile Include="Entities\ComponentePlano\ModeloDePropostaTest.cs" />
     <Compile Include="Entities\ComponentePlano\PlanoTest.cs" />
+    <Compile Include="Entities\ComponenteProposta\CriteriosDeConsultaPorPlanoEstadoDataTest.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaPropostaTest.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\IdentidadeTest.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Entities\EntidadeTest.cs" />
     <Compile Include="Repository\RepositorioPropostaTests.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
+    <Compile Include="Services\ServicoConsultarPropostasTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
