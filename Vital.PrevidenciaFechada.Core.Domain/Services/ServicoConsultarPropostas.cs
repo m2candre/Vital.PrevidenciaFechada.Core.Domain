@@ -15,7 +15,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 	public class ServicoConsultarPropostas
 	{
 		private IRepositorio<Proposta> _repositorio;
-		private ConsultaDTO _consultaDTO;
 		private CriteriosDeConsultaPorPlanoEstadoData _criteriosConsulta;
 		private DateTime _data;
 
@@ -51,28 +50,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Construtor do serviço de domínio injetando o repositório de proposta
 		/// </summary>
-		public ServicoConsultarPropostas(IRepositorio<Proposta> repositorio, ConsultaDTO consultaDTO)
+		public ServicoConsultarPropostas(IRepositorio<Proposta> repositorio)
 		{
 			#region Pré-condições
 
 			IAssertion oRepositorioFoiInformado = Assertion.NotNull(repositorio, "O repositório não foi injetado corretamente");
-			IAssertion aConsultaDTOFoiInformada = Assertion.NotNull(consultaDTO, "O DTO de consulta não foi informado corretamente");
-
+			
 			#endregion
 
-			oRepositorioFoiInformado.and(aConsultaDTOFoiInformada).Validate();
+			oRepositorioFoiInformado.Validate();
 
 			_repositorio = repositorio;
-			_consultaDTO = consultaDTO;
-
+			
 			#region Pós-condições
 
 			IAssertion oRepositorioFoiInjetadoCoretamente = Assertion.Equals(_repositorio, repositorio, "O repositório da classe não está igual ao repositório injetado");
-			IAssertion aConsultaFoiAtribuidaCorretamente = Assertion.Equals(_consultaDTO, consultaDTO, "O DTO de consulta da classe não está igual ao DTO informado");
-
+			
 			#endregion
 
-			oRepositorioFoiInjetadoCoretamente.and(aConsultaFoiAtribuidaCorretamente).Validate();
+			oRepositorioFoiInjetadoCoretamente.Validate();
 		}
 
 		/// <summary>
@@ -82,12 +78,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public IList<Proposta> ObterPropostasPorPlanoEstadoEPeriodo(Guid idDoPlano, string estado, int quantidadeDeDias)
+		public IList<Proposta> ObterPropostasPorPlanoEstadoEPeriodo(Guid idDoPlano, string estado, int quantidadeDeDias, ConsultaDTO consultaDTO)
 		{
 			#region Pré-condições
 
 			IAssertion oRepositorioFoiInjetadoNoServico = Assertion.NotNull(_repositorio, "O repositório não foi injetado corretamente");
-			IAssertion oDTODeConsultaFoiInformado = Assertion.NotNull(_consultaDTO, "O DTO de consulta não foi informado corretamente");
+			IAssertion oDTODeConsultaFoiInformado = Assertion.NotNull(consultaDTO, "O DTO de consulta não foi informado corretamente");
 			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoPlano != Guid.Empty, "O ID do plano deve ser informado");
 			IAssertion oEstadoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(estado), "O estado da proposta deve ser informado");
 			IAssertion aQuantidadeDeDiasFoiInformada = Assertion.GreaterThan(quantidadeDeDias, default(int), "A quantidade de dias deve ser maior que 0");
@@ -99,7 +95,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			DateTime dataDaBusca = Data.SubtrairDias(quantidadeDeDias);
 			var criterios = CriteriosConsulta.ObterCriterio(idDoPlano, estado, dataDaBusca);
 
-			var propostasEncontradas = _repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterios, _consultaDTO);
+			var propostasEncontradas = _repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO);
 
 			#region Pós-condições
 
