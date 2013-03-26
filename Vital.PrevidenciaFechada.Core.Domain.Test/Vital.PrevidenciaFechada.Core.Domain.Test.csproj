@@ -138,6 +138,7 @@
     <Compile Include="Entities\EntidadeTest.cs" />
     <Compile Include="Repository\RepositorioPropostaTests.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
+    <Compile Include="Repository\VitalCriterionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
