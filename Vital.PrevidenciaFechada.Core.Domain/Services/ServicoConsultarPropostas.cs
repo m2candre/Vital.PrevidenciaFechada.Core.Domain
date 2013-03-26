@@ -21,7 +21,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Obtém data atual, se data não estiver definida
 		/// </summary>
-		public DateTime Data
+		public virtual DateTime Data
 		{
 			get
 			{
@@ -35,7 +35,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Obtém a classe de criação dos critérios para a consulta
 		/// </summary>
-		public CriteriosDeConsultaPorPlanoEstadoData CriteriosConsulta
+		public virtual CriteriosDeConsultaPorPlanoEstadoData CriteriosConsulta
 		{
 			get
 			{
@@ -78,7 +78,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public IList<Proposta> ObterPropostasPorPlanoEstadoEPeriodo(Guid idDoPlano, string estado, int quantidadeDeDias, ConsultaDTO consultaDTO)
+		public virtual IList<Proposta> ObterPropostasPorPlanoEstadoEPeriodo(Guid idDoPlano, string estado, int quantidadeDeDias, ConsultaDTO consultaDTO)
 		{
 			#region Pré-condições
 
