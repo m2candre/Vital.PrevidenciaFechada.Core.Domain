@@ -34,7 +34,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_pela_acao()
 		{
-			_maquina.AlterarPelaAcao("Autorizar");
+			_maquina.AlterarEstadoPelaAcao("Autorizar");
 
 			Assert.That(_maquina.EstadoAtual, Is.EqualTo("Autorizada"));
 		}
@@ -42,13 +42,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_lanca_excecao_se_acao_nao_for_informada()
 		{
-			Assert.That(() => _maquina.AlterarPelaAcao(""), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A ação não foi informada"));
+			Assert.That(() => _maquina.AlterarEstadoPelaAcao(""), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A ação não foi informada"));
 		}
 
 		[Test]
 		public void alterar_estado_atraves_de_uma_acao_nao_mapeada_retorna_excecao()
 		{
-			Assert.Throws<InvalidOperationException>(() => _maquina.AlterarPelaAcao("TestarNaoExistente"), "No valid leaving transitions are permitted from state 'Iniciada' for trigger 'TestarNaoExistente'. Consider ignoring the trigger.");
+			Assert.Throws<InvalidOperationException>(() => _maquina.AlterarEstadoPelaAcao("TestarNaoExistente"), "No valid leaving transitions are permitted from state 'Iniciada' for trigger 'TestarNaoExistente'. Consider ignoring the trigger.");
 		}
 	}
 }
