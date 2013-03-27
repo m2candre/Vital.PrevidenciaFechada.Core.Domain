@@ -86,13 +86,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			IAssertion oDTODeConsultaFoiInformado = Assertion.NotNull(consultaDTO, "O DTO de consulta não foi informado corretamente");
 			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoPlano != Guid.Empty, "O ID do plano deve ser informado");
 			IAssertion oEstadoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(estado), "O estado da proposta deve ser informado");
-			IAssertion aQuantidadeDeDiasFoiInformada = Assertion.GreaterThan(quantidadeDeDias, default(int), "A quantidade de dias deve ser maior que 0");
 
 			#endregion
 
-			oRepositorioFoiInjetadoNoServico.and(oDTODeConsultaFoiInformado).and(oIDDoPlanoFoiInformado).and(oEstadoFoiInformado).and(aQuantidadeDeDiasFoiInformada).Validate();
+			oRepositorioFoiInjetadoNoServico.and(oDTODeConsultaFoiInformado).and(oIDDoPlanoFoiInformado).and(oEstadoFoiInformado).Validate();
 
-			DateTime dataDaBusca = Data.SubtrairDias(quantidadeDeDias);
+            DateTime dataDaBusca = dataDaBusca = ObterDataParaConsulta(quantidadeDeDias);
+
 			var criterios = CriteriosConsulta.ObterCriterio(idDoPlano, estado, dataDaBusca);
 
 			var propostasEncontradas = _repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO);
@@ -105,5 +105,23 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			return propostasEncontradas.ToList();
 		}
+
+        /// <summary>
+        /// Obtem uma data para a busca de propostas de acordo com o parametro de dias
+        /// caso a quantidade de dias seja igual a Zero o padrão são 30 dias
+        /// </summary>
+        /// <param name="quantidadeDeDias">quantidade de dias</param>
+        /// <returns>DateTime</returns>
+        private DateTime ObterDataParaConsulta(int quantidadeDeDias)
+        {
+            DateTime dataDaBusca = DateTime.MinValue;
+
+            if (quantidadeDeDias == default(int))
+                dataDaBusca = Data.SubtrairDias(30);
+            else
+                dataDaBusca = Data.SubtrairDias(quantidadeDeDias);
+
+            return dataDaBusca;
+        }
 	}
 }

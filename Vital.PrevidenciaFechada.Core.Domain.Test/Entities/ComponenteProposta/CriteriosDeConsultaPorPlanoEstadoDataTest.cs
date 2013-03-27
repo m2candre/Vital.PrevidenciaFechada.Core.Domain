@@ -32,7 +32,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		}
 
 		[Test]
-		public void obter_propostas_sem_informar_a_quantidade_de_dias_lanca_excecao()
+		public void obter_propostas_sem_informar_a_data_lanca_excecao()
 		{
 			CriteriosDeConsultaPorPlanoEstadoData criterio = new CriteriosDeConsultaPorPlanoEstadoData();
 			Assert.That(() => criterio.ObterCriterio(Guid.NewGuid(), "Registrada", default(DateTime)), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A data da busca possui um valor inválido"));

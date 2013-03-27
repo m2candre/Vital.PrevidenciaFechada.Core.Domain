@@ -72,6 +72,34 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-20)));
 		}
 
+        [Test]
+        public void obter_propostas_por_estado_e_periodo_e_quantidade_de_dias_vazia_calculando_trinta_dias_retorna_lista_corretamente()
+        {
+            Guid idDoPlano = Guid.NewGuid();
+            DateTime dataDaBusca = DateTime.Now;
+            Expression<Func<Proposta, bool>> criterios = proposta => proposta.Plano.Id == idDoPlano && proposta.Estado == "Registrada" && proposta.Data >= dataDaBusca;
+
+            var criteriosDeConsulta = MockRepository.GenerateMock<CriteriosDeConsultaPorPlanoEstadoData>();
+            criteriosDeConsulta.Expect(x => x.ObterCriterio(idDoPlano, "Registrada", dataDaBusca.AddDays(-30))).Return(criterios);
+
+            ConsultaDTO consultaDTO = new ConsultaDTO();
+
+            List<Proposta> listaRetorno = new List<Proposta>
+			{
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("10/03/2013 10:00") },
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("11/03/2013 10:00") }
+			};
+
+            _servico.CriteriosConsulta = criteriosDeConsulta;
+            _servico.Data = dataDaBusca;
+            _repositorio.Expect(x => x.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO)).Return(listaRetorno);
+
+            List<Proposta> propostas = _servico.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 0, consultaDTO).ToList();
+
+            Assert.IsNotNull(propostas);
+            Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-20)));
+        }
+
 		[Test]
 		public void obter_propostas_sem_informar_o_id_do_plano_lanca_excecao()
 		{
@@ -82,12 +110,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_propostas_sem_informar_o_estado_da_proposta_lanca_excecao()
 		{
 			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "", 20, new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado da proposta deve ser informado"));
-		}
-
-		[Test]
-		public void obter_propostas_sem_informar_a_quantidade_de_dias_lanca_excecao()
-		{
-			Assert.That(() => _servico.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", default(int), new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A quantidade de dias deve ser maior que 0"));
 		}
 
 		[Test]
