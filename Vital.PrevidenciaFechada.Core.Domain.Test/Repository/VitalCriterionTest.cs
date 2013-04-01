@@ -50,5 +50,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             Assert.NotNull(order);
             Assert.IsInstanceOf<Order>(order);
         }
+
+		[Test]
+		public void obter_valor_maximo_com_metodo_max()
+		{
+			Expression<Func<Proposta, object>> criterio = p => p.Numero;
+			var max = _vitalCriterion.Max<Proposta>(criterio);
+
+			Assert.NotNull(max);
+			Assert.IsInstanceOf<IProjection>(max);
+		}
     }
 }

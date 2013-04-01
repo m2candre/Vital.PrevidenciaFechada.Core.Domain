@@ -45,5 +45,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         {
             return new Order(projection, ascending);
         }
+
+		/// <summary>
+		/// Obter o valor máximo de uma determinada propriedade persistida
+		/// </summary>
+		/// <typeparam name="T">Tipo da entidade pesquisada</typeparam>
+		/// <param name="expressao">Expressão contendo a propriedade</param>
+		/// <returns></returns>
+		public virtual IProjection Max<T>(System.Linq.Expressions.Expression<Func<T, object>> expressao)
+		{
+			return Projections.Max<T>(expressao);
+		}
     }
 }
