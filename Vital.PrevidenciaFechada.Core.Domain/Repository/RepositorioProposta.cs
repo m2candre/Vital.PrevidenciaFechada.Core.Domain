@@ -22,18 +22,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 			: base(session) { }
 
 		/// <summary>
-		/// Obtém uma lista de propostas respeitando determinados critérios
+		/// Obtém o último número de proposta cadastrado
 		/// </summary>
-		/// <param name="criterio">critérios para a busca</param>
 		/// <returns></returns>
-		public IList<Proposta> ObterPropostasPorCriterio(Expression<Func<Proposta, bool>> criterios)
+		public int ObterUltimoNumeroDaProposta()
 		{
-			return Session.QueryOver<Proposta>().Where(criterios).List();
+			return (int)Session.CreateCriteria<Proposta>()
+				.SetProjection(VitalCriterion.Max<Proposta>(x => x.Numero))
+				.UniqueResult();
 		}
-
-        public string ObterUltimoNumeroDaProposta()
-        {
-            return (string)Session.CreateCriteria<Proposta>().SetProjection(Projections.Max<Proposta>(x => x.Numero)).UniqueResult();
-        }
 	}
 }

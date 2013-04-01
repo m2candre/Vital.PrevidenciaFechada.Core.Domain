@@ -15,12 +15,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Repositório de Proposta
 		/// </summary>
-		private IRepositorio<Proposta> _repositorio;
+		private IRepositorioProposta _repositorio;
 
 		/// <summary>
 		/// Construtor do serviço de domínio injetando o repositório de proposta
 		/// </summary>
-		public ServicoGerarNumeroDeProposta(IRepositorio<Proposta> repositorio)
+		public ServicoGerarNumeroDeProposta(IRepositorioProposta repositorio)
 		{
 			#region Pré-condições
 
@@ -47,40 +47,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <returns></returns>
 		public virtual string GerarNumeroDeProposta()
 		{
-			return (ObterUltimoNumeroGerado() + 1).ToString();
-		}
-
-		/// <summary>
-		/// Obtém o último número sequencial de proposta gerado
-		/// </summary>
-		/// <returns></returns>
-		private int ObterUltimoNumeroGerado()
-		{
 			#region Pré-condições
 
-			IAssertion oRepositorioFoiInjetadoNoServico = Assertion.NotNull(_repositorio, "O repositório não foi injetado corretamente");
+			IAssertion oRepositorioFoiInformado = Assertion.NotNull(_repositorio, "O repositório não foi injetado corretamente");
 
 			#endregion
 
-			oRepositorioFoiInjetadoNoServico.Validate();
+			oRepositorioFoiInformado.Validate();
 
-			int numeroGerado = default(int);
-			var propostas = _repositorio.Todas();
+			string numeroGerado = (_repositorio.ObterUltimoNumeroDaProposta() + 1).ToString();
 
-			if (propostas.Count > 0)
-				numeroGerado = ObterMaiorNumeroDeProposta(propostas);
+			#region Pós-condições
+
+			IAssertion oNumeroGeradoEMaiorQueZero = Assertion.GreaterThan(Convert.ToInt32(numeroGerado), 0, "O número gerado deve ser maior que zero");
+
+			#endregion
+
+			oNumeroGeradoEMaiorQueZero.Validate();
 
 			return numeroGerado;
-		}
-
-		/// <summary>
-		/// Obtém o maior número entre as propostas existentes
-		/// </summary>
-		/// <param name="propostas"></param>
-		/// <returns></returns>
-		private int ObterMaiorNumeroDeProposta(IList<Proposta> propostas)
-		{
-			return propostas.Max(p => Convert.ToInt32(p.Numero));
 		}
 	}
 }

@@ -23,25 +23,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 		}
 
 		[Test]
-		public void obter_propostas_por_criterio_retorna_lista_corretamente()
+		public void obter_ultimo_numero_da_proposta()
 		{
-			Expression<Func<Proposta, bool>> criterio = p => p.Estado == "Iniciada";
-
-			var session = MockRepository.GenerateMock<ISession>();
-
-			var iqueryOver = MockRepository.GenerateMock<IQueryOver<Proposta, Proposta>>();
-
-			var iqueryOverComLista = MockRepository.GenerateMock<IQueryOver<Proposta, Proposta>>();
-
-			iqueryOverComLista.Expect(x=> x.List()).Return(new List<Proposta>());
-
-			iqueryOver.Expect(x => x.Where(criterio)).Return(iqueryOverComLista);
-
-			session.Expect(x => x.QueryOver<Proposta>()).Return(iqueryOver);
-
-			RepositorioProposta repositorio = new RepositorioProposta(session);
-
-			repositorio.ObterPropostasPorCriterio(criterio);
+			
 		}
 	}
 }
