@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using NHibernate.Criterion;
 using NUnit.Framework;
 using Rhino.Mocks;
 using System;
@@ -23,25 +24,29 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 		}
 
 		[Test]
-		public void obter_propostas_por_criterio_retorna_lista_corretamente()
+		public void obter_ultimo_numero_da_proposta()
 		{
-			Expression<Func<Proposta, bool>> criterio = p => p.Estado == "Iniciada";
+			ISession session = MockRepository.GenerateMock<ISession>();
+			ICriteria criteria = MockRepository.GenerateMock<ICriteria>();
+			IProjection projection = MockRepository.GenerateMock<IProjection>();
+			VitalCriterion vitalCriterion = MockRepository.GenerateMock<VitalCriterion>();
 
-			var session = MockRepository.GenerateMock<ISession>();
+			criteria.Expect(x => x.UniqueResult()).Return(10);
 
-			var iqueryOver = MockRepository.GenerateMock<IQueryOver<Proposta, Proposta>>();
+			vitalCriterion.Expect(x => x.Max("Numero")).Return(projection);
 
-			var iqueryOverComLista = MockRepository.GenerateMock<IQueryOver<Proposta, Proposta>>();
+			criteria.Expect(x => x.SetProjection(projection)).Return(criteria);
 
-			iqueryOverComLista.Expect(x=> x.List()).Return(new List<Proposta>());
-
-			iqueryOver.Expect(x => x.Where(criterio)).Return(iqueryOverComLista);
-
-			session.Expect(x => x.QueryOver<Proposta>()).Return(iqueryOver);
+			session.Expect(x => x.CreateCriteria<Proposta>()).Return(criteria);
 
 			RepositorioProposta repositorio = new RepositorioProposta(session);
+			repositorio.VitalCriterion = vitalCriterion;
+			
+			int ultimoNumero = repositorio.ObterUltimoNumeroDaProposta();
 
-			repositorio.ObterPropostasPorCriterio(criterio);
+			session.VerifyAllExpectations();
+			criteria.VerifyAllExpectations();
+			vitalCriterion.VerifyAllExpectations();
 		}
 	}
 }

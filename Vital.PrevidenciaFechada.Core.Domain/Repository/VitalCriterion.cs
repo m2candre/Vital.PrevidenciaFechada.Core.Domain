@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
@@ -45,5 +46,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         {
             return new Order(projection, ascending);
         }
+
+		/// <summary>
+		/// Obter o valor máximo de uma determinada propriedade persistida
+		/// </summary>
+		/// <typeparam name="T">Tipo da entidade pesquisada</typeparam>
+		/// <param name="expressao">Expressão contendo a propriedade</param>
+		/// <returns></returns>
+		public virtual IProjection Max(string projecion)
+		{
+
+			return Projections.Max(projecion);
+		}
     }
 }
