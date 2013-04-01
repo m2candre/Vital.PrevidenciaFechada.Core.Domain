@@ -78,6 +78,54 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		public virtual Plano Plano { get; set; }
 
 		/// <summary>
+		/// Coloca a proposta em modo Rascunho
+		/// </summary>
+		public virtual void SalvarRascunho()
+		{
+			#region Pré-condições
+
+			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+
+			#endregion
+
+			maquinaDeEstadoEstaInicializada.Validate();
+
+			MaquinaDeEstado.AlterarEstadoPelaAcao("SalvarRascunho");
+
+			#region Pós-condições
+
+			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "Pendente", "O estado na proposta não foi alterado para 'Pendente'");
+
+			#endregion
+
+			oEstadoDaPropostaFoiAlterado.Validate();
+		}
+
+		/// <summary>
+		/// Altera o estado da proposta para Registrada
+		/// </summary>
+		public virtual void Registrar()
+		{
+			#region Pré-condições
+
+			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+
+			#endregion
+
+			maquinaDeEstadoEstaInicializada.Validate();
+
+			MaquinaDeEstado.AlterarEstadoPelaAcao("Registrar");
+
+			#region Pós-condições
+
+			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "Registrada", "O estado na proposta não foi alterado para 'Registrada'");
+
+			#endregion
+
+			oEstadoDaPropostaFoiAlterado.Validate();
+		}
+
+		/// <summary>
 		/// Autoriza a proposta
 		/// </summary>
 		public virtual void Autorizar()

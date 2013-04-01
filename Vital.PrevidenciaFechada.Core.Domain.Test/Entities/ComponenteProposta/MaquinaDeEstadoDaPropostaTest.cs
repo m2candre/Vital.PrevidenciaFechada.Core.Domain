@@ -14,7 +14,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		public void iniciar()
 		{
 			Proposta proposta = new Proposta();
-			_maquina = new MaquinaDeEstadoDaProposta("Iniciada", proposta);
+			_maquina = new MaquinaDeEstadoDaProposta("Registrada", proposta);
 		}
 
 		[Test]

@@ -37,6 +37,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		}
 
 		[Test]
+		public void get_maquina_de_estado_nova_se_nao_estiver_setada()
+		{
+			Assert.That(_proposta.MaquinaDeEstado, Is.Not.Null);
+		}
+
+		[Test]
 		public void se_estado_nao_for_setado_setar_com_estado_inicial()
 		{
 			_proposta.Estado = null;
@@ -57,6 +63,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_para_autorizada_com_sucesso()
 		{
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Registrada", _proposta);
 			_proposta.Autorizar();
 
 			Assert.That(_proposta.Estado, Is.EqualTo("Autorizada"));
@@ -81,9 +88,28 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_para_nao_autorizada_com_sucesso()
 		{
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Registrada", _proposta);
 			_proposta.Recusar();
 
 			Assert.That(_proposta.Estado, Is.EqualTo("NaoAutorizada"));
+		}
+
+		[Test]
+		public void salvar_rascunho_altera_estado_para_pendente_com_sucesso()
+		{
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Iniciada", _proposta);
+			_proposta.SalvarRascunho();
+
+			Assert.That(_proposta.Estado, Is.EqualTo("Pendente"));
+		}
+
+		[Test]
+		public void registrar_altera_estado_para_registrada_com_sucesso()
+		{
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Pendente", _proposta);
+			_proposta.Registrar();
+
+			Assert.That(_proposta.Estado, Is.EqualTo("Registrada"));
 		}
 
 		[Test]

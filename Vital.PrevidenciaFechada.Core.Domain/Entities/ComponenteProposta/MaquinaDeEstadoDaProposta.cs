@@ -47,7 +47,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			#region Pós-condições
 
-			IAssertion oEstadoInicialDaMaquinaFoiDefinido = Assertion.Equals(_maquina.State, "Iniciada", "O estado inicial da máquina não foi definido");
+			IAssertion oEstadoInicialDaMaquinaFoiDefinido = Assertion.IsFalse(string.IsNullOrWhiteSpace(_maquina.State), "O estado inicial da máquina não foi definido");
 
 			#endregion
 
@@ -95,6 +95,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			aMaquinaDeEstadoFoiInicializada.Validate();
 
 			_maquina.Configure("Iniciada")
+				.Permit("SalvarRascunho", "Pendente")
+				.Permit("Registrar", "Registrada");
+				
+			_maquina.Configure("Pendente")
+				.Permit("Registrar", "Registrada");
+
+			_maquina.Configure("Registrada")
 				.Permit("Autorizar", "Autorizada")
 				.Permit("Recusar", "NaoAutorizada");
 		}
