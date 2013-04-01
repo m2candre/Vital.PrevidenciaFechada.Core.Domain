@@ -19,7 +19,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-		public void obter_ultimo_numero_gerado_retorna_1_se_nao_houver_nenhuma_proposta()
+		public void gerar_numero_retorna_1_se_nao_houver_nenhuma_proposta()
 		{
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(0);
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
@@ -30,7 +30,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-		public void obter_ultimo_numero_gerado_retorna_o_maior_numero_de_proposta_cadastrada()
+		public void gerar_numero_retorna_o_maior_numero_de_proposta_cadastrada()
 		{
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(10);
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);

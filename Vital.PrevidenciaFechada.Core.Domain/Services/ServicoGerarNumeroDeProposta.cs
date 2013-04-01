@@ -104,8 +104,24 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="numeroGerado"></param>
 		private void PersistirPropostaComNumeroGerado(string numeroGerado)
 		{
+			#region Pré-condições
+
+			IAssertion oNumeroGeradoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(numeroGerado), "O número gerado deve ser informado");
+
+			#endregion
+
+			oNumeroGeradoFoiInformado.Validate();
+
 			Proposta proposta = new Proposta { Numero = numeroGerado };
 			_repositorio.Adicionar(proposta);
+
+			#region Pós-condições
+
+			IAssertion oNumeroDaPropostaFoiDefinidoNaEntidade = Assertion.IsFalse(string.IsNullOrWhiteSpace(proposta.Numero), "O número da proposta não foi definido na entidade");
+
+			#endregion
+
+			oNumeroDaPropostaFoiDefinidoNaEntidade.Validate();
 		}
 	}
 }
