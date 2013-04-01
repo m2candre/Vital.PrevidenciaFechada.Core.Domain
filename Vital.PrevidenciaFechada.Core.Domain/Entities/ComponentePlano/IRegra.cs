@@ -14,6 +14,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Valida a Regra
         /// </summary>
-        void Validar(PropostaVO proposta);
+        PropostaVO Validar(PropostaVO proposta);
     }
 }

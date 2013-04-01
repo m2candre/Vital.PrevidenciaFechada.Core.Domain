@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
@@ -50,6 +51,28 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             #endregion
 
             foiAdicionadaUmaNovaRegraNaColecaoDeRegras.Validate();
+        }
+
+        /// <summary>
+        /// Obtem uma lista de criticas da proposta
+        /// </summary>
+        /// <param name="proposta">dados da proposta</param>
+        /// <returns>Lista de críticas</returns>
+        public virtual IList<string> ObterCriticasDaProposta(PropostaVO proposta)
+        {
+            #region Pré-Condições
+
+            IAssertion aPropostaFoiInformada = Assertion.NotNull(proposta, "A proposta não foi informada");
+            IAssertion aListadeRegrasFoiInicializada = Assertion.NotNull(Regras, "A lista de regras não foi inicializada");
+
+            #endregion
+
+            aPropostaFoiInformada.and(aListadeRegrasFoiInicializada).Validate();
+
+            foreach (var regra in Regras)
+                proposta = regra.Validar(proposta);
+
+            return proposta.Criticas;
         }
     }
 }

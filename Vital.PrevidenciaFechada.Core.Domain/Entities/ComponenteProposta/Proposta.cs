@@ -23,14 +23,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		public virtual string Nome { get; set; }
 
 		/// <summary>
-		/// Nome do Instituidor/Patrocinador
+		/// Nome do Instituidor ou Patrocinador
 		/// </summary>
-		public virtual string InstituidorPatrocinador { get; set; }
+		public virtual string PessoaJuridica { get; set; }
 
 		/// <summary>
 		/// Número da Proposta
 		/// </summary>
 		public virtual string Numero { get; set; }
+
+        /// <summary>
+        /// CPF do participante
+        /// </summary>
+        public virtual string CPF { get; set; }
 
 		/// <summary>
 		/// Data da proposta

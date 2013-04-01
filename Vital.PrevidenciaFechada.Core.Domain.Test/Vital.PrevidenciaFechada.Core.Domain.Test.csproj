@@ -136,6 +136,9 @@
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaPropostaTest.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaTest.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaVOTest.cs" />
+    <Compile Include="Entities\ComponenteProposta\Regras\CamposObrigatorios\RegraCpfObrigatoriOTest.cs" />
+    <Compile Include="Entities\ComponenteProposta\Regras\CamposObrigatorios\RegraNomeDoParticipanteObrigatorioTest.cs" />
+    <Compile Include="Entities\ComponenteProposta\Regras\ValidacoesDeDados\RegraCPFTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\IdentidadeTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\UsuarioTest.cs" />
     <Compile Include="Entities\EntidadeTest.cs" />

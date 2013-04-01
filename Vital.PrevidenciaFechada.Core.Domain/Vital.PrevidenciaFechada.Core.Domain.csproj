@@ -70,6 +70,9 @@
     <Compile Include="Entities\ComponentePessoaJuridica\TipoDeDocumento.cs" />
     <Compile Include="Entities\ComponentePlano\CampoDeProposta.cs" />
     <Compile Include="Entities\ComponentePlano\IRegra.cs" />
+    <Compile Include="Entities\ComponentePlano\Regras\CamposObrigatorios\RegraNomeDoParticipanteObrigatorio.cs" />
+    <Compile Include="Entities\ComponentePlano\Regras\CamposObrigatorios\RegraCpfObrigatorio.cs" />
+    <Compile Include="Entities\ComponentePlano\Regras\ValidacoesDeDados\RegraValidarCpf.cs" />
     <Compile Include="Entities\ComponentePlano\Regulamento.cs" />
     <Compile Include="Entities\ComponentePlano\TermoDeAdesao.cs" />
     <Compile Include="Entities\ComponentePlano\ModeloDeProposta.cs" />
