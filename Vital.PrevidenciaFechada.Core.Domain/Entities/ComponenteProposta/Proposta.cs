@@ -65,7 +65,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			get
 			{
 				if (_maquinaDeEstadoDaProposta == null)
-					_maquinaDeEstadoDaProposta = new MaquinaDeEstadoDaProposta("Iniciada", this);
+					_maquinaDeEstadoDaProposta = new MaquinaDeEstadoDaProposta(Estado, this);
 
 				return _maquinaDeEstadoDaProposta;
 			}
