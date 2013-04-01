@@ -44,7 +44,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Gera um novo número sequencial para a proposta
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Número gerado para a proposta</returns>
 		public virtual string GerarNumeroDeProposta()
 		{
 			#region Pré-condições

@@ -28,7 +28,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		public int ObterUltimoNumeroDaProposta()
 		{
 			return (int)Session.CreateCriteria<Proposta>()
-				.SetProjection(VitalCriterion.Max<Proposta>(x => x.Numero))
+				.SetProjection(VitalCriterion.Max("Numero"))
 				.UniqueResult();
 		}
 	}

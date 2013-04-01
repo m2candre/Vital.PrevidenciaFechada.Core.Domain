@@ -54,8 +54,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 		[Test]
 		public void obter_valor_maximo_com_metodo_max()
 		{
-			Expression<Func<Proposta, object>> criterio = p => p.Numero;
-			var max = _vitalCriterion.Max<Proposta>(criterio);
+			var max = _vitalCriterion.Max("Numero");
 
 			Assert.NotNull(max);
 			Assert.IsInstanceOf<IProjection>(max);
