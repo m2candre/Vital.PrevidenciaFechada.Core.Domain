@@ -18,9 +18,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		private IRepositorioProposta _repositorio;
 
 		/// <summary>
-		/// Construtor do serviço de domínio injetando o repositório de proposta
+		/// Controle da instância única do serviço
 		/// </summary>
-		public ServicoGerarNumeroDeProposta(IRepositorioProposta repositorio)
+		private static ServicoGerarNumeroDeProposta _instanciaDoServico;
+		
+		/// <summary>
+		/// Objecto para controle do lock
+		/// </summary>
+		private static readonly object lockObject = new object();
+
+		/// <summary>
+		/// Construtor privado do serviço de domínio injetando o repositório de proposta
+		/// </summary>
+		private ServicoGerarNumeroDeProposta(IRepositorioProposta repositorio)
 		{
 			#region Pré-condições
 
@@ -42,7 +52,26 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		}
 
 		/// <summary>
-		/// Gera um novo número sequencial para a proposta
+		/// Método estático para obter uma instância do Serviço
+		/// </summary>
+		/// <param name="repositorio"></param>
+		/// <returns></returns>
+		public static ServicoGerarNumeroDeProposta ObterServico(IRepositorioProposta repositorio)
+		{
+			if (_instanciaDoServico == null)
+			{
+				lock (lockObject)
+				{
+					if (_instanciaDoServico == null)
+						_instanciaDoServico = new ServicoGerarNumeroDeProposta(repositorio);
+				}
+			}
+
+			return _instanciaDoServico;
+		}
+
+		/// <summary>
+		/// Gera um novo número sequencial e persite a proposta em rascunho com o número gerado
 		/// </summary>
 		/// <returns>Número gerado para a proposta</returns>
 		public virtual string GerarNumeroDeProposta()
@@ -56,7 +85,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			oRepositorioFoiInformado.Validate();
 
 			string numeroGerado = (_repositorio.ObterUltimoNumeroDaProposta() + 1).ToString();
-
+			PersistirPropostaComNumeroGerado(numeroGerado);
+			
 			#region Pós-condições
 
 			IAssertion oNumeroGeradoEMaiorQueZero = Assertion.GreaterThan(Convert.ToInt32(numeroGerado), 0, "O número gerado deve ser maior que zero");
@@ -66,6 +96,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			oNumeroGeradoEMaiorQueZero.Validate();
 
 			return numeroGerado;
+		}
+
+		/// <summary>
+		/// Persiste a proposta em rascunho com o número gerado
+		/// </summary>
+		/// <param name="numeroGerado"></param>
+		private void PersistirPropostaComNumeroGerado(string numeroGerado)
+		{
+			Proposta proposta = new Proposta { Numero = numeroGerado };
+			_repositorio.Adicionar(proposta);
 		}
 	}
 }

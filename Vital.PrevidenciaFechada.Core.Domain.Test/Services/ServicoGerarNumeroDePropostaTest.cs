@@ -11,21 +11,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 	public class ServicoGerarNumeroDePropostaTest
 	{
 		private IRepositorioProposta _repositorio;
-		private ServicoGerarNumeroDeProposta _servico;
-
-		[SetUp]
+		
+		[TestFixtureSetUp]
 		public void iniciar()
 		{
 			_repositorio = MockRepository.GenerateMock<IRepositorioProposta>();
-			_servico = new ServicoGerarNumeroDeProposta(_repositorio);
 		}
 
 		[Test]
 		public void obter_ultimo_numero_gerado_retorna_1_se_nao_houver_nenhuma_proposta()
 		{
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(0);
+			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = _servico.GerarNumeroDeProposta();
+			string numeroGerado = servico.GerarNumeroDeProposta();
 
 			Assert.That(numeroGerado, Is.EqualTo("1"));
 		}
@@ -34,8 +33,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_ultimo_numero_gerado_retorna_o_maior_numero_de_proposta_cadastrada()
 		{
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(10);
+			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = _servico.GerarNumeroDeProposta();
+			string numeroGerado = servico.GerarNumeroDeProposta();
 
 			Assert.That(numeroGerado, Is.EqualTo("11"));
 		}
