@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras.ValidacoesDeDados;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
@@ -23,6 +25,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public Regulamento()
         {
             Regras = new List<IRegra>();
+
+            Adicionar(new RegraCpfObrigatorio());
+            Adicionar(new RegraNomeDoParticipanteObrigatorio());
+            Adicionar(new RegraValidarCpf());
         }
 
         /// <summary>

@@ -51,5 +51,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
             Assert.That(propostaVO.Criticas.Count, Is.EqualTo(0));
             Assert.That(propostaAtuializada.Criticas.Count, Is.EqualTo(1));
         }
+
+        [Test]
+        public void construir_somente_com_o_nome()
+        {
+            PropostaVO propostaVO = new PropostaVO("Fulano");
+
+            Assert.NotNull(propostaVO);
+        }
     }
 }
