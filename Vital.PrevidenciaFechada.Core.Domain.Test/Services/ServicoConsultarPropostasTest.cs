@@ -2,6 +2,7 @@
 using Rhino.Mocks;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
@@ -58,8 +59,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			List<Proposta> listaRetorno = new List<Proposta>
 			{
-				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("10/03/2013 10:00") },
-				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("11/03/2013 10:00") }
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Now.AddDays(-10) },
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Now.AddDays(-15) }
 			};
 
 			_servico.CriteriosConsulta = criteriosDeConsulta;
@@ -86,8 +87,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
             List<Proposta> listaRetorno = new List<Proposta>
 			{
-				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("10/03/2013 10:00") },
-				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Parse("11/03/2013 10:00") }
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Now.AddDays(-20) },
+				new Proposta { Plano = new Plano { Id = idDoPlano }, Estado = "Registrada", Data = DateTime.Now.AddDays(-25) }
 			};
 
             _servico.CriteriosConsulta = criteriosDeConsulta;
@@ -97,7 +98,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
             List<Proposta> propostas = _servico.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 0, consultaDTO).ToList();
 
             Assert.IsNotNull(propostas);
-            Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-20)));
+
+            Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-30)));
         }
 
 		[Test]
