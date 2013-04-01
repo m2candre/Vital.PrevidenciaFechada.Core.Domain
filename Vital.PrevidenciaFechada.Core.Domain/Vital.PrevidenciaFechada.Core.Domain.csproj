@@ -89,6 +89,7 @@
     <Compile Include="Repository\RepositorioProposta.cs" />
     <Compile Include="Repository\VitalCriterion.cs" />
     <Compile Include="Services\ServicoConsultarPropostas.cs" />
+    <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

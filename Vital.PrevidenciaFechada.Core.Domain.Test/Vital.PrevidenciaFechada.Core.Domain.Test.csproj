@@ -141,6 +141,7 @@
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
     <Compile Include="Services\ServicoConsultarPropostasTest.cs" />
+    <Compile Include="Services\ServicoGerarNumeroDePropostaTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
