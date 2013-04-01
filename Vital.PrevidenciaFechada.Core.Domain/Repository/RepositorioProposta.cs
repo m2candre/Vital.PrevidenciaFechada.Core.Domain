@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -29,5 +30,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		{
 			return Session.QueryOver<Proposta>().Where(criterios).List();
 		}
+
+        public string ObterUltimoNumeroDaProposta()
+        {
+            return (string)Session.CreateCriteria<Proposta>().SetProjection(Projections.Max<Proposta>(x => x.Numero)).UniqueResult();
+        }
 	}
 }
