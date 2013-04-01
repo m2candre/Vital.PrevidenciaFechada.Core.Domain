@@ -79,6 +79,7 @@
     <Compile Include="Entities\ComponenteProposta\IRepositorioProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\Proposta.cs" />
+    <Compile Include="Entities\ComponenteProposta\PropostaVO.cs" />
     <Compile Include="Entities\ComponenteUsuario\Identidade.cs" />
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />

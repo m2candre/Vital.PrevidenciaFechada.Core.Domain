@@ -47,6 +47,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual IList<TipoDeDocumento> TiposDeDocumento { get; set; }
 
+        /// <summary>
+        /// Regulamento do Plano
+        /// </summary>
+        public virtual Regulamento Regulamento { get; set; }
+
 		/// <summary>
 		/// Construtor - inicialização dos agregados de planoB
         /// Cria por padrão um modelo de proposta vazio em modo Rascunho

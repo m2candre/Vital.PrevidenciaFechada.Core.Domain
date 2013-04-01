@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
@@ -10,5 +11,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
     /// </summary>
     public interface IRegra
     {
+        /// <summary>
+        /// Valida a Regra
+        /// </summary>
+        void Validar(PropostaVO proposta);
     }
 }
