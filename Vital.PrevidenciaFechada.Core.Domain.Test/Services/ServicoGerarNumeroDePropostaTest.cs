@@ -22,11 +22,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void gerar_numero_retorna_1_se_nao_houver_nenhuma_proposta()
 		{
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(0);
+
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = servico.GerarNumeroDeProposta();
+			Proposta proposta = servico.GerarNumeroDeProposta();
 
-			Assert.That(numeroGerado, Is.EqualTo("1"));
+			Assert.That(proposta.Numero, Is.EqualTo("1"));
 		}
 
 		[Test]
@@ -35,9 +36,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(10);
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = servico.GerarNumeroDeProposta();
+			Proposta proposta = servico.GerarNumeroDeProposta();
 
-			Assert.That(numeroGerado, Is.EqualTo("11"));
+			Assert.That(proposta.Numero, Is.EqualTo("11"));
 		}
 	}
 }

@@ -71,10 +71,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		}
 
 		/// <summary>
-		/// Gera um novo número sequencial e persite a proposta em rascunho com o número gerado
+		/// Gera um novo número sequencial, persite a proposta em rascunho com o número gerado e retorna a proposta
 		/// </summary>
-		/// <returns>Número gerado para a proposta</returns>
-		public virtual string GerarNumeroDeProposta()
+		/// <returns>Proposta criada</returns>
+		public virtual Proposta GerarNumeroDeProposta()
 		{
 			#region Pré-condições
 
@@ -85,7 +85,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			oRepositorioFoiInformado.Validate();
 
 			string numeroGerado = (_repositorio.ObterUltimoNumeroDaProposta() + 1).ToString();
-			PersistirPropostaComNumeroGerado(numeroGerado);
+			Proposta novaProposta = PersistirPropostaComNumeroGerado(numeroGerado);
 			
 			#region Pós-condições
 
@@ -95,14 +95,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			oNumeroGeradoEMaiorQueZero.Validate();
 
-			return numeroGerado;
+			return novaProposta;
 		}
 
 		/// <summary>
-		/// Persiste a proposta em rascunho com o número gerado
+		/// Persiste a proposta em rascunho com o número gerado e retorna a Proposta persistida
 		/// </summary>
 		/// <param name="numeroGerado"></param>
-		private void PersistirPropostaComNumeroGerado(string numeroGerado)
+		private Proposta PersistirPropostaComNumeroGerado(string numeroGerado)
 		{
 			#region Pré-condições
 
@@ -112,7 +112,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			oNumeroGeradoFoiInformado.Validate();
 
-			Proposta proposta = new Proposta { Numero = numeroGerado };
+			Proposta proposta = new Proposta { Numero = numeroGerado, Data = DateTime.Now };
 			_repositorio.Adicionar(proposta);
 
 			#region Pós-condições
@@ -122,6 +122,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			#endregion
 
 			oNumeroDaPropostaFoiDefinidoNaEntidade.Validate();
+
+			return proposta;
 		}
 	}
 }
