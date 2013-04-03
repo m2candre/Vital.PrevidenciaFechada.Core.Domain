@@ -33,7 +33,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta.
 
             var propostaAtualizada = validadorCpf.Validar(proposta);
 
-            Assert.That(propostaAtualizada.Criticas.First().Critica, Is.EqualTo("Cpf está inválido"));
+            Assert.That(propostaAtualizada.Criticas.First().Mensagem, Is.EqualTo("Cpf está inválido"));
         }
     }
 }

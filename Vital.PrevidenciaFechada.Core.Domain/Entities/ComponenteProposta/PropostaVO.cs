@@ -19,7 +19,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// <summary>
         /// Crítica
         /// </summary>
-        public virtual string Critica { get; set; }
+        public virtual string Mensagem { get; set; }
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// <returns></returns>
         public virtual PropostaVO InformarCritica(string critica, string campo)
         {
-            CriticaVO criticaVO = new CriticaVO { Critica = critica, Campo = campo };
+            CriticaVO criticaVO = new CriticaVO { Mensagem = critica, Campo = campo };
 
             var propostaVO = (PropostaVO)Clone();
 
@@ -136,13 +136,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
             proposta.NomeDoParticipante = this.NomeDoParticipante;
             proposta.CpfDoParticipante = this.CpfDoParticipante;
-            proposta.Criticas.ToList().AddRange(this.Criticas);
+
+            foreach (var critica in this.Criticas)
+            {
+                proposta.Criticas.Add(critica);
+            }
 
             return proposta;
         }
 
         #endregion
-
-
     }
 }

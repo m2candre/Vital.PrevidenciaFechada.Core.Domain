@@ -58,6 +58,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		/// </summary>
         public Plano()
         {
+            Regulamento = new Regulamento();
             ModeloDePropostaEmRascunho = new ModeloDeProposta();
             TermosDeAdesao = new List<TermoDeAdesao>();
             TiposDeDocumento = new List<TipoDeDocumento>();
