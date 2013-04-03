@@ -11,6 +11,8 @@
     <AssemblyName>Vital.PrevidenciaFechada.Core.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\..\Library\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -87,6 +92,8 @@
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Patrocinador.cs" />
+    <Compile Include="Mappers\CriticaMapper.cs" />
+    <Compile Include="Mappers\PropostaMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Repositorio.cs" />
     <Compile Include="Repository\IRepositorio.cs" />
@@ -96,8 +103,12 @@
     <Compile Include="Repository\VitalCriterion.cs" />
     <Compile Include="Services\ServicoConsultarPropostas.cs" />
     <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
+    <Compile Include="Services\ServicoObterCriticasDaProposta.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
@@ -106,6 +117,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)Vital.PrevidenciaFechada.Core.Domain.dll" "$(ProjectDir)..\..\..\Library\Vital.PrevidenciaFechada.Core.Domain.dll"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

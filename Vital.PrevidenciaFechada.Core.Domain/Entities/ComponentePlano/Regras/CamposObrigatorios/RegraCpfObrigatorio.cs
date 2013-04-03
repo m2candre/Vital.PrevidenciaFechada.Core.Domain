@@ -20,7 +20,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras
         public virtual PropostaVO Validar(PropostaVO proposta)
         {
             if (string.IsNullOrWhiteSpace(proposta.CpfDoParticipante))
-                proposta = proposta.InformarCritica("O cpf do participante é obrigatório");
+                proposta = proposta.InformarCritica("O cpf do participante é obrigatório", "CPF");
 
             return proposta;
         }

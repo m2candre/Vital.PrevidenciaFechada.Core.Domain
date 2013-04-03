@@ -22,7 +22,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras.V
         public PropostaVO Validar(PropostaVO proposta)
         {
             if (!proposta.CpfDoParticipante.CpfValido())
-                proposta = proposta.InformarCritica("Cpf está inválido");
+                proposta = proposta.InformarCritica("Cpf está inválido", "Cpf");
 
             return proposta;
         }

@@ -64,7 +64,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         /// <param name="proposta">dados da proposta</param>
         /// <returns>Lista de críticas</returns>
-        public virtual IList<string> ObterCriticasDaProposta(PropostaVO proposta)
+        public virtual IList<CriticaVO> ObterCriticasDaProposta(PropostaVO proposta)
         {
             #region Pré-Condições
 

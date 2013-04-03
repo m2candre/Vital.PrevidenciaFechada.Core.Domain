@@ -21,7 +21,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta.
 
             var propostaAtualizada = regraNome.Validar(proposta);
 
-            Assert.That(propostaAtualizada.Criticas.First(), Is.EqualTo("Nome do participante é obrigatório"));
+            Assert.That(propostaAtualizada.Criticas.First().Critica, Is.EqualTo("Nome do participante é obrigatório"));
         }
 
         [Test]

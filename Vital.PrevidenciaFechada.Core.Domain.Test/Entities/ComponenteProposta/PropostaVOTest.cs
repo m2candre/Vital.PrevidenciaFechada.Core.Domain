@@ -46,7 +46,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 
             Assert.That(propostaVO.Criticas.Count, Is.EqualTo(0));
 
-            var propostaAtuializada = propostaVO.InformarCritica("critica");
+            var propostaAtuializada = propostaVO.InformarCritica("critica", "campo");
 
             Assert.That(propostaVO.Criticas.Count, Is.EqualTo(0));
             Assert.That(propostaAtuializada.Criticas.Count, Is.EqualTo(1));

@@ -21,7 +21,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras
         public virtual PropostaVO Validar(PropostaVO proposta)
         {
             if (string.IsNullOrWhiteSpace(proposta.NomeDoParticipante))
-                proposta = proposta.InformarCritica("Nome do participante é obrigatório");
+                proposta = proposta.InformarCritica("Nome do participante é obrigatório","Nome");
 
             return proposta;
         }

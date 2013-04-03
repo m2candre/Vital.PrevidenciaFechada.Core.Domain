@@ -35,7 +35,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponentePlano
         {
             PropostaVO propostaComNome = new PropostaVO("Fulano", "1111");
 
-            Assert.That(regulamento.ObterCriticasDaProposta(propostaComNome).First(), Is.EqualTo("Cpf está inválido"));
+            Assert.That(regulamento.ObterCriticasDaProposta(propostaComNome).First().Critica, Is.EqualTo("Cpf está inválido"));
         }
     }
 }

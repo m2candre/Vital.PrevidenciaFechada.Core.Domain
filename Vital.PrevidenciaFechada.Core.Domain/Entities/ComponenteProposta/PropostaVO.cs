@@ -7,6 +7,22 @@ using System.Threading.Tasks;
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 {
     /// <summary>
+    /// Value Object de crítica
+    /// </summary>
+    public class CriticaVO
+    {
+        /// <summary>
+        /// Campo
+        /// </summary>
+        public virtual string Campo { get; set; }
+
+        /// <summary>
+        /// Crítica
+        /// </summary>
+        public virtual string Critica { get; set; }
+    }
+
+    /// <summary>
     /// Value Object de proposta para transitar dados de validação
     /// </summary>
     public class PropostaVO : ICloneable
@@ -26,7 +42,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// <summary>
         /// Mensagens - Restrições para o cadastro de proposta.
         /// </summary>
-        public virtual IList<string> Criticas { get; private set; }
+        public virtual IList<CriticaVO> Criticas { get; private set; }
 
         #endregion
 
@@ -37,7 +53,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// </summary>
         public PropostaVO()
         {
-            Criticas = new List<string>();
+            Criticas = new List<CriticaVO>();
         }
 
         /// <summary>
@@ -99,11 +115,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// </summary>
         /// <param name="critica"></param>
         /// <returns></returns>
-        public virtual PropostaVO InformarCritica(string critica)
+        public virtual PropostaVO InformarCritica(string critica, string campo)
         {
+            CriticaVO criticaVO = new CriticaVO { Critica = critica, Campo = campo };
+
             var propostaVO = (PropostaVO)Clone();
 
-            propostaVO.Criticas.Add(critica);
+            propostaVO.Criticas.Add(criticaVO);
 
             return propostaVO;
         }
