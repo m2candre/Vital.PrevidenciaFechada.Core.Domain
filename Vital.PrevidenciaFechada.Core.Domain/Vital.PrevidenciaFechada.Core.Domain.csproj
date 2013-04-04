@@ -107,6 +107,7 @@
     <Compile Include="Services\ServicoConsultarPropostas.cs" />
     <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
     <Compile Include="Services\ServicoObterCriticasDaProposta.cs" />
+    <Compile Include="Services\ServicoProposta.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
