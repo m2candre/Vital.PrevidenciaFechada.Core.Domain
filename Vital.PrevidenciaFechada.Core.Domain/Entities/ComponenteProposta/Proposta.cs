@@ -157,5 +157,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			oEstadoDaPropostaFoiAlterado.Validate();
 		}
+
+		public Plano Plano { get; set; }
 	}
 }
