@@ -104,7 +104,6 @@
     <Compile Include="Repository\RepositorioConvenioDeAdesao.cs" />
     <Compile Include="Repository\RepositorioProposta.cs" />
     <Compile Include="Repository\VitalCriterion.cs" />
-    <Compile Include="Services\ServicoConsultarPropostas.cs" />
     <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
     <Compile Include="Services\ServicoProposta.cs" />
   </ItemGroup>

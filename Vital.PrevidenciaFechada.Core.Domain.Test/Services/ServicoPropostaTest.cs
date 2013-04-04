@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
@@ -115,13 +116,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-		public void se_construtor_nao_recebe_injecao_do_repositorio_lanca_excecao()
-		{
-			ServicoConsultarPropostas servico;
-			Assert.That(() => servico = new ServicoConsultarPropostas(null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O repositório não foi injetado corretamente"));
-		}
-
-		[Test]
 		public void obter_propostas_sem_informar_o_id_do_plano_lanca_excecao()
 		{
 			Assert.That(() => _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(Guid.Empty, "Registrada", 20, new ConsultaDTO()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O ID do plano deve ser informado"));
@@ -137,6 +131,23 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_propostas_sem_informar_o_dto_de_propostas_lanca_excecao()
 		{
 			Assert.That(() => _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", 20, null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O DTO de consulta não foi informado corretamente"));
+		}
+
+		[Test]
+		public void criar_nova_proposta()
+		{
+			Guid idDoPlano = Guid.NewGuid();
+			Guid idDaPessoaJuridica = Guid.NewGuid();
+
+			ConvenioDeAdesao convenio = new ConvenioDeAdesao { PessoaJuridica = new Patrocinador { Id = idDaPessoaJuridica }, Propostas = new List<Proposta> { new Proposta { Plano = new Plano { Id = idDoPlano } } } };
+
+			_repositorioConvenio.Expect(x => x.UltimoNumeroDeProposta(idDoPlano, idDaPessoaJuridica)).Return(123);
+			_repositorioConvenio.Expect(x => x.ObterPor(idDoPlano, idDaPessoaJuridica)).Return(convenio);
+
+			_servicoProposta.CriarNovaProposta(idDoPlano, idDaPessoaJuridica);
+
+			_repositorioConvenio.VerifyAllExpectations();
+			// TODO: finalizar
 		}
 	}
 }

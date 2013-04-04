@@ -138,7 +138,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Cria uma proposta com um novo número e persiste no banco de dados
 		/// </summary>
-		public void CriarNovaProposta(Guid IdDoPlano, Guid IdDaPessoaJuridica)
+		public virtual void CriarNovaProposta(Guid IdDoPlano, Guid IdDaPessoaJuridica)
 		{
 			int ultimoNumeroDeProposta = _repositorioConvenio.UltimoNumeroDeProposta(IdDoPlano, IdDaPessoaJuridica);
 
