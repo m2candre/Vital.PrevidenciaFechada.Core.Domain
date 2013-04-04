@@ -20,6 +20,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// </summary>
 		public virtual Guid Id { get; set; }
 
+        /// <summary>
+        /// Tipo de Rejeição
+        /// </summary>
+        public virtual TipoRejeicao TipoRejeicao { get; set; }
+
 		/// <summary>
 		/// Nome do prospect
 		/// </summary>
@@ -90,48 +95,41 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// </summary>
 		public virtual void Autorizar()
 		{
-			#region Pré-condições
-
-			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
-
-			#endregion
-
-			maquinaDeEstadoEstaInicializada.Validate();
-
-			MaquinaDeEstado.AlterarEstadoPelaAcao("Autorizar");
-
-			#region Pós-condições
-
-			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "Autorizada", "O estado na proposta não foi alterado para 'Autorizada'");
-
-			#endregion
-
-			oEstadoDaPropostaFoiAlterado.Validate();
+            AlterarEstadoPelaAcao("Autorizar");
 		}
+
+        /// <summary>
+        /// Rejeita a a proposta
+        /// </summary>
+        public virtual void Rejeitar()
+        {
+            AlterarEstadoPelaAcao("Rejeitar");
+        }
 
 		/// <summary>
 		/// Recusa a proposta
 		/// </summary>
 		public virtual void Recusar()
 		{
-			#region Pré-condições
-
-			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
-
-			#endregion
-
-			maquinaDeEstadoEstaInicializada.Validate();
-
-			MaquinaDeEstado.AlterarEstadoPelaAcao("Recusar");
-
-			#region Pós-condições
-
-			IAssertion oEstadoDaPropostaFoiAlterado = Assertion.Equals(Estado, "NaoAutorizada", "O estado na proposta não foi alterado para 'NaoAutorizada'");
-
-			#endregion
-
-			oEstadoDaPropostaFoiAlterado.Validate();
+            AlterarEstadoPelaAcao("Recusar");
 		}
+
+        /// <summary>
+        /// Altera o Estado na máquina de estado da proposta pela ação
+        /// </summary>
+        /// <param name="acao">acao</param>
+        private void AlterarEstadoPelaAcao(string acao)
+        {
+            #region Pré-condições
+
+            IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+
+            #endregion
+
+            maquinaDeEstadoEstaInicializada.Validate();
+
+            MaquinaDeEstado.AlterarEstadoPelaAcao(acao);
+        }
 
 		/// <summary>
 		/// Altera o estado da proposta
