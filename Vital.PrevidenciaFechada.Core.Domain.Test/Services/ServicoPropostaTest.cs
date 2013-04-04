@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
@@ -17,6 +18,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 	{
 		private IRepositorio<Plano> _repositorioPlano;
 		private IRepositorioProposta _repositorioProposta;
+		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private ServicoProposta _servicoProposta;
 
 		[SetUp]
@@ -24,7 +26,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		{
 			_repositorioPlano = MockRepository.GenerateMock<IRepositorio<Plano>>();
 			_repositorioProposta = MockRepository.GenerateMock<IRepositorioProposta>();
-			_servicoProposta = new ServicoProposta(_repositorioProposta, _repositorioPlano);
+			_repositorioConvenio = MockRepository.GenerateMock<IRepositorioConvenioDeAdesao>();
+			_servicoProposta = new ServicoProposta(_repositorioProposta, _repositorioPlano, _repositorioConvenio);
 		}
 
 		[Test]

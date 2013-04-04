@@ -10,6 +10,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Repository;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 using Vital.Extensions.DateTimeExtensions;
 using Vital.PrevidenciaFechada.Core.Domain.Mappers;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Services
 {
@@ -20,6 +21,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 	{
 		private IRepositorioProposta _repositorioProposta;
 		private IRepositorio<Plano> _repositorioPlano;
+		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private CriteriosDeConsultaPorPlanoEstadoData _criteriosConsulta;
 		private DateTime _data;
 
@@ -55,24 +57,27 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Construtor com injeção de dependência dos repositório de Proposta e Plano
 		/// </summary>
-		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorio<Plano> repositorioPlano)
+		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorio<Plano> repositorioPlano, IRepositorioConvenioDeAdesao repositorioConvenio)
 		{
 			#region Pré-condições
 
 			IAssertion oRepositorioDePropostaFoiInjetado = Assertion.NotNull(repositorioProposta, "O repositório de proposta não foi injetado corretamente");
 			IAssertion oRepositorioDePlanoFoiInjetado = Assertion.NotNull(repositorioPlano, "O repositório de plano não foi injetado corretamente");
+			IAssertion oRepositorioDeConvenioFoiInjetado = Assertion.NotNull(repositorioConvenio, "O repositório de convênio de adesão não foi injetado corretamente");
 
 			#endregion
 
-			oRepositorioDePropostaFoiInjetado.and(oRepositorioDePlanoFoiInjetado).Validate();
+			oRepositorioDePropostaFoiInjetado.and(oRepositorioDePlanoFoiInjetado).and(oRepositorioDeConvenioFoiInjetado).Validate();
 
 			_repositorioProposta = repositorioProposta;
 			_repositorioPlano = repositorioPlano;
+			_repositorioConvenio = repositorioConvenio;
 
 			#region Pós-condições
 
 			IAssertion oRepositorioDePropostaFoiInjetadoCorretamente = Assertion.Equals(_repositorioProposta, repositorioProposta, "O repositório de proposta da classe não está igual ao repositório injetado");
 			IAssertion oRepositorioDePlanoFoiInjetadoCorretamente = Assertion.Equals(_repositorioPlano, repositorioPlano, "O repositório de plano da classe não está igual ao repositório injetado");
+			IAssertion oRepositorioDeConvenioFoiInjetadoCorretamente = Assertion.Equals(_repositorioConvenio, repositorioConvenio, "O repositório de plano da classe não está igual ao repositório injetado");
 
 			#endregion
 
@@ -128,6 +133,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			IList<CriticaVO> criticasVO = plano.Regulamento.ObterCriticasDaProposta(propostaVO);
 
 			return new CriticaMapper().DeCriticaVOParaCriticaDTO(criticasVO);
+		}
+
+		/// <summary>
+		/// Cria uma proposta com um novo número e persiste no banco de dados
+		/// </summary>
+		public void CriarNovaProposta(Guid IdDoPlano, Guid IdDaPessoaJuridica)
+		{
+			int ultimoNumeroDeProposta = _repositorioConvenio.UltimoNumeroDeProposta(IdDoPlano, IdDaPessoaJuridica);
+
+			ConvenioDeAdesao convenioDeAdesao = _repositorioConvenio.ObterPor(IdDoPlano, IdDaPessoaJuridica);
+			ModeloDeProposta modeloDePropostaPublicado = convenioDeAdesao.ObterModeloDePropostaPublicado();
+
+			Proposta novaProposta = new Proposta();
+			novaProposta.Numero = ultimoNumeroDeProposta + 1;
+			novaProposta.ModeloDeProposta = modeloDePropostaPublicado;
+
+			_repositorioProposta.Adicionar(novaProposta);
+			convenioDeAdesao.Propostas.Add(novaProposta);
+			_repositorioConvenio.Adicionar(convenioDeAdesao);
 		}
 
 		/// <summary>
