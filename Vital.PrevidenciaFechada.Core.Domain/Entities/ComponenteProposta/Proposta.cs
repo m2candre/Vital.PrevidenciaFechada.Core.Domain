@@ -66,6 +66,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		}
 
         /// <summary>
+        /// Modelo de Proposta
+        /// </summary>
+        public virtual ModeloDeProposta ModeloDeProposta { get; set; }
+
+        /// <summary>
         /// Valores dos campos da proposta
         /// </summary>
         public virtual IList<ValorDeCampo> Valores { get; set; }
