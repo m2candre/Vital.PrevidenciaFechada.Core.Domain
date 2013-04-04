@@ -23,24 +23,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual string Nome { get; set; }
 
         /// <summary>
-        /// Modelo de proposta em HTML
+        /// Convênios de Adesão com Patrocinadores e/ou Instituidores
         /// </summary>
-        public virtual string ModeloDePropostaHTML { get; set; }
-
-        /// <summary>
-        /// Modelo de Proposta do Plano Atual (publicada)
-        /// </summary>
-		public virtual ModeloDeProposta ModeloDePropostaAtual { get; protected set; }
-
-        /// <summary>
-        /// Modelo de Proposta do Plano Atual (publicada)
-        /// </summary>
-        public virtual ModeloDeProposta ModeloDePropostaEmRascunho { get; protected set; }
-
-        /// <summary>
-        /// Termos de Adesão com Patrocinadores e/ou Instituidores
-        /// </summary>
-        public virtual IList<TermoDeAdesao> TermosDeAdesao { get; set; }
+        public virtual IList<ConvenioDeAdesao> ConvenioDeAdesao { get; set; }
 
         /// <summary>
         /// Tipos de documento
@@ -59,21 +44,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public Plano()
         {
             Regulamento = new Regulamento();
-            ModeloDePropostaEmRascunho = new ModeloDeProposta();
-            TermosDeAdesao = new List<TermoDeAdesao>();
+            ConvenioDeAdesao = new List<ConvenioDeAdesao>();
             TiposDeDocumento = new List<TipoDeDocumento>();
         }
-
-        /// <summary>
-        /// Publica o modelo de Proposta mais atual (rascunho atual)
-        /// </summary>
-		public virtual void PublicarModeloDeProposta()
-		{
-			//TODO: Pensar em algo como uma máquina de estado para usar aqui. Proposta vai ter mais do que rascunho e publicada como estado
-            this.ModeloDePropostaEmRascunho.Publicar();
-            this.ModeloDePropostaAtual = ModeloDePropostaEmRascunho;
-            this.ModeloDePropostaEmRascunho = ModeloDePropostaAtual.CopiarParaRascunho();
-		}
 
         /// <summary>
         /// Adiciona um novo tipo de documento a pessoa jurídica

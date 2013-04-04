@@ -15,16 +15,21 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
     public class Regulamento
     {
         /// <summary>
+        /// Id
+        /// </summary>
+        public virtual Guid Id { get; set; }
+
+        /// <summary>
         /// Regras do plano
         /// </summary>
-        public virtual IList<IRegra> Regras { get; set; }
+        public virtual IList<Regra> Regras { get; set; }
 
         /// <summary>
         /// Construtor
         /// </summary>
         public Regulamento()
         {
-            Regras = new List<IRegra>();
+            Regras = new List<Regra>();
 
             Adicionar(new RegraCpfObrigatorio());
             Adicionar(new RegraNomeDoParticipanteObrigatorio());
@@ -35,7 +40,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Adiciona uma regra ao regulamento
         /// </summary>
         /// <param name="regra">regr</param>
-        public virtual void Adicionar(IRegra regra)
+        public virtual void Adicionar(Regra regra)
         {
             #region Pré-Condições
 

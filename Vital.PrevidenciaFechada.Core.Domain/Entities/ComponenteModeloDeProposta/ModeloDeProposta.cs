@@ -25,6 +25,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Determina se é um modelo já publicado
         /// </summary>
         public virtual bool Publicada { get; protected set; }
+
+        /// <summary>
+        /// HTML do modelo da proposta
+        /// </summary>
+        public virtual string TemplateHTML { get; set; }
 		
         /// <summary>
         /// Data em que o Modelo foi publicado

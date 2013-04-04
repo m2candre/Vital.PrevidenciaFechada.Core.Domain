@@ -44,7 +44,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			ServicoConsultarPropostas servico;
 			Assert.That(() => servico = new ServicoConsultarPropostas(null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O repositório não foi injetado corretamente"));
 		}
-
+        /*
 		[Test]
 		public void obter_propostas_por_estado_e_periodo_retorna_lista_corretamente()
 		{
@@ -101,7 +101,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
             Assert.IsTrue(propostas.All(p => p.Plano.Id == idDoPlano && p.Estado == "Registrada" && p.Data >= dataDaBusca.AddDays(-30)));
         }
-
+        */
 		[Test]
 		public void obter_propostas_sem_informar_o_id_do_plano_lanca_excecao()
 		{

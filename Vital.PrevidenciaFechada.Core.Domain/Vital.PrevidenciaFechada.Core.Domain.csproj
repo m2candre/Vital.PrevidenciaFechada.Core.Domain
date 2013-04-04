@@ -73,14 +73,14 @@
   <ItemGroup>
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\TipoDeDocumento.cs" />
-    <Compile Include="Entities\ComponentePlano\CampoDeProposta.cs" />
-    <Compile Include="Entities\ComponentePlano\IRegra.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\CampoDeProposta.cs" />
+    <Compile Include="Entities\ComponentePlano\Regra.cs" />
     <Compile Include="Entities\ComponentePlano\Regras\CamposObrigatorios\RegraNomeDoParticipanteObrigatorio.cs" />
     <Compile Include="Entities\ComponentePlano\Regras\CamposObrigatorios\RegraCpfObrigatorio.cs" />
     <Compile Include="Entities\ComponentePlano\Regras\ValidacoesDeDados\RegraValidarCpf.cs" />
     <Compile Include="Entities\ComponentePlano\Regulamento.cs" />
-    <Compile Include="Entities\ComponentePlano\TermoDeAdesao.cs" />
-    <Compile Include="Entities\ComponentePlano\ModeloDeProposta.cs" />
+    <Compile Include="Entities\ComponenteConvenioDeAdesao\ConvenioDeAdesao.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\ModeloDeProposta.cs" />
     <Compile Include="Entities\ComponenteEntidade\Entidade.cs" />
     <Compile Include="Entities\ComponentePlano\Plano.cs" />
     <Compile Include="Entities\ComponenteProposta\CriteriosDeConsultaPorPlanoEstadoData.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\Proposta.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaVO.cs" />
+    <Compile Include="Entities\ComponenteProposta\ValorDeCampo.cs" />
     <Compile Include="Entities\ComponenteUsuario\Identidade.cs" />
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />

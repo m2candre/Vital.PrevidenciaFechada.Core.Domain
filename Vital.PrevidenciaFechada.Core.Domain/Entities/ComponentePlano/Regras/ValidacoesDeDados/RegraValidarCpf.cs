@@ -12,14 +12,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras.V
     /// <summary>
     /// Valida um número de CPF
     /// </summary>
-    public class RegraValidarCpf : IRegra
+    public class RegraValidarCpf : Regra
     {
         /// <summary>
         /// Valida um número de cpf
         /// </summary>
         /// <param name="proposta">Dados da proposta</param>
         /// <returns>PropostaVO</returns>
-        public PropostaVO Validar(PropostaVO proposta)
+        public override PropostaVO Validar(PropostaVO proposta)
         {
             if (!proposta.CpfDoParticipante.CpfValido())
                 proposta = proposta.InformarCritica("Cpf está inválido", "Cpf");

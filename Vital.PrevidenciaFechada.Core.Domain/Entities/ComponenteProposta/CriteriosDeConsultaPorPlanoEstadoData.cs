@@ -18,6 +18,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <returns></returns>
 		public virtual Expression<Func<Proposta, bool>> ObterCriterio(Guid idDoPlano, string estado, DateTime dataDaBusca)
 		{
+            //TODO: Refatoração Critério consumido para Autorização de proposta.
+
+            /*
 			#region Pré-condições
 
 			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoPlano != Guid.Empty, "O ID do plano deve ser informado");
@@ -39,6 +42,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			oCriterioFoiConstruido.Validate();
 
 			return criterio;
+
+            */
+            return null;
 		}
 	}
 }

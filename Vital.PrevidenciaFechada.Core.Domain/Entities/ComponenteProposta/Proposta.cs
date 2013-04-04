@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vital.InfraStructure.DSL.DesignByContract;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
@@ -12,7 +13,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		private MaquinaDeEstadoDaProposta _maquinaDeEstadoDaProposta;
 		private string _estado;
 
-		/// <summary>
+        #region Propriedades
+
+        /// <summary>
 		/// Id
 		/// </summary>
 		public virtual Guid Id { get; set; }
@@ -23,19 +26,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		public virtual string Nome { get; set; }
 
 		/// <summary>
-		/// Nome do Instituidor ou Patrocinador
-		/// </summary>
-		public virtual string PessoaJuridica { get; set; }
-
-		/// <summary>
 		/// Número da Proposta
 		/// </summary>
 		public virtual string Numero { get; set; }
-
-        /// <summary>
-        /// CPF do participante
-        /// </summary>
-        public virtual string CPF { get; set; }
 
 		/// <summary>
 		/// Data da proposta
@@ -72,12 +65,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			set { _maquinaDeEstadoDaProposta = value; }
 		}
 
-		/// <summary>
-		/// Plano
-		/// </summary>
-		public virtual Plano Plano { get; set; }
+        /// <summary>
+        /// Valores dos campos da proposta
+        /// </summary>
+        public virtual IList<ValorDeCampo> Valores { get; set; }
 
-		/// <summary>
+        #endregion
+
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        public Proposta()
+        {
+            Valores = new List<ValorDeCampo>();
+        }
+
+        /// <summary>
 		/// Autoriza a proposta
 		/// </summary>
 		public virtual void Autorizar()

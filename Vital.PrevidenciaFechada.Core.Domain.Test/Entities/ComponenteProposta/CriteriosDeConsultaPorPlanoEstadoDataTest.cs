@@ -6,6 +6,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 {
 	[TestFixture]
+    [Ignore]
 	public class CriteriosDeConsultaPorPlanoEstadoDataTest
 	{
 		[Test]

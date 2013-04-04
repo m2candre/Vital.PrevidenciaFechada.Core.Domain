@@ -9,11 +9,21 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
     /// <summary>
     /// Regra do Plano
     /// </summary>
-    public interface IRegra
+    public abstract class Regra
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public virtual Guid Id { get; set; }
+
+        /// <summary>
+        /// Id do campo da proposta que a regra está validando
+        /// </summary>
+        public virtual Guid CampoId { get; set; }
+
         /// <summary>
         /// Valida a Regra
         /// </summary>
-        PropostaVO Validar(PropostaVO proposta);
+        public abstract PropostaVO Validar(PropostaVO proposta);
     }
 }

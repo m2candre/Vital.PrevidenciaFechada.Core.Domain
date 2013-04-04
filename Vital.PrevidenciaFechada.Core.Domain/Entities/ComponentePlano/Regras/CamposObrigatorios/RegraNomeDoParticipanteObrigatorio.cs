@@ -11,14 +11,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.Regras
     /// <summary>
     /// Valida se o nome do participante foi informado
     /// </summary>
-    public class RegraNomeDoParticipanteObrigatorio : IRegra
+    public class RegraNomeDoParticipanteObrigatorio : Regra
     {
         /// <summary>
         /// Validar se o nome do participante foi informado
         /// </summary>
         /// <param name="proposta">dados da proposta</param>
         /// <returns>PropostaVO</returns>
-        public virtual PropostaVO Validar(PropostaVO proposta)
+        public override PropostaVO Validar(PropostaVO proposta)
         {
             if (string.IsNullOrWhiteSpace(proposta.NomeDoParticipante))
                 proposta = proposta.InformarCritica("Nome do participante é obrigatório","Nome");
