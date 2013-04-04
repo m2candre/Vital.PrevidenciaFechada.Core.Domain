@@ -74,7 +74,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// Gera um novo número sequencial e persite a proposta em rascunho com o número gerado
 		/// </summary>
 		/// <returns>Número gerado para a proposta</returns>
-		public virtual string GerarNumeroDeProposta()
+		public virtual int GerarNumeroDeProposta()
 		{
 			#region Pré-condições
 
@@ -84,12 +84,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			oRepositorioFoiInformado.Validate();
 
-			string numeroGerado = (_repositorio.ObterUltimoNumeroDaProposta() + 1).ToString();
+			int numeroGerado = _repositorio.ObterUltimoNumeroDaProposta() + 1;
 			PersistirPropostaComNumeroGerado(numeroGerado);
 			
 			#region Pós-condições
 
-			IAssertion oNumeroGeradoEMaiorQueZero = Assertion.GreaterThan(Convert.ToInt32(numeroGerado), 0, "O número gerado deve ser maior que zero");
+			IAssertion oNumeroGeradoEMaiorQueZero = Assertion.GreaterThan(numeroGerado, default(int), "O número gerado deve ser maior que zero");
 
 			#endregion
 
@@ -102,11 +102,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// Persiste a proposta em rascunho com o número gerado
 		/// </summary>
 		/// <param name="numeroGerado"></param>
-		private void PersistirPropostaComNumeroGerado(string numeroGerado)
+		private void PersistirPropostaComNumeroGerado(int numeroGerado)
 		{
 			#region Pré-condições
 
-			IAssertion oNumeroGeradoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(numeroGerado), "O número gerado deve ser informado");
+			IAssertion oNumeroGeradoFoiInformado = Assertion.GreaterThan(numeroGerado, default(int), "O número gerado deve ser informado");
 
 			#endregion
 
@@ -117,7 +117,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			#region Pós-condições
 
-			IAssertion oNumeroDaPropostaFoiDefinidoNaEntidade = Assertion.IsFalse(string.IsNullOrWhiteSpace(proposta.Numero), "O número da proposta não foi definido na entidade");
+			IAssertion oNumeroDaPropostaFoiDefinidoNaEntidade = Assertion.GreaterThan(proposta.Numero, default(int), "O número da proposta não foi definido na entidade");
 
 			#endregion
 

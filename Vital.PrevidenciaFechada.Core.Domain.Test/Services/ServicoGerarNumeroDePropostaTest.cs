@@ -24,9 +24,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(0);
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = servico.GerarNumeroDeProposta();
+			int numeroGerado = servico.GerarNumeroDeProposta();
 
-			Assert.That(numeroGerado, Is.EqualTo("1"));
+			Assert.That(numeroGerado, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -35,9 +35,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			_repositorio.Expect(x => x.ObterUltimoNumeroDaProposta()).Return(10);
 			ServicoGerarNumeroDeProposta servico = ServicoGerarNumeroDeProposta.ObterServico(_repositorio);
 
-			string numeroGerado = servico.GerarNumeroDeProposta();
+			int numeroGerado = servico.GerarNumeroDeProposta();
 
-			Assert.That(numeroGerado, Is.EqualTo("11"));
+			Assert.That(numeroGerado, Is.EqualTo(11));
 		}
 	}
 }

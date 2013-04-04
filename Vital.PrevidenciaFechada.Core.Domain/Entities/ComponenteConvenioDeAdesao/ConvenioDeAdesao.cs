@@ -12,7 +12,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
     /// <summary>
     /// Convênio de adesão de um plano com um (Patrocinador/Instituidor)
     /// </summary>
-    public class ConvenioDeAdesao
+    public class ConvenioDeAdesao: IAggregateRoot<Guid>
     {
         /// <summary>
         /// Id do contrato

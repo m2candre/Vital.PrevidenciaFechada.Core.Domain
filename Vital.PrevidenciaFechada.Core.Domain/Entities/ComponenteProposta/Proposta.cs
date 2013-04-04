@@ -28,7 +28,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <summary>
 		/// Número da Proposta
 		/// </summary>
-		public virtual string Numero { get; set; }
+		public virtual int Numero { get; set; }
 
 		/// <summary>
 		/// Data da proposta
