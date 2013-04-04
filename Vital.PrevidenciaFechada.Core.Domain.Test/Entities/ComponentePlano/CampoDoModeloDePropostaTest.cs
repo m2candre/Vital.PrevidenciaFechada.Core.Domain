@@ -23,5 +23,26 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponentePlano
         {
             var campo = new CampoDeProposta(null);
         }
+
+		[Test]
+		public void copiar_para_rascunho()
+		{
+			var campo = new CampoDeProposta("CPF");
+			var campoCopiado = campo.CopiarParaRascunho();
+
+			Assert.That(campo.Nome, Is.EqualTo(campoCopiado.Nome));
+			Assert.That(campo, Is.Not.EqualTo(campoCopiado));
+		}
+
+		[Test]
+		public void atualizar_nome()
+		{
+			var campo = new CampoDeProposta("CPF");
+			var campoCopiado = campo.CopiarParaRascunho();
+			campoCopiado.AtualizarNome("Nome");
+
+			Assert.That(campoCopiado.Nome, Is.EqualTo("Nome"));
+			Assert.That(campo.Nome, Is.Not.EqualTo(campoCopiado.Nome));
+		}
     }
 }
