@@ -45,6 +45,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual IList<ModeloDeProposta> ModelosDeProposta { get; set; }
 
+		/// <summary>
+		/// Construtor padrão para criação pelo NHibernate
+		/// </summary>
+		public ConvenioDeAdesao() { }
+
         /// <summary>
         /// Contrutor
         /// </summary>
