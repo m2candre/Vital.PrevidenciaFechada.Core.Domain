@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
@@ -24,6 +25,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		/// </summary>
 		public virtual Plano Plano { get; set; }
 
+		/// <summary>
+		/// Entidade a qual o convênio pertence
+		/// </summary>
+		public virtual Entidade Entidade { get; set; }
+
         /// <summary>
         /// Pessoa jurídica ( Patrocinador/ Instituidor )
         /// </summary>
@@ -40,11 +46,29 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual IList<ModeloDeProposta> ModelosDeProposta { get; set; }
 
         /// <summary>
-        /// Construtor
+        /// Contrutor
         /// </summary>
-        public ConvenioDeAdesao()
-        {
-            ModelosDeProposta = new List<ModeloDeProposta>();
+		/// <remarks>O convênio de adesão só pode ser criado para formalizar </remarks>
+        /// <param name="entidade"></param>
+        /// <param name="pessoaJuridica"></param>
+        /// <param name="plano"></param>
+		public ConvenioDeAdesao(Entidade entidade, PessoaJuridica pessoaJuridica, Plano plano)
+		{
+			#region Pré-condições
+
+			IAssertion aEntidadeFoiInformada = Assertion.NotNull(entidade, "A entidade deve ser informada");
+			IAssertion aPessoaJuridicaFoiInformada = Assertion.NotNull(pessoaJuridica, "A pessoa jurídica deve ser informada");
+			IAssertion oPlanoFoiInformado = Assertion.NotNull(plano, "O plano deve ser informado");
+
+			#endregion
+
+			aEntidadeFoiInformada.and(aPessoaJuridicaFoiInformada).and(oPlanoFoiInformado).Validate();
+
+			Entidade = entidade;
+			PessoaJuridica = pessoaJuridica;
+			Plano = plano;
+
+			ModelosDeProposta = new List<ModeloDeProposta>();
             Propostas = new List<Proposta>();
         }
 

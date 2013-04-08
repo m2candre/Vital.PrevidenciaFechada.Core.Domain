@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
@@ -12,17 +10,28 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 	[TestFixture]
 	public class ConvenioDeAdesaoTest
 	{
+		private ConvenioDeAdesao _convenio;
+
+		[SetUp]
+		public void iniciar()
+		{
+			Entidade entidade = new Entidade { Id = Guid.NewGuid(), Nome = "Teste" };
+			PessoaJuridica pj = new Patrocinador { Id = Guid.NewGuid(), RazaoSocial = "Patrocinador_teste" };
+			Plano plano = new Plano { Id = Guid.NewGuid(), Nome = "Plano_teste" };
+
+			_convenio = new ConvenioDeAdesao(entidade, pj, plano);
+		}
+
 		[Test]
 		public void adicionar_proposta_ao_convenio()
 		{
 			Proposta proposta1 = new Proposta { Id = Guid.NewGuid() };
 			Proposta proposta2 = new Proposta { Id = Guid.NewGuid() };
 
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.AdicionarProposta(proposta1);
-			convenio.AdicionarProposta(proposta2);
+			_convenio.AdicionarProposta(proposta1);
+			_convenio.AdicionarProposta(proposta2);
 
-			Assert.That(convenio.Propostas.Count, Is.EqualTo(2));
+			Assert.That(_convenio.Propostas.Count, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -31,11 +40,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 			ModeloDeProposta modelo1 = new ModeloDeProposta { Id = Guid.NewGuid() };
 			ModeloDeProposta modelo2 = new ModeloDeProposta { Id = Guid.NewGuid() };
 
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.AdicionarModeloDeProposta(modelo1);
-			convenio.AdicionarModeloDeProposta(modelo2);
+			_convenio.AdicionarModeloDeProposta(modelo1);
+			_convenio.AdicionarModeloDeProposta(modelo2);
 
-			Assert.That(convenio.ModelosDeProposta.Count, Is.EqualTo(2));
+			Assert.That(_convenio.ModelosDeProposta.Count, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -48,11 +56,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 			modelo2.AdicionarCampo("CPF");
 			modelo2.Publicar();
 
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.AdicionarModeloDeProposta(modelo1);
-			convenio.AdicionarModeloDeProposta(modelo2);
+			_convenio.AdicionarModeloDeProposta(modelo1);
+			_convenio.AdicionarModeloDeProposta(modelo2);
 
-			ModeloDeProposta modeloPublicado = convenio.ObterModeloDePropostaPublicado();
+			ModeloDeProposta modeloPublicado = _convenio.ObterModeloDePropostaPublicado();
 
 			Assert.That(modelo2.Id, Is.EqualTo(modeloPublicado.Id));
 		}

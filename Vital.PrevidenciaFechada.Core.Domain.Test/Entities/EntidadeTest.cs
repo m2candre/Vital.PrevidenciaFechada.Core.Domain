@@ -25,38 +25,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities
 
             Assert.IsNotNull(_entidade);
         }
-
-        [Test]
-        public void adicionar_convenio_a_entidade()
-        {
-            _entidade = new Entidade();
-            _entidade.Nome = "Entidade_1";
-
-            ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.Id = Guid.NewGuid();
-            
-            _entidade.AdicionarConvenio(convenio);
-
-            Assert.AreEqual(_entidade.ConveniosDeAdesao.Count , 1);
-        }
-
-        [Test]
-        public void buscar_plano_em_entidade()
-        {
-            _entidade = new Entidade();
-            _entidade.Nome = "Entidade_1";
-
-            Guid idDoConvenio = Guid.NewGuid();
-
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-            convenio.Id = idDoConvenio;
-            
-            _entidade.AdicionarConvenio(convenio);
-
-            var retornado = _entidade.BuscarConvenioPorId(idDoConvenio);
-
-            Assert.IsTrue(convenio == retornado);
-        }
-
     }
 }

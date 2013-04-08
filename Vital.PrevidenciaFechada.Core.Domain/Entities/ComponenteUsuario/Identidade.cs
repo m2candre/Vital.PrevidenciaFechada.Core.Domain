@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
 {
@@ -27,9 +28,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// Lista de Entidades as quais o usuário faz parte
+        /// Convênio de Adesão do contexto atual
         /// </summary>
-        public virtual IList<Entidade> Entidades { get; set; }
+        public virtual ConvenioDeAdesao ConvenioDeAdesao { get; set; }
 
         /// <summary>
         /// Pessoa Jurídica
@@ -39,10 +40,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
         /// <summary>
         /// Construtor para serialização
         /// </summary>
-        public Identidade() 
-        {
-            Entidades = new List<Entidade>();
-        }
+		public Identidade() { }
 
         /// <summary>
         /// Construtor com dependencia de nome
@@ -51,7 +49,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
         public Identidade(string name)
         {
             this.Name = name;
-            Entidades = new List<Entidade>();
         }
 
         /// <summary>

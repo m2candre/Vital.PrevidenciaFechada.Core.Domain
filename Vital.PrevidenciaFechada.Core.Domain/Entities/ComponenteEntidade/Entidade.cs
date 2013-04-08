@@ -34,32 +34,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade
         {
             ConveniosDeAdesao = new List<ConvenioDeAdesao>();
         }
-
-        /// <summary>
-        /// Adiciona um plano a Entidade
-        /// </summary>
-        /// <param name="plano">Plano novo da Entidade</param>
-        public virtual void AdicionarConvenio(ConvenioDeAdesao convenioDeAdesao)
-        {
-            ConveniosDeAdesao.Add(convenioDeAdesao);
-        }
-
-        /// <summary>
-        /// Retorna um Plano pelo ID
-        /// </summary>
-        /// <param name="id">Id do Plano</param>
-        /// <returns></returns>
-        public virtual ConvenioDeAdesao BuscarConvenioPorId(Guid id)
-		{
-			#region Pré-condições
-
-			IAssertion aListaDeConveniosEstaPreenchida = Assertion.NotNull(ConveniosDeAdesao, "A lista de convênios de adesão não pode estar nula");
-
-			#endregion
-
-			aListaDeConveniosEstaPreenchida.Validate();
-
-			return ConveniosDeAdesao.FirstOrDefault(p => p.Id == id);
-        }
     }
 }
