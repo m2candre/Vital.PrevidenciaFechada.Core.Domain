@@ -27,17 +27,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities
         }
 
         [Test]
-        public void adicionar_plano_a_entidade()
+        public void adicionar_convenio_a_entidade()
         {
             _entidade = new Entidade();
             _entidade.Nome = "Entidade_1";
 
-            Plano plano = new Plano();
-            plano.Nome = "Plano_1";
+            ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+			convenio.Id = Guid.NewGuid();
             
-            _entidade.AdicionarPlano(plano);
+            _entidade.AdicionarConvenio(convenio);
 
-            Assert.AreEqual(_entidade.Planos.Count , 1);
+            Assert.AreEqual(_entidade.ConveniosDeAdesao.Count , 1);
         }
 
         [Test]
@@ -46,17 +46,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities
             _entidade = new Entidade();
             _entidade.Nome = "Entidade_1";
 
-            Guid idDoPlano = Guid.NewGuid();
+            Guid idDoConvenio = Guid.NewGuid();
 
-            Plano plano = new Plano();
-            plano.Id = idDoPlano;
-            plano.Nome = "Plano_1";
+			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+            convenio.Id = idDoConvenio;
+            
+            _entidade.AdicionarConvenio(convenio);
 
-            _entidade.AdicionarPlano(plano);
+            var retornado = _entidade.BuscarConvenioPorId(idDoConvenio);
 
-            var retornado = _entidade.BuscarPlanoCom(idDoPlano);
-
-            Assert.IsTrue(plano == retornado);
+            Assert.IsTrue(convenio == retornado);
         }
 
     }

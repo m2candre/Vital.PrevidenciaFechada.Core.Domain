@@ -90,5 +90,18 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponentePlano
 
             Assert.That(campo.Id, Is.EqualTo(id));
         }
+
+		[Test]
+		public void copiar_modelo_para_rascunho()
+		{
+			var modeloProposta = new ModeloDeProposta();
+			modeloProposta.AdicionarCampo("Nome");
+			modeloProposta.AdicionarCampo("Identidade");
+
+			var modeloCopiado = modeloProposta.CopiarParaRascunho();
+
+			Assert.AreNotSame(modeloProposta, modeloCopiado);
+			Assert.That(modeloProposta.Campos.Count, Is.EqualTo(modeloCopiado.Campos.Count));
+		}
     }
 }

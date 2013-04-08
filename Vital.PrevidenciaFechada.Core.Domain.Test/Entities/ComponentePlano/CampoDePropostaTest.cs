@@ -5,7 +5,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponentePlano
 {
     [TestFixture]
-    public class CampoDoModeloDePropostaTest
+    public class CampoDePropostaTest
     {
         [Test]
         public void atualizar_o_nome_do_campo_com_sucesso()
@@ -16,6 +16,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponentePlano
 
             Assert.That(campo.Nome, Is.EqualTo("nome"));
         }
+
+		[Test]
+		public void copiar_para_rascunho()
+		{
+			CampoDeProposta campo = new CampoDeProposta("Identidade");
+			CampoDeProposta campoCopiado = campo.CopiarParaRascunho();
+
+			Assert.AreNotSame(campo, campoCopiado);
+		}
 
         [Test]
         [ExpectedException]
