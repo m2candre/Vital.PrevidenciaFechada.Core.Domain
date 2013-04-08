@@ -30,7 +30,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Convênios de Adesão com Patrocinadores e/ou Instituidores
         /// </summary>
-        public virtual IList<ConvenioDeAdesao> ConvenioDeAdesao { get; set; }
+        public virtual IList<ConvenioDeAdesao> ConveniosDeAdesao { get; set; }
 
         /// <summary>
         /// Tipos de documento
@@ -49,7 +49,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public Plano()
         {
             Regulamento = new Regulamento();
-            ConvenioDeAdesao = new List<ConvenioDeAdesao>();
+            ConveniosDeAdesao = new List<ConvenioDeAdesao>();
             TiposDeDocumento = new List<TipoDeDocumento>();
         }
 

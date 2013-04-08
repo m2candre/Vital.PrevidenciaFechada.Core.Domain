@@ -19,6 +19,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual Guid Id { get; set; }
 
+		/// <summary>
+		/// Plano aderido
+		/// </summary>
+		public virtual Plano Plano { get; set; }
+
         /// <summary>
         /// Pessoa jurídica ( Patrocinador/ Instituidor )
         /// </summary>
@@ -47,7 +52,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Adiciona uma proposta ao convênio de adesão de uma Pessoa Jurídica com um plano
         /// </summary>
         /// <param name="proposta">proposta</param>
-        public virtual void Adicionar(Proposta proposta)
+        public virtual void AdicionarProposta(Proposta proposta)
         {
             #region Pré-Condições
 
@@ -70,6 +75,34 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             foiAdicionadaUmaPropostaComSucesso.Validate();
         }
+
+		/// <summary>
+		/// Adiciona um modelo de proposta ao convênio de adesão de uma Pessoa Jurídica a um Plano
+		/// </summary>
+		/// <param name="modeloDeProposta"></param>
+		public virtual void AdicionarModeloDeProposta(ModeloDeProposta modeloDeProposta)
+		{
+			#region Pré-Condições
+
+			IAssertion oModeloDePropostaFoiInformado = Assertion.NotNull(modeloDeProposta, "O modelo de proposta não foi informado");
+			IAssertion aListaDeModelosDePropostaFoiInicializada = Assertion.NotNull(ModelosDeProposta, "A lista modelos de proposta não foi inicializada");
+
+			#endregion
+
+			oModeloDePropostaFoiInformado.and(aListaDeModelosDePropostaFoiInicializada).Validate();
+
+			int quantidadeDeModelosAntesDeAdicionar = ModelosDeProposta.Count;
+
+			ModelosDeProposta.Add(modeloDeProposta);
+
+			#region Pós-condição
+
+			IAssertion umModeloDePropostaFoiAdicionado = Assertion.Equals(quantidadeDeModelosAntesDeAdicionar + 1, ModelosDeProposta.Count, "O modelo de proposta não foi adiciona na lista");
+
+			#endregion
+
+			umModeloDePropostaFoiAdicionado.Validate();
+		}
 
         /// <summary>
         /// Obtem o único modelo de proposta publicado

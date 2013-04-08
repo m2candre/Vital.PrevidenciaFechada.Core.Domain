@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vital.InfraStructure.DSL.DesignByContract;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade
@@ -21,25 +22,26 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade
         public virtual string Nome { get; set; }
 
         /// <summary>
-        /// Lista de Planos da Entidade
+        /// Lista de Convênios de Adesão
         /// </summary>
-        public virtual IList<Plano> Planos { get; set; }
+		/// <remarks>Uma entidade administra plano através de um convênio de adesão</remarks>
+        public virtual IList<ConvenioDeAdesao> ConveniosDeAdesao { get; set; }
 
         /// <summary>
         /// Construtor, sem dependencias
         /// </summary>
         public Entidade()
         {
-            Planos = new List<Plano>();
+            ConveniosDeAdesao = new List<ConvenioDeAdesao>();
         }
 
         /// <summary>
         /// Adiciona um plano a Entidade
         /// </summary>
         /// <param name="plano">Plano novo da Entidade</param>
-        public virtual void AdicionarPlano(Plano plano)
+        public virtual void AdicionarConvenio(ConvenioDeAdesao convenioDeAdesao)
         {
-            Planos.Add(plano);
+            ConveniosDeAdesao.Add(convenioDeAdesao);
         }
 
         /// <summary>
@@ -47,10 +49,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade
         /// </summary>
         /// <param name="id">Id do Plano</param>
         /// <returns></returns>
-        public virtual Plano BuscarPlanoCom(Guid id)
-        {
-            //TODO: incluir Dbc, e se não há planos??
-            return Planos.FirstOrDefault(p => p.Id == id);
+        public virtual ConvenioDeAdesao BuscarConvenioPorId(Guid id)
+		{
+			#region Pré-condições
+
+			IAssertion aListaDeConveniosEstaPreenchida = Assertion.NotNull(ConveniosDeAdesao, "A lista de convênios de adesão não pode estar nula");
+
+			#endregion
+
+			aListaDeConveniosEstaPreenchida.Validate();
+
+			return ConveniosDeAdesao.FirstOrDefault(p => p.Id == id);
         }
     }
 }

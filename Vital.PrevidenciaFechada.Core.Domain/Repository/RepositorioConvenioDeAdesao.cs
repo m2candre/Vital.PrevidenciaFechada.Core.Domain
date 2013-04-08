@@ -34,7 +34,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
             var plano = criterioPlano.UniqueResult<Plano>();
 
-            int ultimoNumeroDaProposta = (from cp in plano.ConvenioDeAdesao
+            int ultimoNumeroDaProposta = (from cp in plano.ConveniosDeAdesao
                                              join c in convenios on cp.Id equals c.Id
                                              select c.Propostas.Max(x=> x.Numero)).SingleOrDefault();
 
