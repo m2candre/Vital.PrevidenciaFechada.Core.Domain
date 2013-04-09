@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteDocumento;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
@@ -24,6 +25,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// Tipo de Rejeição
         /// </summary>
         public virtual TipoRejeicao TipoRejeicao { get; set; }
+
+        /// <summary>
+        /// Documentos
+        /// </summary>
+        public virtual IList<Documento> Documentos { get; set; }
 
 		/// <summary>
 		/// Nome do prospect
@@ -88,6 +94,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         public Proposta()
         {
             Valores = new List<ValorDeCampo>();
+            Documentos = new List<Documento>();
         }
 
         /// <summary>
@@ -113,6 +120,38 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		{
             AlterarEstadoPelaAcao("Recusar");
 		}
+
+        /// <summary>
+        /// Adiciona um documento na proposta
+        /// </summary>
+        /// <param name="documento">documento</param>
+        public virtual void AdicionarDocumento(Documento documento)
+        {
+            #region Pré-Condições
+
+            IAssertion aListaDeDocumentoFoiInicializada = Assertion.NotNull(Documentos, "A lista de documentos não foi inicializada");
+            IAssertion oDocumentoFoiInformado = Assertion.NotNull(documento, "O documento não foi informado");
+            IAssertion oTokenDoDocumentoFoiInformado = Assertion.LambdaAssertion(() => documento.Token != Guid.Empty, "O Token do documento não foi informado");
+            IAssertion oDocumentoExisteNaBaseDeDados = Assertion.LambdaAssertion(() => documento.Id != Guid.Empty, "Não é possível anexar um documento inexistente na base na proposta");
+            IAssertion oDocumentoPossuiNome = Assertion.IsFalse(string.IsNullOrWhiteSpace(documento.Nome), "O Nome do documento não foi informado");
+
+            #endregion
+
+            aListaDeDocumentoFoiInicializada.and(oDocumentoFoiInformado).
+                AND(oTokenDoDocumentoFoiInformado.and(oDocumentoExisteNaBaseDeDados).and(oDocumentoPossuiNome)).Validate();
+
+            int quantidadeDeDocumentosAtual = Documentos.Count;
+
+            Documentos.Add(documento);
+
+            #region Pós-Condições
+
+            IAssertion oDocumentoFoiAnexadoAPropostaComSucesso = Assertion.GreaterThan(Documentos.Count, quantidadeDeDocumentosAtual, "Não foi possível anexar o documento na proposta");
+
+            #endregion
+
+            oDocumentoFoiAnexadoAPropostaComSucesso.Validate();
+        }
 
         /// <summary>
         /// Altera o Estado na máquina de estado da proposta pela ação

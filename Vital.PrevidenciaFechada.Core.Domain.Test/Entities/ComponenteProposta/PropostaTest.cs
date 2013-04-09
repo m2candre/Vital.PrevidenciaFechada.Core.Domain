@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteDocumento;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
@@ -99,5 +100,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 
 			Assert.That(_proposta.Estado, Is.EqualTo("Teste"));
 		}
+
+        [Test]
+        public void adicionar_documento_na_proposta_com_sucesso()
+        {
+            _proposta.AdicionarDocumento(new Documento { Nome = "teste", Id = Guid.NewGuid(), Token = Guid.NewGuid() });
+
+            Assert.That(_proposta.Documentos.Count, Is.EqualTo(1));
+        }
 	}
 }

@@ -85,6 +85,7 @@
     <Compile Include="Entities\ComponenteEntidade\Entidade.cs" />
     <Compile Include="Entities\ComponentePlano\Plano.cs" />
     <Compile Include="Entities\ComponenteProposta\CriteriosDeConsultaPorPlanoEstadoData.cs" />
+    <Compile Include="Entities\ComponenteDocumento\Documento.cs" />
     <Compile Include="Entities\ComponenteProposta\IRepositorioProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\Proposta.cs" />
