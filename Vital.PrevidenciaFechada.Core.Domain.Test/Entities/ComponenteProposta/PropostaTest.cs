@@ -42,16 +42,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 			_proposta.Estado = null;
 
 			Assert.That(_proposta.Estado, Is.Not.Empty);
-			Assert.That(_proposta.Estado, Is.EqualTo("Iniciada"));
+            Assert.That(_proposta.Estado, Is.EqualTo("EmRascunho"));
 		}
 
 		[Test]
 		public void maquina_da_proposta_sendo_setada_com_sucesso()
 		{
-			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("Iniciada", _proposta);
+			_proposta.MaquinaDeEstado = new MaquinaDeEstadoDaProposta("EmRascunho", _proposta);
 
 			Assert.That(_proposta.MaquinaDeEstado, Is.Not.Null);
-			Assert.That(_proposta.MaquinaDeEstado.EstadoAtual, Is.EqualTo("Iniciada"));
+            Assert.That(_proposta.MaquinaDeEstado.EstadoAtual, Is.EqualTo("EmRascunho"));
 		}
 
 		[Test]

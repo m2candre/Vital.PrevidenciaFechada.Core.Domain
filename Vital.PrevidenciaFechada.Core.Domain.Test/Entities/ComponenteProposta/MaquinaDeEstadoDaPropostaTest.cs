@@ -14,7 +14,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		public void iniciar()
 		{
 			Proposta proposta = new Proposta();
-			_maquina = new MaquinaDeEstadoDaProposta("Iniciada", proposta);
+			_maquina = new MaquinaDeEstadoDaProposta("EmRascunho", proposta);
 		}
 
 		[Test]
@@ -28,7 +28,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		public void construir_a_maquina_sem_passar_o_objeto_proposta_lanca_excecao()
 		{
 			MaquinaDeEstadoDaProposta maquina;
-			Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("Iniciada", null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A proposta não foi informada"));
+            Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("EmRascunho", null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A proposta não foi informada"));
 		}
 
 		[Test]

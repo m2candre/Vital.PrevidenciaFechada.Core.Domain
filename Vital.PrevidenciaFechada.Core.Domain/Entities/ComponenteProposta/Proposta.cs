@@ -48,7 +48,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			get
 			{
 				if (string.IsNullOrWhiteSpace(_estado))
-					_estado = "Iniciada";
+					_estado = "EmRascunho";
 
 				return _estado;
 			}
@@ -63,7 +63,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			get
 			{
 				if (_maquinaDeEstadoDaProposta == null)
-					_maquinaDeEstadoDaProposta = new MaquinaDeEstadoDaProposta("Iniciada", this);
+					_maquinaDeEstadoDaProposta = new MaquinaDeEstadoDaProposta("EmRascunho", this);
 
 				return _maquinaDeEstadoDaProposta;
 			}
