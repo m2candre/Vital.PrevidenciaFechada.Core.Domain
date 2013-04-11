@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vital.InfraStructure.ExceptionHandling;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteDocumento;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
@@ -67,8 +68,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		public void autorizar_com_maquina_de_estado_nula_lanca_excecao()
 		{
 			PropostaStub propostaStub = new PropostaStub();
-			
-			Assert.That(() => propostaStub.Autorizar(), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
+
+            Assert.That(() => propostaStub.Autorizar(), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
 		}
 
 		[Test]
@@ -76,7 +77,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		{
 			PropostaStub propostaStub = new PropostaStub();
 
-			Assert.That(() => propostaStub.Recusar(), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
+            Assert.That(() => propostaStub.Recusar(), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("A máquina de estados da proposta deve ser inicializada"));
 		}
 
 		[Test]
@@ -90,7 +91,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_sem_informar_parametro_estado_lanca_excecao()
 		{
-			Assert.That(() => _proposta.AlterarEstado(""), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado não foi informado"));
+            Assert.That(() => _proposta.AlterarEstado(""), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("O estado não foi informado"));
 		}
 
 		[Test]

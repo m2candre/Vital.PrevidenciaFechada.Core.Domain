@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vital.InfraStructure.AOP;
 using Vital.InfraStructure.DSL.DesignByContract;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica;
 

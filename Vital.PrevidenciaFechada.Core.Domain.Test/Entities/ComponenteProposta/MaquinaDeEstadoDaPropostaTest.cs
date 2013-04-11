@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
+using Vital.InfraStructure.ExceptionHandling;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
@@ -21,14 +22,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		public void construir_a_maquina_sem_passar_estado_inicial_lanca_excecao()
 		{
 			MaquinaDeEstadoDaProposta maquina;
-			Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("", new Proposta()), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("O estado inicial não foi informado"));
+			Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("", new Proposta()), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("O estado inicial não foi informado"));
 		}
 
 		[Test]
 		public void construir_a_maquina_sem_passar_o_objeto_proposta_lanca_excecao()
 		{
 			MaquinaDeEstadoDaProposta maquina;
-            Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("EmRascunho", null), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A proposta não foi informada"));
+            Assert.That(() => maquina = new MaquinaDeEstadoDaProposta("EmRascunho", null), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("A proposta não foi informada"));
 		}
 
 		[Test]
@@ -42,7 +43,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 		[Test]
 		public void alterar_estado_lanca_excecao_se_acao_nao_for_informada()
 		{
-			Assert.That(() => _maquina.AlterarEstadoPelaAcao(""), Throws.Exception.TypeOf<Exception>().With.Property("Message").EqualTo("A ação não foi informada"));
+            Assert.That(() => _maquina.AlterarEstadoPelaAcao(""), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("A ação não foi informada"));
 		}
 
 		[Test]

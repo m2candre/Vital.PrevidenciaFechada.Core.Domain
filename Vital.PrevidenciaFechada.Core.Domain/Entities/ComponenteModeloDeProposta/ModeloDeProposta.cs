@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Vital.InfraStructure.AOP;
 using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
