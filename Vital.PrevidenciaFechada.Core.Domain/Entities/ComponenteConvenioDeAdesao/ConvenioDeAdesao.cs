@@ -139,7 +139,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <returns>ModeloDeProposta</returns>
         public virtual ModeloDeProposta ObterModeloDePropostaPublicado()
         {
-            return ModelosDeProposta.SingleOrDefault(x => x.DataDePublicacao == ModelosDeProposta.Max(y => y.DataDePublicacao));
+			var modeloDePropostaPublicado = ModelosDeProposta.SingleOrDefault(x => x.DataDePublicacao == ModelosDeProposta.Max(y => y.DataDePublicacao));
+
+			#region Pós-condições
+
+			IAssertion oModeloDePropostaFoiEncontrado = Assertion.NotNull(modeloDePropostaPublicado, "Modelo de proposta não encontrado");
+
+			#endregion
+
+			oModeloDePropostaFoiEncontrado.Validate();
+
+			return modeloDePropostaPublicado;
         }
     }
 }
