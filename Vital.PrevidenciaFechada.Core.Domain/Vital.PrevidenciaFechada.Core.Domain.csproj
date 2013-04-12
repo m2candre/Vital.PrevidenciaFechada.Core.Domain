@@ -96,6 +96,7 @@
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Patrocinador.cs" />
+    <Compile Include="Entities\Comun\Erro.cs" />
     <Compile Include="Mappers\CriticaMapper.cs" />
     <Compile Include="Mappers\PropostaMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Services\ServicoConsultarPropostas.cs" />
     <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
     <Compile Include="Services\ServicoObterCriticasDaProposta.cs" />
+    <Compile Include="Services\ServicoObterUltimoCodigoDeErro.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
