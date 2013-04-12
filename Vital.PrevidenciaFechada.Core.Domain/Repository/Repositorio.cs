@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using NHibernate;
-using Vital.PrevidenciaFechada.Core.Domain.Entities;
+﻿using NHibernate;
 using NHibernate.Criterion;
-using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade;
+using System;
+using System.Collections.Generic;
+using Vital.PrevidenciaFechada.Core.Domain.Entities;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
@@ -90,6 +89,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return criteria.List<T>();
         }
 
+		/// <summary>
+		/// Obtém um objeto de acordo com um critério específico
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="criterios"></param>
+		/// <returns></returns>
+		public T ObterPor<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios) where T : class
+		{
+			var criteria = Session.CreateCriteria(typeof(T))
+				 .Add(VitalCriterion.Where<T>(criterios));
+
+			return criteria.UniqueResult<T>();
+		}
+
         /// <summary>
         /// Filtrar todos 
         /// </summary>
@@ -107,6 +120,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return criteria.List<T>();
         }
 
+		/// <summary>
+		/// Obtém lista de objetos de acordo com filtros e navegação em páginas
+		/// </summary>
+		/// <param name="consulta"></param>
+		/// <returns></returns>
         public IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T))
@@ -122,5 +140,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
             return criteria.List<T>();
         }
-    }
+	}
 }

@@ -214,6 +214,26 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             session.VerifyAllExpectations();
         }
 
+		[Test]
+		public void obter_unico_objeto_de_acordo_com_criterio()
+		{
+			Expression<Func<Plano, bool>> criterio = p => p.Nome == "Teste";
+
+			vitalCriterion.Expect(x => x.Where<Plano>(criterio)).Return(criterion);
+			criteria.Expect(x => x.Add(criterion)).Return(criteria);
+
+			session.Expect(x => x.CreateCriteria(typeof(Plano))).Return(criteria);
+
+			Repositorio<Plano> repositorio = new Repositorio<Plano>(session);
+			repositorio.VitalCriterion = vitalCriterion;
+
+			repositorio.ObterPor<Plano>(criterio);
+
+			criteria.VerifyAllExpectations();
+			vitalCriterion.VerifyAllExpectations();
+			session.VerifyAllExpectations();
+		}
+
         [Test]
         public void get_vital_criterion_nao_deve_retornar_nulo()
         {
