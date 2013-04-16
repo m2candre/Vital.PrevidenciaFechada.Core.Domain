@@ -95,7 +95,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			aMaquinaDeEstadoFoiInicializada.Validate();
 
             _maquina.Configure("EmRascunho")
-                .Permit("Autorizar", "Autorizada")
+				.Permit("Autorizar", "Autorizada")
                 .Permit("Recusar", "NaoAutorizada")
                 .Permit("Rejeitar", "Rejeitada");
 		}

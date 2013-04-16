@@ -101,13 +101,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteProposta
 
 			Assert.That(_proposta.Estado, Is.EqualTo("Teste"));
 		}
-
-        [Test]
-        public void adicionar_documento_na_proposta_com_sucesso()
-        {
-            _proposta.AdicionarDocumento(new Documento { Nome = "teste", Id = Guid.NewGuid(), Token = Guid.NewGuid() });
-
-            Assert.That(_proposta.Documentos.Count, Is.EqualTo(1));
-        }
 	}
 }

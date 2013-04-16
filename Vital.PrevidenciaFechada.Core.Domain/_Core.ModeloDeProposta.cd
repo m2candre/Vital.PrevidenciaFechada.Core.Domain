@@ -1,2 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.ConvenioDeAdesao">
+    <Position X="1.75" Y="0.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="ModelosDeProposta" Type="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.ModeloDeProposta">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.287" Y="0.029" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAAAAAAABAEAAAEAAAAAAAAAQgJAAAA=</HashCode>
+      <FileName>Entities\ComponenteConvenioDeAdesao\ConvenioDeAdesao.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ModelosDeProposta" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.ModeloDeProposta">
+    <Position X="6" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="Campos" Type="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.CampoDeProposta">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.475" Y="0.039" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>CgIKAAAAAAAAAAAAAAAAQoEAACAAABAAACAAAAgAAAA=</HashCode>
+      <FileName>Entities\ComponenteModeloDeProposta\ModeloDeProposta.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Campos" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.CampoDeProposta">
+    <Position X="9.5" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAKAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\ComponenteModeloDeProposta\CampoDeProposta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta.Proposta">
+    <Position X="5.75" Y="3.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="ModeloDeProposta" Type="Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano.ModeloDeProposta">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.016" Y="0.258" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AEACJACAAAABAAEAAAAEAACAAABAAAAABAAAAAABACg=</HashCode>
+      <FileName>Entities\ComponenteProposta\Proposta.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ModeloDeProposta" />
+    </ShowAsAssociation>
+    <Lollipop Position="1.485" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

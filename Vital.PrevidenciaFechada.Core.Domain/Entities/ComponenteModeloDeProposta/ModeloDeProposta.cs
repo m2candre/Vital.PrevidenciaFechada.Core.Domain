@@ -26,10 +26,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual bool Publicada { get; protected set; }
 
         /// <summary>
-        /// HTML do modelo da proposta
+        /// Template HTML para formulário da proposta
         /// </summary>
-        public virtual string TemplateHTML { get; set; }
-		
+        public virtual string TemplateDeFormulario { get; set; }
+
+		/// <summary>
+		/// Template HTML para impressão da proposta
+		/// </summary>
+		public virtual string TemplateDeImpressao { get; set; }
+
         /// <summary>
         /// Data em que o Modelo foi publicado
         /// </summary>
@@ -167,5 +172,35 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             return campo;
         }
+
+		/// <summary>
+		/// Renderiza um HTML de formulário com base nos campos existentes na proposta
+		/// </summary>
+		/// <returns></returns>
+		public virtual string RenderizarTemplateDeFormulario()
+		{
+			#region Pré-condições
+
+			Assertion.NotNull(TemplateDeFormulario, "O template de formulário deste Modelo de Proposta não foi definido").Validate();
+
+			#endregion
+
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// Renderiza um HTML para exibição em impressão com base nos campos existentes na proposta
+		/// </summary>
+		/// <returns></returns>
+		public virtual string RenderizarTemplateDeImpressao()
+		{
+			#region Pré-condições
+
+			Assertion.NotNull(TemplateDeImpressao, "O template de impressão deste Modelo de Proposta não foi definido").Validate();
+
+			#endregion
+
+			return string.Empty;
+		}
     }
 }
