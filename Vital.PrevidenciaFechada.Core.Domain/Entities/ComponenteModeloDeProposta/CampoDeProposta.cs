@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
@@ -21,17 +22,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Classe css com o tamanho do campo
         /// </summary>
-        public virtual int IdTamanhoDoCampo { get; set; }
+        public virtual TamanhoDoCampo TamanhoDoCampo { get; set; }
 
         /// <summary>
         /// O campo pode ser um título, imagem, seleção única
         /// </summary>
-        public virtual int IdModeloDoCampo { get; set; }
+        public virtual ModeloDoCampo ModeloDoCampo { get; set; }
 
         /// <summary>
         /// O campo pode ser do tipo CPF, CEP, Data
         /// </summary>
-        public virtual int IdTipoDoCampo { get; set; }
+        public virtual TipoDoCampo TipoDoCampo { get; set; }
+
+        /// <summary>
+        /// Registra os valores para um modelo
+        /// </summary>
+        public virtual HashSet<ValoresDoCampo> ValoresDoCampo { get; set; }
 
         /// <summary>
         /// Título do campo
@@ -102,6 +108,23 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             
         }
 
+        public string Render()
+        {
+
+
+            return string.Empty;
+        }
+
+        public static implicit operator string(CampoDeProposta campoDeProposta)
+        {
+            return campoDeProposta.Render();
+        }
+
+        public override string ToString()
+        {
+            return Render();
+        }
+
         /// <summary>
         /// Construtor - Dependencia com o Nome do Campo
         /// </summary>
@@ -153,59 +176,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
 
 
-    public class TamanhoDoCampo
-    {
-        /// <summary>
-        /// Identificador do tamanho do campo
-        /// </summary>
-        public virtual int Id { get; set; }
 
-        /// <summary>
-        /// Classe CSS para o campo
-        /// </summary>
-        public virtual string Classe { get; set; }
-    }
 
-    public class TipoDoCampo
-    {
-        /// <summary>
-        /// Identificador do tipo do campo
-        /// </summary>
-        public virtual int Id { get; set; }
 
-        /// <summary>
-        /// Tipo do campo
-        /// </summary>
-        public virtual string Tipo { get; set; }
-    }
 
-    public class ValoresDoCampo
-    {
-        /// <summary>
-        /// Identificador dos valores do campo
-        /// </summary>
-        public virtual int Id { get; set; }
 
-        /// <summary>
-        /// Vincula um campo a proposta
-        /// </summary>
-        public virtual int IdCampoDeProposta { get; set; }
-
-        /// <summary>
-        /// Exibe o valor
-        /// </summary>
-        public virtual string Valor { get; set; }
-
-        /// <summary>
-        /// Exibe o rotulo
-        /// </summary>
-        public virtual string Rotulo { get; set; }
-
-        /// <summary>
-        /// Exibe a ordem dos dados na lista
-        /// </summary>
-        public virtual int Ordem { get; set; }
-    }
 
 
 

@@ -11,7 +11,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Identificador do tamanho do campo
         /// </summary>
-        public virtual int Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         /// <summary>
         /// Classe CSS para o campo

@@ -11,12 +11,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Identificador dos valores do campo
         /// </summary>
-        public virtual int Id { get; set; }
-
-        /// <summary>
-        /// Vincula um campo a proposta
-        /// </summary>
-        public virtual int IdCampoDeProposta { get; set; }
+        public virtual Guid Id { get; set; }
 
         /// <summary>
         /// Exibe o valor

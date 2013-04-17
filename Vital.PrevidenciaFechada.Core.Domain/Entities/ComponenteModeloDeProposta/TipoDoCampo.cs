@@ -11,7 +11,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Identificador do tipo do campo
         /// </summary>
-        public virtual int Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         /// <summary>
         /// Tipo do campo
