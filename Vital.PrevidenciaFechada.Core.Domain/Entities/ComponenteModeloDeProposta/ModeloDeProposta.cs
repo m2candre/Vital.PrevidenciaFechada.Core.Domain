@@ -59,7 +59,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             #region Pré-Condições
 
-            IAssertion existemCamposParaPublicar = Assertion.IsFalse(Campos.Count == 0, "O Rascunho do Modelo de Proposta não pode estar sem campos");
+            IAssertion existemCamposParaPublicar = Assertion.IsFalse(Campos.Count == 0, "O rascunho do Modelo de Proposta não pode estar sem campos");
 
             existemCamposParaPublicar.Validate(this);
 

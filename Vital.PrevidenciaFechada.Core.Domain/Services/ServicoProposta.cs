@@ -20,10 +20,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 	public class ServicoProposta
 	{
 		private IRepositorioProposta _repositorioProposta;
-		private IRepositorio<Plano> _repositorioPlano;
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private CriteriosDeConsultaPorPlanoEstadoData _criteriosConsulta;
+		private Proposta _proposta;
 		private DateTime _data;
+
+		/// <summary>
+		/// Obtém uma nova proposta setando a data de criação para a data/hora atual
+		/// </summary>
+		public Proposta NovaProposta
+		{
+			get
+			{
+				if (_proposta == null)
+					_proposta = new Proposta { DataDeCriacao = Data };
+
+				return _proposta;
+			}
+			set { _proposta = value; }
+		}
 
 		/// <summary>
 		/// Obtém data atual, se data não estiver definida
@@ -121,9 +136,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// </summary>
 		/// <param name="propostaDTO">proposta</param>
 		/// <returns>Lista de críticas</returns>
-		public virtual IList<CriticaDTO> ObterCriticasDaProposta(PropostaDTO propostaDTO, Guid IdDoPlano)
+		public virtual IList<CriticaDTO> ObterCriticasDaProposta(PropostaDTO propostaDTO, Guid idDoConvenioDeAdesao)
 		{
-			var plano = _repositorioPlano.PorId(IdDoPlano);
+			var convenio = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
+
+			var plano = convenio.Plano;
 
 			var propostaVO = new PropostaMapper().DePropostaDTOParaPropostaVO(propostaDTO);
 
@@ -143,12 +160,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			
 			ModeloDeProposta modeloDePropostaPublicado = convenioDeAdesao.ObterModeloDePropostaPublicado();
 
-			Proposta novaProposta = new Proposta();
-			novaProposta.Numero = ultimoNumeroDeProposta + 1;
-			novaProposta.ModeloDeProposta = modeloDePropostaPublicado;
+			NovaProposta.Numero = ultimoNumeroDeProposta + 1;
+			NovaProposta.ModeloDeProposta = modeloDePropostaPublicado;
 
-			_repositorioProposta.Adicionar(novaProposta);
-			convenioDeAdesao.Propostas.Add(novaProposta);
+			_repositorioProposta.Adicionar(NovaProposta);
+			convenioDeAdesao.AdicionarProposta(NovaProposta);
+			
 			_repositorioConvenio.Adicionar(convenioDeAdesao);
 		}
 

@@ -149,6 +149,7 @@
     <Compile Include="Services\ServicoConsultarPropostasTest.cs" />
     <Compile Include="Services\ServicoGerarNumeroDePropostaTest.cs" />
     <Compile Include="Services\ServicoObterCriticasDaPropostaTest.cs" />
+    <Compile Include="Services\ServicoPropostaTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
