@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
+using Vital.PrevidenciaFechada.Core.Domain.Repository;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao
 {
     /// <summary>
     /// Repositório de Convênio de Adesão
     /// </summary>
-    public interface IRepositorioConvenioDeAdesao
+    public interface IRepositorioConvenioDeAdesao : IRepositorio<ConvenioDeAdesao>
     {
         /// <summary>
-        /// Último número de proposta
+        /// Obtém o último número de proposta para um Convênio de Adesão
         /// </summary>
-        /// <param name="PlanoId">PlanoId</param>
-        /// <param name="PessoaJuridicaId">PessoaJuridicaId</param>
-        /// <returns>int</returns>
-        int UltimoNumeroDeProposta(Guid PlanoId, Guid PessoaJuridicaId);
+        /// <param name="idDoConvenioDeAdesao">ID do convênio de adesão</param>
+        /// <returns></returns>
+        int UltimoNumeroDeProposta(Guid idDoConvenioDeAdesao);
     }
 }

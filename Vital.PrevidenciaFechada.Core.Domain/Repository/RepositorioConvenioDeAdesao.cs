@@ -15,28 +15,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
     /// </summary>
     public class RepositorioConvenioDeAdesao : Repositorio<ConvenioDeAdesao>, IRepositorioConvenioDeAdesao
     {
-        /// <summary>
-        /// Último número de proposta
-        /// </summary>
-        /// <param name="PlanoId">PlanoId</param>
-        /// <param name="PessoaJuridicaId">PessoaJuridicaId</param>
-        /// <returns>int</returns>
-        public int UltimoNumeroDeProposta(Guid PlanoId, Guid PessoaJuridicaId)
+		/// <summary>
+		/// Obtém o último número de proposta para um Convênio de Adesão
+		/// </summary>
+		/// <param name="idDoConvenioDeAdesao">ID do convênio de adesão</param>
+		/// <returns></returns>
+		public int UltimoNumeroDeProposta(Guid idDoConvenioDeAdesao)
         {
-            var criterio = Session.CreateCriteria(typeof(ConvenioDeAdesao), "c")
-                  .CreateCriteria("c.PessoaJuridica", "pj", NHibernate.SqlCommand.JoinType.InnerJoin)
-                  .Add(Expression.Eq("pj.Id", PessoaJuridicaId));
+			ConvenioDeAdesao convenio = PorId(idDoConvenioDeAdesao);
 
-            var convenios = criterio.List<ConvenioDeAdesao>();
-
-            var criterioPlano = Session.CreateCriteria(typeof(Plano), "p")
-                .Add(Expression.Eq("p.Id", PlanoId));
-
-            var plano = criterioPlano.UniqueResult<Plano>();
-
-            int ultimoNumeroDaProposta = (from cp in plano.ConveniosDeAdesao
-                                             join c in convenios on cp.Id equals c.Id
-                                             select c.Propostas.Max(x=> x.Numero)).SingleOrDefault();
+            int ultimoNumeroDaProposta = convenio.Propostas.Max(x=> x.Numero);
 
             return ultimoNumeroDaProposta;
         }
