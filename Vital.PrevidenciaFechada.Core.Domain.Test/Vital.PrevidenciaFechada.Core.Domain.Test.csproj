@@ -133,7 +133,6 @@
     <Compile Include="Entities\ComponentePlano\ModeloDePropostaTest.cs" />
     <Compile Include="Entities\ComponentePlano\PlanoTest.cs" />
     <Compile Include="Entities\ComponentePlano\RegulamentoTest.cs" />
-    <Compile Include="Entities\ComponenteProposta\CriteriosDeConsultaPorPlanoEstadoDataTest.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaPropostaTest.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaTest.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaVOTest.cs" />
@@ -146,9 +145,6 @@
     <Compile Include="Repository\RepositorioPropostaTests.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
-    <Compile Include="Services\ServicoConsultarPropostasTest.cs" />
-    <Compile Include="Services\ServicoGerarNumeroDePropostaTest.cs" />
-    <Compile Include="Services\ServicoObterCriticasDaPropostaTest.cs" />
     <Compile Include="Services\ServicoPropostaTest.cs" />
   </ItemGroup>
   <ItemGroup>

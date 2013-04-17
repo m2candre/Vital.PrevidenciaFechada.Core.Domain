@@ -49,26 +49,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		[Test]
 		public void obter_propostas_por_estado_e_periodo_retorna_lista_corretamente()
 		{
-			Guid idDoPlano = Guid.NewGuid();
+			Guid idDoConvenioDeAdesao = Guid.NewGuid();
 			DateTime dataDaBusca = DateTime.Now;
-			Expression<Func<Proposta, bool>> criterios = proposta => proposta.Estado == "Registrada" && proposta.DataDeCriacao >= dataDaBusca;
-
-			var criteriosDeConsulta = MockRepository.GenerateMock<CriteriosDeConsultaPorPlanoEstadoData>();
-			criteriosDeConsulta.Expect(x => x.ObterCriterio(idDoPlano, "Registrada", dataDaBusca.AddDays(-20))).Return(criterios);
-
+			
 			ConsultaDTO consultaDTO = new ConsultaDTO();
 
-			List<Proposta> listaRetorno = new List<Proposta>
-			{
-				new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) },
-				new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) }
-			};
+			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
+			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
 
-			_servicoProposta.CriteriosConsulta = criteriosDeConsulta;
+			_repositorioConvenio.Expect(x => x.PorId(idDoConvenioDeAdesao)).Return(convenio);
+
 			_servicoProposta.Data = dataDaBusca;
-			_repositorioProposta.Expect(x => x.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO)).Return(listaRetorno);
 
-			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 20, consultaDTO).ToList();
+			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPeriodo(idDoConvenioDeAdesao, 20, consultaDTO) as List<Proposta>;
 
 			Assert.IsNotNull(propostas);
 			Assert.IsTrue(propostas.All(p => p.Estado == "Registrada" && p.DataDeCriacao >= dataDaBusca.AddDays(-20)));
@@ -77,26 +71,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		[Test]
 		public void obter_propostas_por_estado_e_periodo_e_quantidade_de_dias_vazia_calculando_trinta_dias_retorna_lista_corretamente()
 		{
-			Guid idDoPlano = Guid.NewGuid();
+			Guid idDoConvenioDeAdesao = Guid.NewGuid();
 			DateTime dataDaBusca = DateTime.Now;
-			Expression<Func<Proposta, bool>> criterios = proposta => proposta.Estado == "Registrada" && proposta.DataDeCriacao >= dataDaBusca;
-
-			var criteriosDeConsulta = MockRepository.GenerateMock<CriteriosDeConsultaPorPlanoEstadoData>();
-			criteriosDeConsulta.Expect(x => x.ObterCriterio(idDoPlano, "Registrada", dataDaBusca.AddDays(-30))).Return(criterios);
 
 			ConsultaDTO consultaDTO = new ConsultaDTO();
 
-			List<Proposta> listaRetorno = new List<Proposta>
-			{
-				new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-20) },
-				new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-25) }
-			};
+			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
+			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
 
-			_servicoProposta.CriteriosConsulta = criteriosDeConsulta;
+			_repositorioConvenio.Expect(x => x.PorId(idDoConvenioDeAdesao)).Return(convenio);
+
 			_servicoProposta.Data = dataDaBusca;
-			_repositorioProposta.Expect(x => x.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO)).Return(listaRetorno);
 
-			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(idDoPlano, "Registrada", 0, consultaDTO).ToList();
+			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPeriodo(idDoConvenioDeAdesao, 0, consultaDTO) as List<Proposta>;
 
 			Assert.IsNotNull(propostas);
 
@@ -132,30 +120,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_data_atual_corretamente()
 		{
 			Assert.That(_servicoProposta.Data, Is.Not.Null);
-		}
-
-		[Test]
-		public void obter_criterios_para_consulta_corretamente()
-		{
-			Assert.That(_servicoProposta.CriteriosConsulta, Is.Not.Null);
-		}
-
-		[Test]
-		public void obter_propostas_sem_informar_o_id_do_plano_lanca_excecao()
-		{
-			Assert.That(() => _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(Guid.Empty, "Registrada", 20, new ConsultaDTO()), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("O ID do plano deve ser informado"));
-		}
-
-		[Test]
-		public void obter_propostas_sem_informar_o_estado_da_proposta_lanca_excecao()
-		{
-			Assert.That(() => _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "", 20, new ConsultaDTO()), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("O estado da proposta deve ser informado"));
-		}
-
-		[Test]
-		public void obter_propostas_sem_informar_o_dto_de_propostas_lanca_excecao()
-		{
-			Assert.That(() => _servicoProposta.ObterPropostasPorPlanoEstadoEPeriodo(Guid.NewGuid(), "Registrada", 20, null), Throws.Exception.TypeOf<BusinessException>().With.Property("Message").EqualTo("O DTO de consulta não foi informado corretamente"));
 		}
 	}
 }

@@ -88,7 +88,6 @@
     <Compile Include="Entities\ComponenteModeloDeProposta\ModeloDeProposta.cs" />
     <Compile Include="Entities\ComponenteEntidade\Entidade.cs" />
     <Compile Include="Entities\ComponentePlano\Plano.cs" />
-    <Compile Include="Entities\ComponenteProposta\CriteriosDeConsultaPorPlanoEstadoData.cs" />
     <Compile Include="Entities\ComponenteDocumento\Documento.cs" />
     <Compile Include="Entities\ComponenteProposta\IRepositorioProposta.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaProposta.cs" />
@@ -111,9 +110,6 @@
     <Compile Include="Repository\RepositorioConvenioDeAdesao.cs" />
     <Compile Include="Repository\RepositorioProposta.cs" />
     <Compile Include="Repository\VitalCriterion.cs" />
-    <Compile Include="Services\ServicoConsultarPropostas.cs" />
-    <Compile Include="Services\ServicoGerarNumeroDeProposta.cs" />
-    <Compile Include="Services\ServicoObterCriticasDaProposta.cs" />
     <Compile Include="Services\ServicoObterUltimoCodigoDeErro.cs" />
     <Compile Include="Services\ServicoProposta.cs" />
   </ItemGroup>

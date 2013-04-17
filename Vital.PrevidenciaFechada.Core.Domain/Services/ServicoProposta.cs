@@ -11,6 +11,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Mappers;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 using Vital.Extensions.DateTimeExtensions;
+using System.Linq.Expressions;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Services
 {
@@ -21,7 +22,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 	{
 		private IRepositorioProposta _repositorioProposta;
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
-		private CriteriosDeConsultaPorPlanoEstadoData _criteriosConsulta;
 		private Proposta _proposta;
 		private DateTime _data;
 
@@ -55,21 +55,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		}
 
 		/// <summary>
-		/// Obtém a classe de criação dos critérios para a consulta
-		/// </summary>
-		public virtual CriteriosDeConsultaPorPlanoEstadoData CriteriosConsulta
-		{
-			get
-			{
-				if (_criteriosConsulta == null)
-					_criteriosConsulta = new CriteriosDeConsultaPorPlanoEstadoData();
-
-				return _criteriosConsulta;
-			}
-			set { _criteriosConsulta = value; }
-		}
-
-		/// <summary>
 		/// Construtor com injeção de dependência dos repositório de Proposta e Plano
 		/// </summary>
 		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorioConvenioDeAdesao repositorioConvenio)
@@ -99,28 +84,27 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Realiza consulta para obter as propostas pelo estado e período, informado em dias
 		/// </summary>
-		/// <param name="idDoPlano">ID do plano do contexto</param>
+		/// <param name="idDoConvenioDeAdesao">ID do convênio de adesão</param>
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public virtual IList<Proposta> ObterPropostasPorPlanoEstadoEPeriodo(Guid idDoPlano, string estado, int quantidadeDeDias, ConsultaDTO consultaDTO)
+		public virtual IList<Proposta> ObterPropostasPorPeriodo(Guid idDoConvenioDeAdesao, int quantidadeDeDias, ConsultaDTO consultaDTO)
 		{
 			#region Pré-condições
 
 			IAssertion oRepositorioFoiInjetadoNoServico = Assertion.NotNull(_repositorioProposta, "O repositório não foi injetado corretamente");
 			IAssertion oDTODeConsultaFoiInformado = Assertion.NotNull(consultaDTO, "O DTO de consulta não foi informado corretamente");
-			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoPlano != Guid.Empty, "O ID do plano deve ser informado");
-			IAssertion oEstadoFoiInformado = Assertion.IsFalse(string.IsNullOrWhiteSpace(estado), "O estado da proposta deve ser informado");
+			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoConvenioDeAdesao != Guid.Empty, "O ID do Convênio de Adesão deve ser informado");
 
 			#endregion
 
-			oRepositorioFoiInjetadoNoServico.and(oDTODeConsultaFoiInformado).and(oIDDoPlanoFoiInformado).and(oEstadoFoiInformado).Validate();
+			oRepositorioFoiInjetadoNoServico.and(oDTODeConsultaFoiInformado).and(oIDDoPlanoFoiInformado).Validate();
 
 			DateTime dataDaBusca = dataDaBusca = ObterDataParaConsulta(quantidadeDeDias);
 
-			var criterios = CriteriosConsulta.ObterCriterio(idDoPlano, estado, dataDaBusca);
+			var convenioDeAdesao = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
 
-			var propostasEncontradas = _repositorioProposta.ObterTodosFiltradosComCriterio<Proposta>(criterios, consultaDTO);
+			var propostasEncontradas = convenioDeAdesao.Propostas.Where(p => p.DataDeCriacao >= dataDaBusca);
 
 			#region Pós-condições
 
