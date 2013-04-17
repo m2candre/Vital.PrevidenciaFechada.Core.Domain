@@ -45,6 +45,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual string Titulo { get; set; }
 
         /// <summary>
+        /// Valor
+        /// </summary>
+        public virtual string Valor { get; set; }
+
+        /// <summary>
         /// Permite que o campo seja exibido nos grids de proposta
         /// </summary>
         public virtual bool ExibirNoGrid { get; set; }
@@ -105,10 +110,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public CampoDeProposta()
         {
-            
+
         }
 
-        public string Render()
+        public virtual string Render()
         {
 
 
@@ -152,7 +157,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual void AtualizarNome(string nome)
         {
             #region Pré-Condições
-            
+
             IAssertion nomeNaoEstaVazioOuNulo = Assertion.IsFalse(string.IsNullOrEmpty(nome), "Nome do campo não informado");
 
             #endregion
@@ -170,18 +175,4 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             nomeFoiAtualizadoCorretamente.Validate(this);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
