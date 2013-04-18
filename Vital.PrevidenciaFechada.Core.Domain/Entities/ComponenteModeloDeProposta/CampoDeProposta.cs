@@ -4,6 +4,7 @@ using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
+
     /// <summary>
     /// Representa um campo dentro de uma Proposta
     /// </summary>
@@ -17,22 +18,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <summary>
         /// Nome do Campo
         /// </summary>
-        public virtual string Nome { get; protected set; }
+        public virtual string Nome { get; set; }
 
         /// <summary>
         /// Classe css com o tamanho do campo
         /// </summary>
-        public virtual TamanhoDoCampo TamanhoDoCampo { get; set; }
+        public virtual ClasseDeTamanhoDoCampo TamanhoDoCampo { get; set; }
 
         /// <summary>
         /// O campo pode ser um título, imagem, seleção única
         /// </summary>
         public virtual ModeloDoCampo ModeloDoCampo { get; set; }
-
-        /// <summary>
-        /// O campo pode ser do tipo CPF, CEP, Data
-        /// </summary>
-        public virtual TipoDoCampo TipoDoCampo { get; set; }
 
         /// <summary>
         /// Registra os valores para um modelo
@@ -104,75 +100,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual string Prefixo { get; set; }
 
-
         /// <summary>
-        /// Construtor
-        /// </summary>
-        public CampoDeProposta()
-        {
-
-        }
-
-        public virtual string Render()
-        {
-
-
-            return string.Empty;
-        }
-
-        public static implicit operator string(CampoDeProposta campoDeProposta)
-        {
-            return campoDeProposta.Render();
-        }
-
-        public override string ToString()
-        {
-            return Render();
-        }
-
-        /// <summary>
-        /// Construtor - Dependencia com o Nome do Campo
-        /// </summary>
-        /// <param name="nome">Nome do novo campo</param>
-        public CampoDeProposta(string nome)
-        {
-            Assertion.IsFalse(string.IsNullOrEmpty(nome), "O nome do campo deve ser informado").Validate(this);
-
-            Nome = nome;
-        }
-
-        /// <summary>
-        /// Copia a si mesmo mudando apenas o ID interno. O objetivo aqui é tornar uma cópia disponível para rascunho a partir do atual
+        ///  Renderizar o campo utilizando o modelo de impressão
         /// </summary>
         /// <returns></returns>
-        public virtual CampoDeProposta CopiarParaRascunho()
+        public string RenderizarParaImpressao()
         {
-            return new CampoDeProposta(Nome);
+            return ModeloDoCampo.ModeloParaImpressao.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
         }
 
         /// <summary>
-        /// Atualiza o nome do campo
+        ///  Renderizar o campo utilizando o modelo de formulário
         /// </summary>
-        /// <param name="nome">nome</param>
-        public virtual void AtualizarNome(string nome)
+        /// <returns></returns>
+        public string RenderizarParaFormulario()
         {
-            #region Pré-Condições
-
-            IAssertion nomeNaoEstaVazioOuNulo = Assertion.IsFalse(string.IsNullOrEmpty(nome), "Nome do campo não informado");
-
-            #endregion
-
-            nomeNaoEstaVazioOuNulo.Validate(this);
-
-            Nome = nome;
-
-            #region Pós-Condições
-
-            IAssertion nomeFoiAtualizadoCorretamente = Assertion.Equals(Nome, nome, "O Nome não foi atualizado corretamente");
-
-            #endregion
-
-            nomeFoiAtualizadoCorretamente.Validate(this);
+            return ModeloDoCampo.ModeloParaFormulario.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
         }
     }
 }

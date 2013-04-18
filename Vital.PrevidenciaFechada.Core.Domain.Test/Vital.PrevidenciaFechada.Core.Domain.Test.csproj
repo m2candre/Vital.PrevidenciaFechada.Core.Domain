@@ -128,9 +128,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dados.cs" />
     <Compile Include="Entities\ComponenteConvenioDeAdesao\ConvenioDeAdesaoTest.cs" />
-    <Compile Include="Entities\ComponentePlano\CampoDePropostaTest.cs" />
-    <Compile Include="Entities\ComponentePlano\ModeloDePropostaTest.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\CampoDePropostaTest.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\ModeloDePropostaTest.cs" />
     <Compile Include="Entities\ComponentePlano\PlanoTest.cs" />
     <Compile Include="Entities\ComponentePlano\RegulamentoTest.cs" />
     <Compile Include="Entities\ComponenteProposta\MaquinaDeEstadoDaPropostaTest.cs" />

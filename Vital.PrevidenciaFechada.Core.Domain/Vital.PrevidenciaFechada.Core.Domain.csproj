@@ -73,8 +73,7 @@
   <ItemGroup>
     <Compile Include="Entities\ComponenteConvenioDeAdesao\IRepositorioConvenioDeAdesao.cs" />
     <Compile Include="Entities\ComponenteModeloDeProposta\ModeloDoCampo.cs" />
-    <Compile Include="Entities\ComponenteModeloDeProposta\TamanhoDoCampo.cs" />
-    <Compile Include="Entities\ComponenteModeloDeProposta\TipoDoCampo.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\ClasseDeTamanhoDoCampo.cs" />
     <Compile Include="Entities\ComponenteModeloDeProposta\ValoresDoCampo.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\TipoDeDocumento.cs" />

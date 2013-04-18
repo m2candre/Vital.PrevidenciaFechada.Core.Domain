@@ -97,8 +97,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			Guid idDoConvenioDeAdesao = Guid.NewGuid();
 			int ultimoNumero = 123;
 
-			ModeloDeProposta modelo = new ModeloDeProposta { TemplateDeFormulario = "<div></div>", TemplateDeImpressao = "<div></div>" };
-			modelo.AdicionarCampo("Nome");
+			ModeloDeProposta modelo = new ModeloDeProposta();
+		    var campo = new CampoDeProposta();
+		    campo.Nome = "CPF";
+
+			modelo.AdicionarCampo(campo);
 			modelo.Publicar();
 
 			ConvenioDeAdesao convenio = new ConvenioDeAdesao { Id = idDoConvenioDeAdesao };

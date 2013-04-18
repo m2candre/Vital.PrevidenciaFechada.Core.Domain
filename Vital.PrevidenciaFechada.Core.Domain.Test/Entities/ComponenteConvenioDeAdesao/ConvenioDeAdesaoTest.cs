@@ -53,7 +53,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 
 			ModeloDeProposta modelo1 = new ModeloDeProposta { Id = Guid.NewGuid() };
 			ModeloDeProposta modelo2 = new ModeloDeProposta { Id = idModeloPublicado };
-			modelo2.AdicionarCampo("CPF");
+            var campo = new CampoDeProposta { Nome = "Nome completo" };
+
+            modelo2.AdicionarCampo(campo);
 			modelo2.Publicar();
 
 			_convenio.AdicionarModeloDeProposta(modelo1);

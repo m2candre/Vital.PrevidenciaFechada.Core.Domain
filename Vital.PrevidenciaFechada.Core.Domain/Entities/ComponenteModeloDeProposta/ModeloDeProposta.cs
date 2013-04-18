@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
@@ -26,16 +27,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual bool Publicada { get; protected set; }
 
         /// <summary>
-        /// Template HTML para formulário da proposta
-        /// </summary>
-        public virtual string TemplateDeFormulario { get; set; }
-
-		/// <summary>
-		/// Template HTML para impressão da proposta
-		/// </summary>
-		public virtual string TemplateDeImpressao { get; set; }
-
-        /// <summary>
         /// Data em que o Modelo foi publicado
         /// </summary>
         public virtual DateTime? DataDePublicacao { get; protected set; }
@@ -55,8 +46,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual void Publicar()
         {
-            //TODO: Não sei se esse é o melhor nome para o método. Também não sei se é responsabilidade dessa entidade fazer a publicação. Talvez isso deva ficar no plano ou numa máquina de estados a parte
-
             #region Pré-Condições
 
             IAssertion existemCamposParaPublicar = Assertion.IsFalse(Campos.Count == 0, "O rascunho do Modelo de Proposta não pode estar sem campos");
@@ -67,22 +56,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             DataDePublicacao = DateTime.Now;
             Publicada = true;
-        }
-
-        /// <summary>
-        /// Copia a si mesma (ModeloDeProposta) mudando apenas os IDs internos. O objetivo aqui é tornar uma cópia disponível para rascunho a a partir de um modelo atual
-        /// </summary>
-        /// <returns></returns>
-        public virtual ModeloDeProposta CopiarParaRascunho()
-        {
-            var copia = new ModeloDeProposta() {};
-
-            foreach (var campoNoModeloDeProposta in Campos)
-            {
-                copia.AdicionarCampo(campoNoModeloDeProposta.CopiarParaRascunho());
-            }
-
-            return copia;
         }
 
         /// <summary>
@@ -99,7 +72,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Valida o novo campo e o adiciona a lista de campos atuais
         /// </summary>
         /// <param name="campo">Novo campo</param>
-		private void AdicionarCampo(CampoDeProposta campo)
+		public void AdicionarCampo(CampoDeProposta campo)
         {
             #region Pré-Condições
 
@@ -111,21 +84,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             nomeDoCampoFoiDevidamentePreenchido.and(naoExisteNenhumCampoComONomeInformado).Validate(this);
 
-            campo.Id = Guid.NewGuid();
-
 			Campos.Add(campo);
 		}
-
-        /// <summary>
-        /// Cria um novo campo no Modelo Atual
-        /// </summary>
-        /// <param name="nomeDoCampo">Nome do campo</param>
-		public virtual CampoDeProposta AdicionarCampo(string nomeDoCampo)
-        {
-            var campoNovo = new CampoDeProposta(nomeDoCampo);
-            AdicionarCampo(campoNovo);
-            return campoNovo;
-        }
 
         /// <summary>
         /// Exclui um campo da lista de Campos
@@ -181,11 +141,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		{
 			#region Pré-condições
 
-			Assertion.NotNull(TemplateDeFormulario, "O template de formulário deste Modelo de Proposta não foi definido").Validate();
+			
 
 			#endregion
 
-			return string.Empty;
+            StringBuilder sb = new StringBuilder();
+		    var x = Campos.OrderBy(o => o.OrdemFormulario);
+
+		    foreach (CampoDeProposta campoDeProposta in x)
+		    {
+		        sb.Append(campoDeProposta.RenderizarParaFormulario());
+		    }
+         
+			return sb.ToString();
 		}
 
 		/// <summary>
@@ -196,7 +164,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		{
 			#region Pré-condições
 
-			Assertion.NotNull(TemplateDeImpressao, "O template de impressão deste Modelo de Proposta não foi definido").Validate();
+			
 
 			#endregion
 
