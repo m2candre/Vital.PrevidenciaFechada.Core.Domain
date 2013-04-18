@@ -106,7 +106,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <returns></returns>
         public virtual string RenderizarParaImpressao()
         {
-            return ModeloDoCampo.ModeloParaImpressao.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
+            #region Pré-Condições
+            IAssertion existeModeloParaImpressao = Assertion.IsFalse(string.IsNullOrEmpty(ModeloDoCampo.ModeloParaImpressao), "Não existe modelo de impressão para este campo");
+            #endregion
+            existeModeloParaImpressao.Validate(this);
+
+            return Renderizar(ModeloDoCampo.ModeloParaImpressao);
         }
 
         /// <summary>
@@ -115,7 +120,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <returns></returns>
         public virtual string RenderizarParaFormulario()
         {
-            return ModeloDoCampo.ModeloParaFormulario.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
+            #region Pré-Condições
+            IAssertion existeModeloParaFormulario = Assertion.IsFalse(string.IsNullOrEmpty(ModeloDoCampo.ModeloParaFormulario), "Não existe modelo de formulário para este campo");
+            #endregion
+            existeModeloParaFormulario.Validate(this);
+
+            return Renderizar(ModeloDoCampo.ModeloParaFormulario);
+        }
+
+        /// <summary>
+        /// Executa as substituições
+        /// </summary>
+        /// <param name="modelo"></param>
+        /// <returns></returns>
+        private string Renderizar(string modelo)
+        {
+            return modelo.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo).Replace("@valor", this.Valor).Replace("@alinhamento", this.Alinhamento);
         }
     }
 }
