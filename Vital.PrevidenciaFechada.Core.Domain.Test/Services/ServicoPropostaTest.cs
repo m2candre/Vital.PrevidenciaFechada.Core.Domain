@@ -129,6 +129,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
+		[Ignore("Em construção")]
 		public void serializar_xml_gravando_arquivo_em_disco()
 		{
 			Proposta propostaParaSerializar = new Proposta();
