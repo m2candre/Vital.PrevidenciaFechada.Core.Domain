@@ -66,6 +66,9 @@
     <Reference Include="Vital.InfraStructure">
       <HintPath>..\..\..\Library\Vital.InfraStructure.dll</HintPath>
     </Reference>
+    <Reference Include="Vital.Interfaces">
+      <HintPath>..\..\..\Library\Vital.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Vital.PrevidenciaFechada.DTO.Messages">
       <HintPath>..\..\..\Library\Vital.PrevidenciaFechada.DTO.Messages.dll</HintPath>
     </Reference>

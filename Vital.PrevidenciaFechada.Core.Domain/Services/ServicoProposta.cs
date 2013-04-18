@@ -12,6 +12,10 @@ using Vital.PrevidenciaFechada.Core.Domain.Repository;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 using Vital.Extensions.DateTimeExtensions;
 using System.Linq.Expressions;
+using Vital.Interfaces;
+using System.IO;
+using System.Xml.Serialization;
+using Vital.PrevidenciaFechada.DTO.Messages;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Services
 {
@@ -24,6 +28,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private Proposta _proposta;
 		private DateTime _data;
+
+		/// <summary>
+		/// Gerenciador de arquivo
+		/// </summary>
+		private IGerenciadorDeArquivoProvider _gerenciadorDeArquivo;
 
 		/// <summary>
 		/// Obtém uma nova proposta setando a data de criação para a data/hora atual
@@ -57,16 +66,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Construtor com injeção de dependência dos repositório de Proposta e Plano
 		/// </summary>
-		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorioConvenioDeAdesao repositorioConvenio)
+		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorioConvenioDeAdesao repositorioConvenio, IGerenciadorDeArquivoProvider gerenciadorDeArquivo)
 		{
 			#region Pré-condições
 
 			IAssertion oRepositorioDePropostaFoiInjetado = Assertion.NotNull(repositorioProposta, "O repositório de proposta não foi injetado corretamente");
 			IAssertion oRepositorioDeConvenioFoiInjetado = Assertion.NotNull(repositorioConvenio, "O repositório de convênio de adesão não foi injetado corretamente");
+			IAssertion oGerenciadorDeArquivoFoiInjetado = Assertion.NotNull(gerenciadorDeArquivo, "O gerenciador de arquivo não foi injetado corretamente");
 
 			#endregion
 
-			oRepositorioDePropostaFoiInjetado.and(oRepositorioDeConvenioFoiInjetado).Validate();
+			oRepositorioDePropostaFoiInjetado.and(oRepositorioDeConvenioFoiInjetado).and(oGerenciadorDeArquivoFoiInjetado).Validate();
 
 			_repositorioProposta = repositorioProposta;
 			_repositorioConvenio = repositorioConvenio;
@@ -75,10 +85,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			IAssertion oRepositorioDePropostaFoiInjetadoCorretamente = Assertion.Equals(_repositorioProposta, repositorioProposta, "O repositório de proposta da classe não está igual ao repositório injetado");
 			IAssertion oRepositorioDeConvenioFoiInjetadoCorretamente = Assertion.Equals(_repositorioConvenio, repositorioConvenio, "O repositório de plano da classe não está igual ao repositório injetado");
+			IAssertion oGerenciadorDeArquivoFoiSetadoNoServico = Assertion.Equals(_gerenciadorDeArquivo, gerenciadorDeArquivo, "O gerenciador de arquivo não foi definido corretamente no Serviço de Proposta");
 
 			#endregion
 
-			oRepositorioDePropostaFoiInjetadoCorretamente.Validate();
+			oRepositorioDePropostaFoiInjetadoCorretamente.and(oRepositorioDeConvenioFoiInjetadoCorretamente).and(oGerenciadorDeArquivoFoiInjetado).Validate();
 		}
 
 		/// <summary>
@@ -151,6 +162,67 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			convenioDeAdesao.AdicionarProposta(NovaProposta);
 			
 			_repositorioConvenio.Adicionar(convenioDeAdesao);
+		}
+
+		/// <summary>
+		/// Serializa a Proposta em formato XML e armazena em disco através do Serviço de Arquivos, indexado por "IdDaProposta"
+		/// </summary>
+		/// <param name="proposta">Proposta a ser serializada</param>
+		/// <returns>ID do arquivo gerado</returns>
+		public virtual Guid SerializarXMLGravandoEmDisco(Proposta proposta)
+		{
+			#region Pré-condição
+
+			IAssertion oPropostaNaoENula = Assertion.NotNull(proposta, "A proposta não pode ser nula");
+
+			#endregion
+
+			oPropostaNaoENula.Validate();
+
+			byte[] binarioDoArquivo = SerializarPropostaEmXML(proposta);
+
+			ArquivoUploadDTO dto = new ArquivoUploadDTO { Arquivo = binarioDoArquivo, Extensao = "xml" };
+			GravarArquivoIndexado(dto, proposta.Id);
+
+			#region Pós-condições
+
+			IAssertion oIDDoArquivoFoiGerado = Assertion.NotNull(dto.Id, "O ID para o arquivo não foi gerado");
+			IAssertion oIDDoArquivoNaoEstaVazio = Assertion.IsTrue(dto.Id != Guid.Empty, "O ID para o arquivo não foi gerado");
+
+			#endregion
+
+			oIDDoArquivoFoiGerado.and(oIDDoArquivoNaoEstaVazio).Validate();
+
+			return dto.Id;
+		}
+
+		/// <summary>
+		/// Grava o arquivo através do Serviço de Arquivo e indexa por IdDaProposta
+		/// </summary>
+		/// <param name="dto">ArquivoUploadDTO</param>
+		/// <param name="idDaProposta">ID da proposta</param>
+		private void GravarArquivoIndexado(ArquivoUploadDTO dto, Guid idDaProposta)
+		{
+			Dictionary<string, string> indicesDoArquivo = new Dictionary<string, string>();
+			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
+
+			_gerenciadorDeArquivo.Gravar(dto);
+			_gerenciadorDeArquivo.IndexarPor(dto.Id, indicesDoArquivo);
+		}
+
+		/// <summary>
+		/// Serializar a Proposta para XML e retorna o binário correpondente
+		/// </summary>
+		/// <param name="proposta">Proposta a ser serializada</param>
+		/// <returns>byte[]</returns>
+		private byte[] SerializarPropostaEmXML(Proposta proposta)
+		{
+			MemoryStream stream = new MemoryStream();
+
+			XmlSerializer serializer = new XmlSerializer(typeof(Proposta));
+			serializer.Serialize(stream, proposta);
+			
+			return stream.GetBuffer();
 		}
 
 		/// <summary>

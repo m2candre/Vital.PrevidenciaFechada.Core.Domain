@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Vital.InfraStructure.ExceptionHandling;
+using Vital.Interfaces;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
@@ -18,6 +19,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 	{
 		private IRepositorioProposta _repositorioProposta;
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
+		private IGerenciadorDeArquivoProvider _gerenciadorDeArquivo;
 		private ServicoProposta _servicoProposta;
 
 		[SetUp]
@@ -25,7 +27,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		{
 			_repositorioProposta = MockRepository.GenerateMock<IRepositorioProposta>();
 			_repositorioConvenio = MockRepository.GenerateMock<IRepositorioConvenioDeAdesao>();
-			_servicoProposta = new ServicoProposta(_repositorioProposta, _repositorioConvenio);
+			_gerenciadorDeArquivo = MockRepository.GenerateMock<IGerenciadorDeArquivoProvider>();
+			_servicoProposta = new ServicoProposta(_repositorioProposta, _repositorioConvenio, _gerenciadorDeArquivo);
 		}
 
 		[Test]
@@ -123,6 +126,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_data_atual_corretamente()
 		{
 			Assert.That(_servicoProposta.Data, Is.Not.Null);
+		}
+
+		[Test]
+		public void serializar_xml_gravando_arquivo_em_disco()
+		{
+			Proposta propostaParaSerializar = new Proposta();
+			propostaParaSerializar.Id = Guid.NewGuid();
+			propostaParaSerializar.Numero = 123456;
+
+			ModeloDeProposta modelo = new ModeloDeProposta();
+			modelo.AdicionarCampo(new CampoDeProposta());
+
+			propostaParaSerializar.ModeloDeProposta = new ModeloDeProposta();
+
 		}
 	}
 }

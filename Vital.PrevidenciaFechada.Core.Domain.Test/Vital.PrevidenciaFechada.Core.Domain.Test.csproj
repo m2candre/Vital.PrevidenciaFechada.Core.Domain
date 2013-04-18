@@ -122,6 +122,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Library\Vital.InfraStructure.dll</HintPath>
     </Reference>
+    <Reference Include="Vital.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Library\Vital.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Vital.PrevidenciaFechada.DTO.Messages, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Library\Vital.PrevidenciaFechada.DTO.Messages.dll</HintPath>
@@ -146,6 +150,7 @@
     <Compile Include="Repository\RepositorioPropostaTests.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
+    <Compile Include="Services\IGerenciadorDeArquivoProvider.cs" />
     <Compile Include="Services\ServicoPropostaTest.cs" />
   </ItemGroup>
   <ItemGroup>
