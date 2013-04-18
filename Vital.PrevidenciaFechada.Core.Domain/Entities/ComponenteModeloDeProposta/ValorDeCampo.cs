@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
-namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
+namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta
 {
     /// <summary>
     /// Valor de campo da proposta
     /// </summary>
+	[Serializable]
     public class ValorDeCampo
     {
         /// <summary>

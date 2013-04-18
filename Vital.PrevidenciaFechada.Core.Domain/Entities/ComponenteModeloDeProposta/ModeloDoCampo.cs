@@ -27,7 +27,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Html do modelo para impressão
         /// </summary>
         public virtual string ModeloParaImpressao { get; set; }
-
+		
         /// <summary>
         /// Construtor
         /// </summary>

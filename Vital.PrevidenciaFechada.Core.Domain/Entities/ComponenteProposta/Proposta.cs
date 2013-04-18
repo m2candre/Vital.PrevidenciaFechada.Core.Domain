@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using Vital.InfraStructure.DSL.DesignByContract;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteDocumento;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
@@ -9,6 +11,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 	/// <summary>
 	/// Proposta
 	/// </summary>
+	[Serializable]
 	public class Proposta : IAggregateRoot<Guid>
 	{
 		private MaquinaDeEstadoDaProposta _maquinaDeEstadoDaProposta;
@@ -49,6 +52,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <summary>
 		/// Objeto responsável por controlar a transição de estados da proposta
 		/// </summary>
+		[XmlIgnore]
 		public virtual MaquinaDeEstadoDaProposta MaquinaDeEstado
 		{
 			get
@@ -64,12 +68,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// <summary>
         /// Modelo de Proposta
         /// </summary>
+		[XmlIgnore]
         public virtual ModeloDeProposta ModeloDeProposta { get; set; }
 
         /// <summary>
         /// Valores dos campos da proposta
         /// </summary>
-        public virtual IList<ValorDeCampo> Valores { get; set; }
+		public virtual List<ValorDeCampo> Valores { get; set; }
 
         #endregion
 

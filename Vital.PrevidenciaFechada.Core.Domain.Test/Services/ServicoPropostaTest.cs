@@ -10,6 +10,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Services;
+using Vital.PrevidenciaFechada.DTO.Messages;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
@@ -129,7 +130,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-		[Ignore("Em construção")]
 		public void serializar_xml_gravando_arquivo_em_disco()
 		{
 			Proposta propostaParaSerializar = new Proposta();
@@ -137,10 +137,33 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			propostaParaSerializar.Numero = 123456;
 
 			ModeloDeProposta modelo = new ModeloDeProposta();
-			modelo.AdicionarCampo(new CampoDeProposta());
+			modelo.AdicionarCampo(new CampoDeProposta { Nome = "CPF" });
 
 			propostaParaSerializar.ModeloDeProposta = new ModeloDeProposta();
 
+			Guid idArquivoGerado = Guid.NewGuid();
+			
+			ArquivoUploadDTO dto = new ArquivoUploadDTO();
+			ArquivoUploadDTO dtoRetorno = new ArquivoUploadDTO { Id = idArquivoGerado };
+
+			_gerenciadorDeArquivo.Expect(x => x.Gravar(dto)).Return(dtoRetorno);
+
+			_servicoProposta.ArquivoDTO = dto;
+			_servicoProposta.SerializarXMLGravandoEmDisco(propostaParaSerializar);
+
+			Assert.That(dtoRetorno.Id, Is.EqualTo(idArquivoGerado));
+		}
+
+		[Test]
+		public void setar_nova_proposta_no_servico()
+		{
+			Assert.That(_servicoProposta.NovaProposta, Is.Not.Null);
+		}
+
+		[Test]
+		public void setar_arquivo_dto_no_servico()
+		{
+			Assert.That(_servicoProposta.ArquivoDTO, Is.Not.Null);
 		}
 	}
 }

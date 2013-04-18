@@ -28,6 +28,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private Proposta _proposta;
 		private DateTime _data;
+		private ArquivoUploadDTO _arquivoDTO;
+
+		public ArquivoUploadDTO ArquivoDTO
+		{
+			get
+			{
+				if (_arquivoDTO == null)
+					_arquivoDTO = new ArquivoUploadDTO();
+
+				return _arquivoDTO;
+			}
+			set { _arquivoDTO = value; }
+		}
 
 		/// <summary>
 		/// Gerenciador de arquivo
@@ -80,6 +93,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			_repositorioProposta = repositorioProposta;
 			_repositorioConvenio = repositorioConvenio;
+			_gerenciadorDeArquivo = gerenciadorDeArquivo;
 
 			#region Pós-condições
 
@@ -179,21 +193,21 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			oPropostaNaoENula.Validate();
 
-			byte[] binarioDoArquivo = SerializarPropostaEmXML(proposta);
-
-			ArquivoUploadDTO dto = new ArquivoUploadDTO { Arquivo = binarioDoArquivo, Extensao = "xml" };
-			GravarArquivoIndexado(dto, proposta.Id);
+			ArquivoDTO.Arquivo = SerializarPropostaEmXML(proposta);
+			ArquivoDTO.Extensao = "xml";
+			
+			Guid idGeradoParaArquivo = GravarArquivoIndexado(ArquivoDTO, proposta.Id);
 
 			#region Pós-condições
 
-			IAssertion oIDDoArquivoFoiGerado = Assertion.NotNull(dto.Id, "O ID para o arquivo não foi gerado");
-			IAssertion oIDDoArquivoNaoEstaVazio = Assertion.IsTrue(dto.Id != Guid.Empty, "O ID para o arquivo não foi gerado");
+			IAssertion oIDDoArquivoFoiGerado = Assertion.NotNull(idGeradoParaArquivo, "O ID para o arquivo não foi gerado");
+			IAssertion oIDDoArquivoNaoEstaVazio = Assertion.IsTrue(idGeradoParaArquivo != Guid.Empty, "O ID para o arquivo não foi gerado");
 
 			#endregion
 
 			oIDDoArquivoFoiGerado.and(oIDDoArquivoNaoEstaVazio).Validate();
 
-			return dto.Id;
+			return idGeradoParaArquivo;
 		}
 
 		/// <summary>
@@ -201,13 +215,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// </summary>
 		/// <param name="dto">ArquivoUploadDTO</param>
 		/// <param name="idDaProposta">ID da proposta</param>
-		private void GravarArquivoIndexado(ArquivoUploadDTO dto, Guid idDaProposta)
+		private Guid GravarArquivoIndexado(ArquivoUploadDTO dto, Guid idDaProposta)
 		{
 			Dictionary<string, string> indicesDoArquivo = new Dictionary<string, string>();
 			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
 
-			_gerenciadorDeArquivo.Gravar(dto);
-			_gerenciadorDeArquivo.IndexarPor(dto.Id, indicesDoArquivo);
+			ArquivoUploadDTO dtoRetorno = _gerenciadorDeArquivo.Gravar(dto);
+			_gerenciadorDeArquivo.IndexarPor(dtoRetorno.Id, indicesDoArquivo);
+
+			return dtoRetorno.Id;
 		}
 
 		/// <summary>
@@ -219,7 +235,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		{
 			MemoryStream stream = new MemoryStream();
 
-			XmlSerializer serializer = new XmlSerializer(typeof(Proposta));
+			XmlSerializer serializer = new XmlSerializer(proposta.GetType());
 			serializer.Serialize(stream, proposta);
 			
 			return stream.GetBuffer();

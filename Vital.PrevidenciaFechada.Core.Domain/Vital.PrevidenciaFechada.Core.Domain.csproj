@@ -96,7 +96,7 @@
     <Compile Include="Entities\ComponenteProposta\Proposta.cs" />
     <Compile Include="Entities\ComponenteProposta\PropostaVO.cs" />
     <Compile Include="Entities\ComponenteProposta\TipoRejeicao.cs" />
-    <Compile Include="Entities\ComponenteProposta\ValorDeCampo.cs" />
+    <Compile Include="Entities\ComponenteModeloDeProposta\ValorDeCampo.cs" />
     <Compile Include="Entities\ComponenteUsuario\Identidade.cs" />
     <Compile Include="Entities\ComponenteUsuario\Usuario.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\Instituidor.cs" />
