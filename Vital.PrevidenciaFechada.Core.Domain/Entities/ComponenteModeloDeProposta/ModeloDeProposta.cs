@@ -72,7 +72,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Valida o novo campo e o adiciona a lista de campos atuais
         /// </summary>
         /// <param name="campo">Novo campo</param>
-		public void AdicionarCampo(CampoDeProposta campo)
+		public virtual void AdicionarCampo(CampoDeProposta campo)
         {
             #region Pré-Condições
 

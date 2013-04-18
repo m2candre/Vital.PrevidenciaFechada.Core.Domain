@@ -29,6 +29,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public virtual string ModeloParaImpressao { get; set; }
 
         /// <summary>
+        /// Construtor
+        /// </summary>
+        public ModeloDoCampo()
+        {
+
+        }
+
+        /// <summary>
         /// Cria um modelo de campo
         /// </summary>
         /// <param name="nomeDoModelo"></param>
