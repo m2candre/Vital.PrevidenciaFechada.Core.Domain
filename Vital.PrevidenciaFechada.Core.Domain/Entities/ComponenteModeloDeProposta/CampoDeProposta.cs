@@ -104,7 +104,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         ///  Renderizar o campo utilizando o modelo de impressão
         /// </summary>
         /// <returns></returns>
-        public string RenderizarParaImpressao()
+        public virtual string RenderizarParaImpressao()
         {
             return ModeloDoCampo.ModeloParaImpressao.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
         }
@@ -113,7 +113,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         ///  Renderizar o campo utilizando o modelo de formulário
         /// </summary>
         /// <returns></returns>
-        public string RenderizarParaFormulario()
+        public virtual string RenderizarParaFormulario()
         {
             return ModeloDoCampo.ModeloParaFormulario.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo);
         }
