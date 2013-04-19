@@ -20,5 +20,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.Comun
         /// Número
         /// </summary>
         public virtual int Numero { get; set; }
+
+        /// <summary>
+        /// Mensagem de Erro
+        /// </summary>
+        public virtual string Mensagem { get; set; }
+
+        /// <summary>
+        /// Stack trace
+        /// </summary>
+        public virtual string StackTrace { get; set; }
+
+        /// <summary>
+        /// Data do registro de log
+        /// </summary>
+        public virtual DateTime? DataDoRegistro { get; set; }
     }
 }

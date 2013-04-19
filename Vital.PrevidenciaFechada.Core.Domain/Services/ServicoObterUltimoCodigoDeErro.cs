@@ -30,20 +30,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
         /// <returns></returns>
         public int Obter()
         {
-            var erro = _erros.Todos().FirstOrDefault();
-
-            if (erro == null)
-            {
-                erro = new Erro() { Numero = 1 };
-                _erros.Adicionar(erro);
-            }
-            else
-            {
-                erro.Numero = erro.Numero + 1;
-                _erros.Adicionar(erro);
-            }
-
-            return erro.Numero;
+            return _erros.Todos().Max(x => x.Numero);
         }
     }
 }
