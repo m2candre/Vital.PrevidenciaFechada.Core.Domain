@@ -20,7 +20,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
                                        Id = Guid.NewGuid(),
                                        Nome = "Nome",
                                        Titulo = "Nome do proponente",
-                                       TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45)
+                                       TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+                                       OrdemFormulario = 0,
+                                       OrdemImpressao = 0
                                    };
 
             gera_modelos_de_campos();
@@ -34,7 +36,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("Título", "<div class='@Css'><h1>@titulo</h1></div>", "<div class='@Css'><h1>@titulo</h1></div>"));
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("Logo", "<div class='@Css'><img class='logo @alinhamento' src='@valor' /></div>", "<div class='@Css'><img class='logo pull-right' src='@valor' /></div>"));
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("Estático", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Título secundário", "<h2>@titulo</h2>", "<h2>@titulo</h2>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Título secundário sem sublinhado", "<h3>@titulo</h3>", "<h3>@titulo</h3>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Container de texto", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' value='@valor'/></span></div>", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Seleção única", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><ul class='inline'><li><label><input type='radio' name='[@indice].Valor' value='@valor'/>@rotulo</label></li></ul></span></div>", "<div class='@Css'><span>@titulo</span><span><ul class='inline'><li>@rotulo</li></ul></span></div>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Texto livre", "<div class='@Css'><span class='internal'>@valor</span></div>", "<div class='@Css'><span class='internal'>@valor</span></div>"));
+
         }
+
 
         [Test]
         public void renderizar_campo_com_modelo_titulo_no_formulario()
@@ -88,6 +97,223 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
             _campoDeProposta.Valor = "Vinícius Aragão";
 
             Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span>Vinícius Aragão</span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_titulo_secundario_no_formulario()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Título secundário");
+            _campoDeProposta.Titulo = "QUALIFICAÇÃO DO PROPONENTE";
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<h2>QUALIFICAÇÃO DO PROPONENTE</h2>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_titulo_secundario_na_impressao()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Título secundário");
+            _campoDeProposta.Titulo = "QUALIFICAÇÃO DO PROPONENTE";
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<h2>QUALIFICAÇÃO DO PROPONENTE</h2>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_titulo_secundario_sem_sublinhado_no_formulario()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Título secundário sem sublinhado");
+            _campoDeProposta.Titulo = "QUALIFICAÇÃO DO PROPONENTE";
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<h3>QUALIFICAÇÃO DO PROPONENTE</h3>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_titulo_secundario_sem_sublinhado_na_impressao()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Título secundário sem sublinhado");
+            _campoDeProposta.Titulo = "QUALIFICAÇÃO DO PROPONENTE";
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<h3>QUALIFICAÇÃO DO PROPONENTE</h3>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_container_de_texto_no_formulario()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Container de texto");
+            _campoDeProposta.Valor = "Vinícius Aragão";
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><input type='hidden' name='[0].Nome' value='Nome'/><input type='text' name='[0].Valor' value='Vinícius Aragão'/></span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_container_de_texto_na_impressao()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Container de texto");
+            _campoDeProposta.Valor = "Vinícius Aragão";
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span>Vinícius Aragão</span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_selecao_unica_no_formulario()
+        {
+            var _campoDeProposta = new CampoDeProposta
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Nome",
+                Titulo = "Nome do proponente",
+                TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+                OrdemFormulario = 0,
+                OrdemImpressao = 0
+            };
+
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Seleção única");
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Masculino",
+                Valor = "M",
+                Ordem = 0
+            });
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Feminino",
+                Valor = "F",
+                Ordem = 1
+            });
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><input type='hidden' name='[0].Nome' value='Nome'/><ul class='inline'><li><label><input type='radio' name='[0].Valor' value='M'/>Masculino</label></li><li><label><input type='radio' name='[0].Valor' value='F'/>Feminino</label></li></ul></span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_selecao_unica_na_impressao()
+        {
+            var _campoDeProposta = new CampoDeProposta
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Nome",
+                Titulo = "Nome do proponente",
+                TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+                OrdemFormulario = 0,
+                OrdemImpressao = 0
+            };
+
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Seleção única");
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Masculino",
+                Valor = "M",
+                Ordem = 0
+            });
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Feminino",
+                Valor = "F",
+                Ordem = 1
+            });
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><ul class='inline'><li>Masculino</li><li>Feminino</li></ul></span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_selecao_unica_no_formulario_com_opcao_checada()
+        {
+            var _campoDeProposta = new CampoDeProposta
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Nome",
+                Titulo = "Nome do proponente",
+                TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+                OrdemFormulario = 0,
+                OrdemImpressao = 0
+            };
+
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Seleção única");
+            _campoDeProposta.Valor = "F";
+           
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Masculino",
+                Valor = "M",
+                Ordem = 0
+            });
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Feminino",
+                Valor = "F",
+                Ordem = 1
+            });
+
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><input type='hidden' name='[0].Nome' value='Nome'/><ul class='inline'><li><label><input type='radio' name='[0].Valor' value='M'/>Masculino</label></li><li><label><input checked=\"checked\" type='radio' name='[0].Valor' value='F'/>Feminino</label></li></ul></span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_selecao_unica_na_impressao_com_opcao_checada()
+        {
+            var _campoDeProposta = new CampoDeProposta
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Nome",
+                Titulo = "Nome do proponente",
+                TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+                OrdemFormulario = 0,
+                OrdemImpressao = 0,
+                VisivelNaImpressao = false
+            };
+
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Seleção única");
+            _campoDeProposta.Valor = "F";
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Masculino",
+                Valor = "M",
+                Ordem = 0
+            });
+
+            _campoDeProposta.ValoresDoCampo.Add(new ValoresDoCampo()
+            {
+                Id = Guid.NewGuid(),
+                Rotulo = "Feminino",
+                Valor = "F",
+                Ordem = 1
+            });
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><ul class='inline'><li>Masculino</li><li class=\"checked\">Feminino</li></ul></span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_texto_livre_no_formulario()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Texto livre");
+            _campoDeProposta.Valor = "Vinícius Aragão";
+
+            string str = _campoDeProposta.RenderizarParaFormulario();
+
+            Assert.That(_campoDeProposta.RenderizarParaFormulario(), Is.EqualTo("<div class='field45'><span class='internal'>Vinícius Aragão</span></div>"));
+        }
+
+        [Test]
+        public void renderizar_campo_com_modelo_texto_livre_na_impressao()
+        {
+            _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Texto livre");
+            _campoDeProposta.Valor = "Vinícius Aragão";
+
+            string str = _campoDeProposta.RenderizarParaImpressao();
+
+            Assert.That(_campoDeProposta.RenderizarParaImpressao(), Is.EqualTo("<div class='field45'><span class='internal'>Vinícius Aragão</span></div>"));
         }
     }
 }

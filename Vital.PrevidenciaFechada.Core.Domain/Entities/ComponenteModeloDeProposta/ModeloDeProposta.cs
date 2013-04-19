@@ -141,14 +141,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		{
 			#region Pré-condições
 
-			
-
 			#endregion
 
             StringBuilder sb = new StringBuilder();
-		    var x = Campos.OrderBy(o => o.OrdemFormulario);
 
-		    foreach (CampoDeProposta campoDeProposta in x)
+		    foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario))
 		    {
 		        sb.Append(campoDeProposta.RenderizarParaFormulario());
 		    }
@@ -162,13 +159,18 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		/// <returns></returns>
 		public virtual string RenderizarTemplateDeImpressao()
 		{
-			#region Pré-condições
+            #region Pré-condições
 
-			
+            #endregion
 
-			#endregion
+            StringBuilder sb = new StringBuilder();
 
-			return string.Empty;
+            foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario).Where(a => a.VisivelNaImpressao))
+            {
+                sb.Append(campoDeProposta.RenderizarParaFormulario());
+            }
+
+            return sb.ToString();
 		}
     }
 }

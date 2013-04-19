@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using System.Text.RegularExpressions;
 using Vital.InfraStructure.DSL.DesignByContract;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
@@ -64,6 +65,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		[XmlIgnore]
 		public virtual bool CompoeParticipante { get; set; }
 
+
         /// <summary>
         /// Ordena os campos de uma proposta para impressão
         /// </summary>
@@ -101,10 +103,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		public virtual string Alinhamento { get; set; }
 
         /// <summary>
-        /// Exibe um campo com o dobro da altura
+        /// Exibe a altura
         /// </summary>
 		[XmlIgnore]
 		public virtual bool CampoDuplo { get; set; }
+
+        /// <remarks>Determina a altura do campo de acordo com o CSS. ex. .field50</remarks>
+        public virtual string Altura { get; set; }
+
 
         /// <summary>
         /// Exibe o sufixo de um campo
@@ -113,10 +119,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		public virtual string Sufixo { get; set; }
 
         /// <summary>
-        /// Exibe o prefixo de um tempo
+        /// Exibe o prefixo de um campo
         /// </summary>
 		[XmlIgnore]
 		public virtual string Prefixo { get; set; }
+
+        public CampoDeProposta()
+        {
+            ValoresDoCampo = new List<ValoresDoCampo>();
+            VisivelNaImpressao = true;
+            ExibirBorda = true;
+            ExibirNoGrid = false;
+            ExibirTitulo = true;
+            
+        }
 
         /// <summary>
         ///  Renderizar o campo utilizando o modelo de impressão
@@ -153,7 +169,42 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <returns></returns>
         private string Renderizar(string modelo)
         {
-            return modelo.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo).Replace("@valor", this.Valor).Replace("@alinhamento", this.Alinhamento);
+            string templateCompleto = string.Empty;
+
+            Regex regex = new Regex("<ul class='inline'>(.*)</ul>");
+
+            Match match = regex.Match(modelo);
+
+            if (match.Success && this.ValoresDoCampo.Count > 0)
+            {
+                string modeloDoValor = match.Groups[1].Value;
+
+                foreach (ValoresDoCampo valor in ValoresDoCampo)
+                {
+                    string campo = modeloDoValor.Replace("@valor", valor.Valor).Replace("@rotulo", valor.Rotulo);
+
+                    if (this.Valor == valor.Valor)
+                    {
+                        if (!campo.Contains("type="))
+                        {
+                            templateCompleto += campo.Replace("<li>", "<li class=\"checked\">");
+                            
+                        }
+                        else
+                        {
+                            templateCompleto += campo.Replace("type=", "checked=\"checked\" type="); 
+                        }
+                    }
+                    else
+                    {
+                        templateCompleto += modeloDoValor.Replace("@valor", valor.Valor).Replace("@rotulo", valor.Rotulo);
+                    }
+                } 
+
+                modelo = modelo.Replace(match.Groups[1].Value, templateCompleto);
+            }
+
+            return modelo.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo).Replace("@valor", this.Valor).Replace("@alinhamento", this.Alinhamento).Replace("@indice", this.OrdemFormulario.ToString()).Replace("@nome", this.Nome);
         }
     }
 }
