@@ -157,7 +157,39 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			_servicoProposta.ArquivoDTO = dto;
 			_servicoProposta.GravarArquivoDeDados(propostaParaSerializar);
 
+			_gerenciadorDeArquivo.VerifyAllExpectations();
 			Assert.That(dtoRetorno.Id, Is.EqualTo(idArquivoGerado));
+		}
+
+		[Test]
+		public void atualiza_arquivo_xml_de_proposta_serializada_com_novos_dados()
+		{
+			Guid idArquivoGerado = Guid.NewGuid();
+
+			Proposta propostaParaSerializar = new Proposta();
+			propostaParaSerializar.Id = Guid.NewGuid();
+			propostaParaSerializar.IdDoArquivoDeDados = idArquivoGerado;
+			propostaParaSerializar.Numero = 123456;
+			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			{
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "654687" },
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio Cesar" }
+			};
+
+			ModeloDeProposta modelo = new ModeloDeProposta();
+			modelo.AdicionarCampo(new CampoDeProposta { Nome = "CPF" });
+
+			propostaParaSerializar.ModeloDeProposta = new ModeloDeProposta();
+
+			ArquivoUploadDTO dto = new ArquivoUploadDTO { Id = idArquivoGerado };
+
+			_gerenciadorDeArquivo.Expect(x => x.Atualizar(dto));
+
+			_servicoProposta.ArquivoDTO = dto;
+			_servicoProposta.AtualizarArquivoDeDados(propostaParaSerializar);
+
+			_gerenciadorDeArquivo.VerifyAllExpectations();
+			Assert.That(dto.Id, Is.EqualTo(idArquivoGerado));
 		}
 
 		[Test]

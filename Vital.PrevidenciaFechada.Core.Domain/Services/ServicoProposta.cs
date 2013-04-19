@@ -184,14 +184,62 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <returns>ID do arquivo criado</returns>
 		public virtual Guid GravarArquivoDeDados(Proposta proposta)
 		{
+			#region Pré-condições
+
+			IAssertion aPropostaFoiInformada = Assertion.NotNull(proposta, "A proposta não pode ser nula");
+
+			#endregion
+
+			aPropostaFoiInformada.Validate();
+
 			ArquivoDTO.Arquivo = proposta.Serializar();
 			ArquivoDTO.Extensao = "xml";
 			ArquivoUploadDTO dtoRetorno = _gerenciadorDeArquivo.Gravar(ArquivoDTO);
 
 			IndexarArquivoDeDados(ArquivoDTO, proposta.Id);
 
+			#region Pós-condições
+
+			IAssertion oIDDoArquivoFoiGerado = Assertion.IsTrue(dtoRetorno.Id != Guid.Empty, "O ID do arquivo não foi gerado");
+
+			#endregion
+
+			oIDDoArquivoFoiGerado.Validate();
+
 			return dtoRetorno.Id;
 		}
+
+		/// <summary>
+		/// Atualiza o arquivo de dados com novas informações serializadas da proposta
+		/// </summary>
+		/// <param name="proposta">Proposta com dados novos</param>
+		public virtual void AtualizarArquivoDeDados(Proposta proposta)
+		{
+			#region Pré-condições
+
+			IAssertion aPropostaPossuiOIDDoAquivoDeDados = Assertion.IsTrue(proposta.IdDoArquivoDeDados != Guid.Empty, "A proposta não possui o ID do arquivo de dados. Não será possível localizá-lo.");
+
+			#endregion
+
+			aPropostaPossuiOIDDoAquivoDeDados.Validate();
+
+			ArquivoDTO.Arquivo = proposta.Serializar();
+			ArquivoDTO.Id = proposta.IdDoArquivoDeDados;
+			ArquivoDTO.Extensao = "xml";
+			
+			_gerenciadorDeArquivo.Atualizar(ArquivoDTO);
+			IndexarArquivoDeDados(ArquivoDTO.Id, proposta.Id);
+		}
+
+		/// <summary>
+		/// Carrega o arquivo de dados
+		/// </summary>
+		/// <param name="idDaProposta"></param>
+		/// <returns></returns>
+		//public virtual Proposta CarregarPropostaDoArquivoDeDados(Guid idDaProposta)
+		//{
+
+		//}
 
 		/// <summary>
 		/// Obtem uma data para a busca de propostas de acordo com o parametro de dias
