@@ -14,7 +14,6 @@ using Vital.Extensions.DateTimeExtensions;
 using System.Linq.Expressions;
 using Vital.Interfaces;
 using System.IO;
-using System.Xml.Serialization;
 using Vital.PrevidenciaFechada.DTO.Messages;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Services
@@ -179,66 +178,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		}
 
 		/// <summary>
-		/// Serializa a Proposta em formato XML e armazena em disco através do Serviço de Arquivos, indexado por "IdDaProposta"
+		/// Armazena e indexa o arquivo com a proposta serializada utilizando o Serviço de Arquivos
 		/// </summary>
 		/// <param name="proposta">Proposta a ser serializada</param>
-		/// <returns>ID do arquivo gerado</returns>
-		public virtual Guid SerializarXMLGravandoEmDisco(Proposta proposta)
+		/// <returns>ID do arquivo criado</returns>
+		public virtual Guid GravarArquivoDeDados(Proposta proposta)
 		{
-			#region Pré-condição
-
-			IAssertion oPropostaNaoENula = Assertion.NotNull(proposta, "A proposta não pode ser nula");
-
-			#endregion
-
-			oPropostaNaoENula.Validate();
-
-			ArquivoDTO.Arquivo = SerializarPropostaEmXML(proposta);
+			ArquivoDTO.Arquivo = proposta.Serializar();
 			ArquivoDTO.Extensao = "xml";
-			
-			Guid idGeradoParaArquivo = GravarArquivoIndexado(ArquivoDTO, proposta.Id);
+			ArquivoUploadDTO dtoRetorno = _gerenciadorDeArquivo.Gravar(ArquivoDTO);
 
-			#region Pós-condições
-
-			IAssertion oIDDoArquivoFoiGerado = Assertion.NotNull(idGeradoParaArquivo, "O ID para o arquivo não foi gerado");
-			IAssertion oIDDoArquivoNaoEstaVazio = Assertion.IsTrue(idGeradoParaArquivo != Guid.Empty, "O ID para o arquivo não foi gerado");
-
-			#endregion
-
-			oIDDoArquivoFoiGerado.and(oIDDoArquivoNaoEstaVazio).Validate();
-
-			return idGeradoParaArquivo;
-		}
-
-		/// <summary>
-		/// Grava o arquivo através do Serviço de Arquivo e indexa por IdDaProposta
-		/// </summary>
-		/// <param name="dto">ArquivoUploadDTO</param>
-		/// <param name="idDaProposta">ID da proposta</param>
-		private Guid GravarArquivoIndexado(ArquivoUploadDTO dto, Guid idDaProposta)
-		{
-			Dictionary<string, string> indicesDoArquivo = new Dictionary<string, string>();
-			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
-
-			ArquivoUploadDTO dtoRetorno = _gerenciadorDeArquivo.Gravar(dto);
-            _gerenciadorDeArquivo.IndexarPor(dtoRetorno, indicesDoArquivo);
+			IndexarArquivoDeDados(ArquivoDTO, proposta.Id);
 
 			return dtoRetorno.Id;
-		}
-
-		/// <summary>
-		/// Serializar a Proposta para XML e retorna o binário correpondente
-		/// </summary>
-		/// <param name="proposta">Proposta a ser serializada</param>
-		/// <returns>byte[]</returns>
-		private byte[] SerializarPropostaEmXML(Proposta proposta)
-		{
-			MemoryStream stream = new MemoryStream();
-
-			XmlSerializer serializer = new XmlSerializer(proposta.GetType());
-			serializer.Serialize(stream, proposta);
-			
-			return stream.GetBuffer();
 		}
 
 		/// <summary>
@@ -257,6 +209,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 				dataDaBusca = Data.SubtrairDias(quantidadeDeDias);
 
 			return dataDaBusca;
+		}
+
+		/// <summary>
+		/// Indexa o arquivo de dados da proposta utilizando as chaves "IdDaProposta" e "XMLDaProposta" e ID da proposta como valor para ambas as chaves
+		/// </summary>
+		/// <param name="idDoArquivo">ID do arquivo gerado</param>
+		/// <param name="idDaProposta">ID da proposta</param>
+		private void IndexarArquivoDeDados(ArquivoUploadDTO ArquivoDTO, Guid idDaProposta)
+		{
+			Dictionary<string, string> indicesDoArquivo = new Dictionary<string, string>();
+			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
+			indicesDoArquivo.Add("XMLDaProposta", idDaProposta.ToString());
+
+			_gerenciadorDeArquivo.IndexarPor(ArquivoDTO, indicesDoArquivo);
 		}
 	}
 }

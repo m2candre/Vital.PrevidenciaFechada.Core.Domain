@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using Vital.InfraStructure.ExceptionHandling;
 using Vital.Interfaces;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Services;
@@ -130,12 +131,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-        [Ignore("Não é possível serializar IList e também não é possível mapear no Hibernate List concreta")]
-		public void serializar_xml_gravando_arquivo_em_disco()
+		public void gravar_novo_arquivo_xml_de_proposta_serializada()
 		{
 			Proposta propostaParaSerializar = new Proposta();
 			propostaParaSerializar.Id = Guid.NewGuid();
 			propostaParaSerializar.Numero = 123456;
+			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			{
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "123" },
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio" }
+			};
 
 			ModeloDeProposta modelo = new ModeloDeProposta();
 			modelo.AdicionarCampo(new CampoDeProposta { Nome = "CPF" });
@@ -143,14 +148,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			propostaParaSerializar.ModeloDeProposta = new ModeloDeProposta();
 
 			Guid idArquivoGerado = Guid.NewGuid();
-			
+
 			ArquivoUploadDTO dto = new ArquivoUploadDTO();
 			ArquivoUploadDTO dtoRetorno = new ArquivoUploadDTO { Id = idArquivoGerado };
 
 			_gerenciadorDeArquivo.Expect(x => x.Gravar(dto)).Return(dtoRetorno);
 
 			_servicoProposta.ArquivoDTO = dto;
-			_servicoProposta.SerializarXMLGravandoEmDisco(propostaParaSerializar);
+			_servicoProposta.GravarArquivoDeDados(propostaParaSerializar);
 
 			Assert.That(dtoRetorno.Id, Is.EqualTo(idArquivoGerado));
 		}
