@@ -87,7 +87,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// Serializador XML para a Proposta
 		/// </summary>
 		[XmlIgnore]
-		public XmlSerializer XmlSerializer
+		public virtual XmlSerializer XmlSerializer
 		{
 			get
 			{
@@ -107,6 +107,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		public Proposta()
 		{
 			Valores = new List<ValorDeCampo>();
+			DataDeCriacao = DateTime.Now;
 		}
 
 		/// <summary>
