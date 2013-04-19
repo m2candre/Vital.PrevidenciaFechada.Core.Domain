@@ -158,6 +158,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
         }
 
         [Test]
+        [Ignore]
         public void obter_todos_filtrados()
         {
             Order order = new Order("Nome", true);

@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using Vital.PrevidenciaFechada.Core.Domain.Entities;
+using Vital.PrevidenciaFechada.Core.Domain.Repository.QuerySpecification;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
@@ -83,25 +84,25 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             var criteria = Session.CreateCriteria(typeof(T))
                  .Add(VitalCriterion.Where<T>(criterios))
                  .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Linhas))
-                 .SetMaxResults(consulta.Linhas)     
+                 .SetMaxResults(consulta.Linhas)
                  .AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
 
             return criteria.List<T>();
         }
 
-		/// <summary>
-		/// Obtém um objeto de acordo com um critério específico
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="criterios"></param>
-		/// <returns></returns>
-		public T ObterPor<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios) where T : class
-		{
-			var criteria = Session.CreateCriteria(typeof(T))
-				 .Add(VitalCriterion.Where<T>(criterios));
+        /// <summary>
+        /// Obtém um objeto de acordo com um critério específico
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="criterios"></param>
+        /// <returns></returns>
+        public T ObterPor<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios) where T : class
+        {
+            var criteria = Session.CreateCriteria(typeof(T))
+                 .Add(VitalCriterion.Where<T>(criterios));
 
-			return criteria.UniqueResult<T>();
-		}
+            return criteria.UniqueResult<T>();
+        }
 
         /// <summary>
         /// Filtrar todos 
@@ -110,21 +111,26 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         /// <returns>Lista de Objetos</returns>
         public IList<T> FiltrarTodos(ConsultaDTO consulta)
         {
-            var criteria = Session.CreateCriteria(typeof(T));
+            var criterios = Session.CreateCriteria(typeof(T));
 
             foreach (var filtro in consulta.Filtros)
-                criteria.Add(VitalCriterion.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
+            {
+                var especificacoesDeConsulta = new EspecificacaoAdicionarClausulasDeWhereParaCamposDeId(filtro).Or(
+                     new EspecificacaoAdicionarClausulaLikeParaCamposDeTexto(filtro));
 
-            criteria.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
+                especificacoesDeConsulta.MontarCriterios(criterios);
+            }
 
-            return criteria.List<T>();
+            criterios.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
+
+            return criterios.List<T>();
         }
 
-		/// <summary>
-		/// Obtém lista de objetos de acordo com filtros e navegação em páginas
-		/// </summary>
-		/// <param name="consulta"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// Obtém lista de objetos de acordo com filtros e navegação em páginas
+        /// </summary>
+        /// <param name="consulta"></param>
+        /// <returns></returns>
         public IList<T> FiltrarPaginandoTodos(ConsultaDTO consulta)
         {
             var criteria = Session.CreateCriteria(typeof(T))
@@ -132,7 +138,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
                 .SetMaxResults(consulta.Linhas);
 
             foreach (var filtro in consulta.Filtros)
-                criteria.Add(Expression.Like(filtro.Campo, filtro.Valor, MatchMode.Anywhere));
+            {
+                var especificacoesDeConsulta = new EspecificacaoAdicionarClausulasDeWhereParaCamposDeId(filtro).Or(
+                    new EspecificacaoAdicionarClausulaLikeParaCamposDeTexto(filtro));
+
+                especificacoesDeConsulta.MontarCriterios(criteria);
+            }
 
             Order order = new Order(consulta.CampoOrdenacao, consulta.OrdemCrescente);
 
@@ -140,5 +151,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
             return criteria.List<T>();
         }
-	}
+    }
 }
