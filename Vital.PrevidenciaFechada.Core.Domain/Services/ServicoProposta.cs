@@ -221,7 +221,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
 
 			ArquivoUploadDTO dtoRetorno = _gerenciadorDeArquivo.Gravar(dto);
-			_gerenciadorDeArquivo.IndexarPor(dtoRetorno.Id, indicesDoArquivo);
+            _gerenciadorDeArquivo.IndexarPor(dtoRetorno, indicesDoArquivo);
 
 			return dtoRetorno.Id;
 		}
