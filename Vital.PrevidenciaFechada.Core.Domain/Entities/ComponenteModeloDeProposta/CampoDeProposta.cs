@@ -44,7 +44,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Registra os valores para um modelo
         /// </summary>
 		[XmlIgnore]
-		public virtual HashSet<ValoresDoCampo> ValoresDoCampo { get; set; }
+		public virtual IList<ValoresDoCampo> ValoresDoCampo { get; set; }
 
         /// <summary>
         /// Título do campo
