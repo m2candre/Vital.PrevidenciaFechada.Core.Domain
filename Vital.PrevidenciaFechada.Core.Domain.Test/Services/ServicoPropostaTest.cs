@@ -193,6 +193,36 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
+		public void carregar_proposta_do_arquivo_de_dados()
+		{
+			Guid idDaProposta = Guid.NewGuid();
+			Guid idArquivoGerado = Guid.NewGuid();
+
+			Proposta propostaParaSerializar = new Proposta();
+			propostaParaSerializar.Id = idDaProposta;
+			propostaParaSerializar.IdDoArquivoDeDados = idArquivoGerado;
+			propostaParaSerializar.Numero = 123456;
+			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			{
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "654687" },
+				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio Cesar" }
+			};
+			byte[] propostaSerializada = propostaParaSerializar.Serializar();
+
+			ArquivoUploadDTO dto = new ArquivoUploadDTO { Id = idArquivoGerado };
+			ArquivoUploadDTO dtoRetorno = new ArquivoUploadDTO { Id = idArquivoGerado, Arquivo = propostaSerializada };
+
+			_gerenciadorDeArquivo.Expect(x => x.Obter(dto)).Return(dtoRetorno);
+
+			_servicoProposta.ArquivoDTO = dto;
+			Proposta propostaRecuperada = _servicoProposta.CarregarPropostaDoArquivoDeDados(idArquivoGerado);
+
+			Assert.That(propostaRecuperada, Is.Not.Null);
+			Assert.That(propostaRecuperada.Id, Is.EqualTo(propostaParaSerializar.Id));
+			Assert.That(propostaRecuperada.IdDoArquivoDeDados, Is.EqualTo(propostaParaSerializar.IdDoArquivoDeDados));
+		}
+
+		[Test]
 		public void setar_nova_proposta_no_servico()
 		{
 			Assert.That(_servicoProposta.NovaProposta, Is.Not.Null);

@@ -15,6 +15,7 @@ using System.Linq.Expressions;
 using Vital.Interfaces;
 using System.IO;
 using Vital.PrevidenciaFechada.DTO.Messages;
+using System.Xml.Serialization;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Services
 {
@@ -228,18 +229,75 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			ArquivoDTO.Extensao = "xml";
 			
 			_gerenciadorDeArquivo.Atualizar(ArquivoDTO);
-			IndexarArquivoDeDados(ArquivoDTO.Id, proposta.Id);
+			IndexarArquivoDeDados(ArquivoDTO, proposta.Id);
 		}
 
 		/// <summary>
 		/// Carrega o arquivo de dados
 		/// </summary>
-		/// <param name="idDaProposta"></param>
+		/// <param name="idDoArquivo">ID do arquivo de dados</param>
 		/// <returns></returns>
-		//public virtual Proposta CarregarPropostaDoArquivoDeDados(Guid idDaProposta)
-		//{
+		public virtual Proposta CarregarPropostaDoArquivoDeDados(Guid idDoArquivo)
+		{
+			#region Pré-condições
 
-		//}
+			IAssertion oIDDoArquivo = Assertion.IsTrue(idDoArquivo != Guid.Empty, "O ID do arquivo não foi informado corretamente");
+
+			#endregion
+
+			oIDDoArquivo.Validate();
+
+			byte[] arquivo = RecuperarArquivoDeDados(idDoArquivo);
+			Proposta proposta = Deserializar(arquivo);
+
+			#region Pós-condições
+
+			IAssertion aPropostaDeserializadaNaoEstaNula = Assertion.NotNull(proposta, "A proposta não foi deserializada corretamente");
+			IAssertion oIDDaPropostaEstaPreenchido = Assertion.NotNull(proposta.Id, "O ID da proposta não foi preenchido na deserialização");
+			IAssertion aListaDeValoresNaoEstaVazia = Assertion.GreaterThan(proposta.Valores.Count, 0, "A lista de valores da proposta não pode estar vazia");
+
+			#endregion
+
+			aPropostaDeserializadaNaoEstaNula.and(oIDDaPropostaEstaPreenchido).and(aListaDeValoresNaoEstaVazia).Validate();
+
+			return proposta;
+		}
+
+		/// <summary>
+		/// Retorna o binário do arquivo de dados obtido do Serviço de Arquivos
+		/// </summary>
+		/// <param name="idDoArquivo">ID do arquivo a recuperar</param>
+		/// <returns>byte[]</returns>
+		private byte[] RecuperarArquivoDeDados(Guid idDoArquivo)
+		{
+			ArquivoDTO.Id = idDoArquivo;
+			ArquivoDTO.Extensao = "xml";
+
+			ArquivoUploadDTO retorno = _gerenciadorDeArquivo.Obter(ArquivoDTO);
+
+			return retorno.Arquivo;
+		}
+
+		/// <summary>
+		/// Deserializa o arquivo de dados para a Proposta
+		/// </summary>
+		/// <param name="arquivoDeDados">Conteúdo do arquivo de dados</param>
+		/// <returns>Proposta preenchida</returns>
+		private Proposta Deserializar(byte[] arquivoDeDados)
+		{
+			#region Pré-condições
+
+			IAssertion oArquivoInformadoNaoEstaVazio = Assertion.IsTrue(arquivoDeDados.Length > 0, "O arquivo de dados não possui informações");
+
+			#endregion
+
+			oArquivoInformadoNaoEstaVazio.Validate();
+
+			MemoryStream stream = new MemoryStream(arquivoDeDados);
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(Proposta));
+
+			return (Proposta)xmlSerializer.Deserialize(stream);
+		}
 
 		/// <summary>
 		/// Obtem uma data para a busca de propostas de acordo com o parametro de dias
@@ -264,13 +322,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// </summary>
 		/// <param name="idDoArquivo">ID do arquivo gerado</param>
 		/// <param name="idDaProposta">ID da proposta</param>
-		private void IndexarArquivoDeDados(ArquivoUploadDTO ArquivoDTO, Guid idDaProposta)
+		private void IndexarArquivoDeDados(ArquivoUploadDTO arquivoDTO, Guid idDaProposta)
 		{
 			Dictionary<string, string> indicesDoArquivo = new Dictionary<string, string>();
 			indicesDoArquivo.Add("IdDaProposta", idDaProposta.ToString());
 			indicesDoArquivo.Add("XMLDaProposta", idDaProposta.ToString());
 
-			_gerenciadorDeArquivo.IndexarPor(ArquivoDTO, indicesDoArquivo);
+			_gerenciadorDeArquivo.IndexarPor(arquivoDTO, indicesDoArquivo);
 		}
 	}
 }
