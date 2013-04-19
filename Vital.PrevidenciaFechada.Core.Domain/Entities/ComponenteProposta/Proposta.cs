@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Vital.InfraStructure.DSL.DesignByContract;
-using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteDocumento;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
@@ -17,14 +18,14 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		private MaquinaDeEstadoDaProposta _maquinaDeEstadoDaProposta;
 		private string _estado;
 
-        #region Propriedades
+		#region Propriedades
 
-        /// <summary>
-		/// Id
+		/// <summary>
+		/// ID da proposta
 		/// </summary>
 		public virtual Guid Id { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Número da Proposta
 		/// </summary>
 		public virtual int Numero { get; set; }
@@ -50,6 +51,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		}
 
 		/// <summary>
+		/// ID do arquivo de dados que armazena a proposta serializada
+		/// </summary>
+		public virtual Guid IdDoArquivoDeDados { get; set; }
+
+		/// <summary>
+		/// Valores dos campos da proposta
+		/// </summary>
+		public virtual List<ValorDeCampo> Valores { get; set; }
+
+		/// <summary>
 		/// Objeto responsável por controlar a transição de estados da proposta
 		/// </summary>
 		[XmlIgnore]
@@ -65,67 +76,62 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			set { _maquinaDeEstadoDaProposta = value; }
 		}
 
-        /// <summary>
-        /// Modelo de Proposta
-        /// </summary>
+		/// <summary>
+		/// Modelo de Proposta
+		/// </summary>
 		[XmlIgnore]
-        public virtual ModeloDeProposta ModeloDeProposta { get; set; }
+		public virtual ModeloDeProposta ModeloDeProposta { get; set; }
 
-        /// <summary>
-        /// Valores dos campos da proposta
-        /// </summary>
-		public virtual IList<ValorDeCampo> Valores { get; set; }
+		#endregion
 
-        #endregion
+		/// <summary>
+		/// Construtor
+		/// </summary>
+		public Proposta()
+		{
+			Valores = new List<ValorDeCampo>();
+		}
 
-        /// <summary>
-        /// Construtor
-        /// </summary>
-        public Proposta()
-        {
-            Valores = new List<ValorDeCampo>();
-        }
-
-        /// <summary>
+		/// <summary>
 		/// Autoriza a proposta
 		/// </summary>
 		public virtual void Autorizar()
 		{
-            AlterarEstadoPelaAcao("Autorizar");
+			AlterarEstadoPelaAcao("Autorizar");
 		}
 
-        /// <summary>
-        /// Rejeita a a proposta
-        /// </summary>
-        public virtual void Rejeitar()
-        {
-            AlterarEstadoPelaAcao("Rejeitar");
-        }
+		/// <summary>
+		/// Rejeita a a proposta
+		/// </summary>
+		public virtual void Rejeitar()
+		{
+			AlterarEstadoPelaAcao("Rejeitar");
+		}
 
 		/// <summary>
 		/// Recusa a proposta
 		/// </summary>
 		public virtual void Recusar()
 		{
-            AlterarEstadoPelaAcao("Recusar");
+			AlterarEstadoPelaAcao("Recusar");
 		}
 
-        /// <summary>
-        /// Altera o Estado na máquina de estado da proposta pela ação
-        /// </summary>
-        /// <param name="acao">acao</param>
-        private void AlterarEstadoPelaAcao(string acao)
-        {
-            #region Pré-condições
+		/// <summary>
+		/// Altera o Estado na máquina de estado da proposta pela ação
+		/// </summary>
+		/// <param name="acao">acao</param>
+		private void AlterarEstadoPelaAcao(string acao)
+		{
+			#region Pré-condições
 
-            IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
+			IAssertion maquinaDeEstadoEstaInicializada = Assertion.NotNull(MaquinaDeEstado, "A máquina de estados da proposta deve ser inicializada");
 
-            #endregion
+			#endregion
 
-            maquinaDeEstadoEstaInicializada.Validate();
+			maquinaDeEstadoEstaInicializada.Validate();
 
-            MaquinaDeEstado.AlterarEstadoPelaAcao(acao);
-        }
+			MaquinaDeEstado.AlterarEstadoPelaAcao(acao);
+		}
 
 		/// <summary>
 		/// Altera o estado da proposta
@@ -150,6 +156,39 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			#endregion
 
 			oEstadoDaPropostaFoiAlterado.Validate();
+		}
+
+		/// <summary>
+		/// Serializa os dados da proposta em formato XML
+		/// </summary>
+		/// <returns></returns>
+		public virtual byte[] Serializar()
+		{
+			#region Pré-condições
+
+			IAssertion aListaDeValoresDosCamposNaoEstaNula = Assertion.NotNull(Valores, "A lista de valores dos campos não pode estar nula");
+			IAssertion aListaDeValoresDosCamposNaoEstarVazia = Assertion.IsTrue(Valores.Count > 0, "A lista de valores dos campos não pode estar vazia");
+
+			#endregion
+
+			aListaDeValoresDosCamposNaoEstaNula.and(aListaDeValoresDosCamposNaoEstarVazia).Validate();
+
+			MemoryStream stream = new MemoryStream();
+
+			XmlSerializer serializer = new XmlSerializer(this.GetType());
+			serializer.Serialize(stream, this);
+
+			byte[] arquivo = stream.GetBuffer();
+
+			#region Pós-condições
+
+			IAssertion oArquivoGeradoNaoEstaVazio = Assertion.IsTrue(arquivo.Length > 0, "O arquivo serializado não possui dados");
+
+			#endregion
+
+			oArquivoGeradoNaoEstaVazio.Validate();
+
+			return arquivo;
 		}
 	}
 }
