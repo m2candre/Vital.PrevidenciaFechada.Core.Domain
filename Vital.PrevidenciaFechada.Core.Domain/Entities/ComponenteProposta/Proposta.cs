@@ -74,7 +74,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
         /// <summary>
         /// Valores dos campos da proposta
         /// </summary>
-		public virtual List<ValorDeCampo> Valores { get; set; }
+		public virtual IList<ValorDeCampo> Valores { get; set; }
 
         #endregion
 
