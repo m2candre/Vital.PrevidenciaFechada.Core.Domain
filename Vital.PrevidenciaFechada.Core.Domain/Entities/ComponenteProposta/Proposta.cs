@@ -15,6 +15,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 	[Serializable]
 	public class Proposta : IAggregateRoot<Guid>
 	{
+		private XmlSerializer _xmlSerializer;
 		private MaquinaDeEstadoDaProposta _maquinaDeEstadoDaProposta;
 		private string _estado;
 
@@ -81,6 +82,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// </summary>
 		[XmlIgnore]
 		public virtual ModeloDeProposta ModeloDeProposta { get; set; }
+
+		/// <summary>
+		/// Serializador XML para a Proposta
+		/// </summary>
+		[XmlIgnore]
+		public XmlSerializer XmlSerializer
+		{
+			get
+			{
+				if (_xmlSerializer == null)
+					_xmlSerializer = new XmlSerializer(this.GetType());
+
+				return _xmlSerializer;
+			}
+			set { _xmlSerializer = value; }
+		}
 
 		#endregion
 
@@ -175,8 +192,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			MemoryStream stream = new MemoryStream();
 
-			XmlSerializer serializer = new XmlSerializer(this.GetType());
-			serializer.Serialize(stream, this);
+			XmlSerializer.Serialize(stream, this);
 
 			byte[] arquivo = stream.GetBuffer();
 
@@ -189,6 +205,37 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 			oArquivoGeradoNaoEstaVazio.Validate();
 
 			return arquivo;
+		}
+
+		/// <summary>
+		/// Deserializa o arquivo de dados para a Proposta
+		/// </summary>
+		/// <param name="arquivoDeDados">Conteúdo do arquivo de dados</param>
+		/// <returns>Proposta preenchida</returns>
+		public virtual Proposta Deserializar(byte[] arquivoDeDados)
+		{
+			#region Pré-condições
+
+			IAssertion oArquivoInformadoNaoEstaVazio = Assertion.IsTrue(arquivoDeDados.Length > 0, "O arquivo de dados não possui informações");
+
+			#endregion
+
+			oArquivoInformadoNaoEstaVazio.Validate();
+
+			MemoryStream stream = new MemoryStream(arquivoDeDados);
+			Proposta proposta = (Proposta)XmlSerializer.Deserialize(stream);
+
+			#region Pós-condições
+
+			IAssertion aPropostaDeserializadaNaoEstaNula = Assertion.NotNull(proposta, "A proposta não foi deserializada corretamente");
+			IAssertion oIDDaPropostaEstaPreenchido = Assertion.NotNull(proposta.Id, "O ID da proposta não foi preenchido na deserialização");
+			IAssertion aListaDeValoresNaoEstaVazia = Assertion.GreaterThan(proposta.Valores.Count, 0, "A lista de valores da proposta não pode estar vazia");
+
+			#endregion
+
+			aPropostaDeserializadaNaoEstaNula.and(oIDDaPropostaEstaPreenchido).and(aListaDeValoresNaoEstaVazia).Validate();
+
+			return proposta;
 		}
 	}
 }
