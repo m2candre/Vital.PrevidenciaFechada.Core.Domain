@@ -206,36 +206,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			return arquivo;
 		}
-
-		/// <summary>
-		/// Deserializa o arquivo de dados para a Proposta
-		/// </summary>
-		/// <param name="arquivoDeDados">Conteúdo do arquivo de dados</param>
-		/// <returns>Proposta preenchida</returns>
-		public virtual Proposta Deserializar(byte[] arquivoDeDados)
-		{
-			#region Pré-condições
-
-			IAssertion oArquivoInformadoNaoEstaVazio = Assertion.IsTrue(arquivoDeDados.Length > 0, "O arquivo de dados não possui informações");
-
-			#endregion
-
-			oArquivoInformadoNaoEstaVazio.Validate();
-
-			MemoryStream stream = new MemoryStream(arquivoDeDados);
-			Proposta proposta = (Proposta)XmlSerializer.Deserialize(stream);
-
-			#region Pós-condições
-
-			IAssertion aPropostaDeserializadaNaoEstaNula = Assertion.NotNull(proposta, "A proposta não foi deserializada corretamente");
-			IAssertion oIDDaPropostaEstaPreenchido = Assertion.NotNull(proposta.Id, "O ID da proposta não foi preenchido na deserialização");
-			IAssertion aListaDeValoresNaoEstaVazia = Assertion.GreaterThan(proposta.Valores.Count, 0, "A lista de valores da proposta não pode estar vazia");
-
-			#endregion
-
-			aPropostaDeserializadaNaoEstaNula.and(oIDDaPropostaEstaPreenchido).and(aListaDeValoresNaoEstaVazia).Validate();
-
-			return proposta;
-		}
 	}
 }
