@@ -147,7 +147,6 @@
     <Compile Include="Entities\ComponenteUsuario\IdentidadeTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\UsuarioTest.cs" />
     <Compile Include="Entities\EntidadeTest.cs" />
-    <Compile Include="Repository\RepositorioPropostaTests.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
     <Compile Include="Services\IGerenciadorDeArquivoProvider.cs" />

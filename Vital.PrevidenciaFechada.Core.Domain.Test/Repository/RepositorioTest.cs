@@ -205,7 +205,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.CreateCriteria(typeof(Proposta))).Return(criteria);
 
-            RepositorioProposta repositorio = new RepositorioProposta(session);
+            Repositorio<Proposta> repositorio = new Repositorio<Proposta>(session);
             repositorio.VitalCriterion = vitalCriterion;
 
             repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterio, new ConsultaDTO { OrdemCrescente = true, PaginaAtual = 2, Linhas = 1, CampoOrdenacao = "Numero" });

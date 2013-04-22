@@ -24,7 +24,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 	/// </summary>
 	public class ServicoProposta
 	{
-		private IRepositorioProposta _repositorioProposta;
+		private IRepositorio<Proposta> _repositorioProposta;
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private Proposta _proposta;
 		private DateTime _data;
@@ -79,7 +79,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Construtor com injeção de dependência dos repositório de Proposta e Plano
 		/// </summary>
-		public ServicoProposta(IRepositorioProposta repositorioProposta, IRepositorioConvenioDeAdesao repositorioConvenio, IGerenciadorDeArquivoProvider gerenciadorDeArquivo)
+		public ServicoProposta(IRepositorio<Proposta> repositorioProposta, IRepositorioConvenioDeAdesao repositorioConvenio, IGerenciadorDeArquivoProvider gerenciadorDeArquivo)
 		{
 			#region Pré-condições
 

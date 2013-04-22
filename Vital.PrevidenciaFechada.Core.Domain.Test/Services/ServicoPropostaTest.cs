@@ -10,6 +10,7 @@ using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
+using Vital.PrevidenciaFechada.Core.Domain.Repository;
 using Vital.PrevidenciaFechada.Core.Domain.Services;
 using Vital.PrevidenciaFechada.DTO.Messages;
 using Vital.PrevidenciaFechada.DTO.Messages.Core;
@@ -19,7 +20,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 	[TestFixture]
 	public class ServicoPropostaTest
 	{
-		private IRepositorioProposta _repositorioProposta;
+		private IRepositorio<Proposta> _repositorioProposta;
 		private IRepositorioConvenioDeAdesao _repositorioConvenio;
 		private IGerenciadorDeArquivoProvider _gerenciadorDeArquivo;
 		private ServicoProposta _servicoProposta;
@@ -27,7 +28,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		[SetUp]
 		public void iniciar()
 		{
-			_repositorioProposta = MockRepository.GenerateMock<IRepositorioProposta>();
+			_repositorioProposta = MockRepository.GenerateMock<IRepositorio<Proposta>>();
 			_repositorioConvenio = MockRepository.GenerateMock<IRepositorioConvenioDeAdesao>();
 			_gerenciadorDeArquivo = MockRepository.GenerateMock<IGerenciadorDeArquivoProvider>();
 			_servicoProposta = new ServicoProposta(_repositorioProposta, _repositorioConvenio, _gerenciadorDeArquivo);
