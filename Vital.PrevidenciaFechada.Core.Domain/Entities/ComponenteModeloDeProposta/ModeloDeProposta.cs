@@ -69,6 +69,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         }
 
         /// <summary>
+        /// Obtém um campo do modelo de proposta por nome
+        /// </summary>
+        /// <param name="nome">Nome do campo</param>
+        /// <returns></returns>
+        public virtual CampoDeProposta ObterCampo(string nome)
+        {
+            return Campos.SingleOrDefault(c => c.Nome == nome);
+        }
+
+        /// <summary>
         /// Valida o novo campo e o adiciona a lista de campos atuais
         /// </summary>
         /// <param name="campo">Novo campo</param>
