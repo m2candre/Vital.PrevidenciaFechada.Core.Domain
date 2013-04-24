@@ -68,7 +68,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			_servicoProposta.Data = dataDaBusca;
 
-			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPeriodo(idDoConvenioDeAdesao, 20, consultaDTO) as List<Proposta>;
+			List<Proposta> propostas = _servicoProposta.ObterPropostasRegistradasPorPeriodo(idDoConvenioDeAdesao, 20, consultaDTO) as List<Proposta>;
 
 			Assert.IsNotNull(propostas);
 			Assert.IsTrue(propostas.All(p => p.Estado == "Registrada" && p.DataDeCriacao >= dataDaBusca.AddDays(-20)));
@@ -90,7 +90,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			_servicoProposta.Data = dataDaBusca;
 
-			List<Proposta> propostas = _servicoProposta.ObterPropostasPorPeriodo(idDoConvenioDeAdesao, 0, consultaDTO) as List<Proposta>;
+			List<Proposta> propostas = _servicoProposta.ObterPropostasRegistradasPorPeriodo(idDoConvenioDeAdesao, 0, consultaDTO) as List<Proposta>;
 
 			Assert.IsNotNull(propostas);
 

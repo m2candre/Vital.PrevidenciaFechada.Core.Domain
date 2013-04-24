@@ -113,7 +113,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public virtual IList<Proposta> ObterPropostasPorPeriodo(Guid idDoConvenioDeAdesao, int quantidadeDeDias, ConsultaDTO consultaDTO)
+		public virtual IList<Proposta> ObterPropostasRegistradasPorPeriodo(Guid idDoConvenioDeAdesao, int quantidadeDeDias, ConsultaDTO consultaDTO)
 		{
 			#region Pré-condições
 
@@ -129,7 +129,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			var convenioDeAdesao = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
 
-			var propostasEncontradas = convenioDeAdesao.Propostas.Where(p => p.DataDeCriacao >= dataDaBusca);
+			var propostasEncontradas = convenioDeAdesao.Propostas.Where(p => p.DataDeCriacao >= dataDaBusca && p.Estado == "Registrada");
 
 			#region Pós-condições
 
