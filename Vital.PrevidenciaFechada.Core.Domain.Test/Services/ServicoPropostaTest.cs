@@ -35,6 +35,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
+		[Ignore("As críticas estão amarradas à entidade Proposta, mas precisam mudar")]
 		public void obter_criticas()
 		{
 			Guid idDoConvenioDeAdesao = Guid.NewGuid();
@@ -44,7 +45,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			_repositorioConvenio.Expect(x => x.PorId(convenio.Id)).Return(convenio);
 
-			var criticas = _servicoProposta.ObterCriticasDaProposta(new PropostaDTO() { CPF = "123" }, idDoConvenioDeAdesao);
+			var criticas = _servicoProposta.ObterCriticasDaProposta(new PropostaDTO(), idDoConvenioDeAdesao);
 
 			Assert.That(criticas.First().Mensagem, Is.EqualTo("Nome do participante é obrigatório"));
 			Assert.That(criticas.First().Campo, Is.EqualTo("Nome"));

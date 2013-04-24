@@ -21,8 +21,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
         public PropostaMapper()
         {
             Mapper.CreateMap<PropostaDTO, PropostaVO>()
-                .ForMember(dest => dest.CpfDoParticipante, opcao => opcao.MapFrom(source => source.CPF))
-                .ForMember(dest => dest.NomeDoParticipante, opcao => opcao.MapFrom(source => source.Nome))
                 .ForMember(dest => dest.Criticas, opcao => opcao.Ignore());
         }
 
