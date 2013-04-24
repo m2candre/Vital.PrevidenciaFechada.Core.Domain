@@ -27,7 +27,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         /// <param name="consulta">parametros de consulta</param>
         /// <returns>Lista de objetos</returns>
 		IList<T> ObterTodosFiltradosComCriterio<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios, ConsultaDTO consulta) where T : class;
-		
+
+		/// <summary>
+		/// Obtém uma lista de objetos de acordo com um ou mais critérios
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="criterios"></param>
+		/// <returns></returns>
+		IList<T> ObterListaPor<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios) where T : class;
+
 		/// <summary>
 		/// Obtém um objeto de acordo com um critério específico
 		/// </summary>

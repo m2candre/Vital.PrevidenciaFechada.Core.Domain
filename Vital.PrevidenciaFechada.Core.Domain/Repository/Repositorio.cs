@@ -90,6 +90,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
             return criteria.List<T>();
         }
 
+		/// <summary>
+		/// Obtém uma lista de objetos de acordo com um ou mais critérios
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="criterios"></param>
+		/// <returns></returns>
+		IList<T> IRepositorio<T>.ObterListaPor<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios)
+		{
+			var criteria = Session.CreateCriteria(typeof(T))
+                 .Add(VitalCriterion.Where<T>(criterios)).List<T>();
+
+			return criteria;
+		}
+
         /// <summary>
         /// Obtém um objeto de acordo com um critério específico
         /// </summary>
@@ -151,5 +165,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
             return criteria.List<T>();
         }
-    }
+	}
 }
