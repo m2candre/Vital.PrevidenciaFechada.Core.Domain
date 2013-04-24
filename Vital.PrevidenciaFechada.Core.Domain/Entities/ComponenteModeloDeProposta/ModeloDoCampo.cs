@@ -27,7 +27,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// Html do modelo para impressão
         /// </summary>
         public virtual string ModeloParaImpressao { get; set; }
-		
+
         /// <summary>
         /// Construtor
         /// </summary>
@@ -42,6 +42,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <param name="nomeDoModelo"></param>
         /// <param name="modeloParaFormulario"></param>
         /// <param name="modeloParaImpressao"></param>
+        /// <param name="sufixoPrefixo"></param>
         public ModeloDoCampo(string nomeDoModelo, string modeloParaFormulario, string modeloParaImpressao)
         {
             this.NomeDoModelo = nomeDoModelo;

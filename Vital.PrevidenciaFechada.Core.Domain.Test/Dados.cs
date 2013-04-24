@@ -38,26 +38,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("CPF", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' class='cpf' value='@valor'/></span></div>", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>"));
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("Data", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' class='data' value='@valor'/></span></div>", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>"));
             _listaDeModelosDeCampos.Add(new ModeloDoCampo("Telefone", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' class='telefone' value='@valor'/></span></div>", "<div class='@Css'><span>@titulo</span><span>@valor</span></div>"));
-
-            //_listaDeModelosDeCampos.Add(new ModeloDoCampo("Campo com Sufixo", "<div class='@Css'><span class='internal'>@valor</span></div>", "<div class='@Css'><span class='internal'>@valor</span></div>"));
-
-            //_listaDeModelosDeCampos.Add(new ModeloDoCampo("Campo com Prefixo", "<div class='@Css'><span class='internal'>@valor</span></div>", "<div class='@Css'><span class='internal'>@valor</span></div>"));
-
-            //_listaDeModelosDeCampos.Add(new ModeloDoCampo("Linha com Checkbox", "<div class='@Css'><span class='internal'>@valor</span></div>", "<div class='@Css'><span class='internal'>@valor</span></div>"));
-
-        }///
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Campo com Sufixo", "<div class='@Css'><span>@titulo</span><span><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' value='@valor'/></span><div class='text pull-right'>@sufixo</div></div>", "<div class='@css'><span>@titulo</span><span>@valor</span><div class='text pull-right'> @sufixo</div></div>"));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Campo com Prefixo", "<div class='@Css'><span>@titulo</span><span>@prefixo <input type='hidden' name='[@indice].Nome' value='@nome'/><input type='text' name='[@indice].Valor' value='@valor'/></span></div>", "<div class='@css'><span>@titulo</span><span>@sufixo @valor</span></div> "));
+            _listaDeModelosDeCampos.Add(new ModeloDoCampo("Linha com Checkbox", "<div class='@Css'><label><input type='hidden' name='[@indice].Nome' value='@nome'/><input type='checkbox' name='[@indice].Valor' value='@valor'/>@titulo</label></div>", "<div class=\"line-check checked\">@valor</div>  "));
+        }
 
 
-
-
-
-        //    containerSufixo = @"<div class='@Css'><span>@titulo</span><span>@componente</span><div class='@estiloComplementar'>@informacaoComplementar</div></div>";
-        //    containerPrefixo = @"<div class='@Css'><span>@titulo</span><span>@informacaoComplementar @componente</span></div>";
-
-
-
-
-     
 
         //    containerHeaderTabela = "<table>@componente";
         //    containerLinhaTabela = "@componente";
