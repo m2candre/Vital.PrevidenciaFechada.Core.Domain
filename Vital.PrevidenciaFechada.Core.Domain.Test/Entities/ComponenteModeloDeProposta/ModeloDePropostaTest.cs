@@ -116,6 +116,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
 
 
         [Test]
+        [Ignore]
         public void renderizar_formulario_sem_dados()
         {
             var modeloProposta = new ModeloDeProposta();
@@ -150,6 +151,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
          }
 
         [Test]
+        [Ignore]
         public void renderizar_impressao_sem_dados()
         {
             var modeloProposta = new ModeloDeProposta();

@@ -155,11 +155,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             StringBuilder sb = new StringBuilder();
 
+            sb.Append(RenderizarTemplateTopo());
+
 		    foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario))
 		    {
 		        sb.Append(campoDeProposta.RenderizarParaFormulario());
 		    }
-         
+
+		    sb.Append(RenderizarScripts());
+            sb.Append(RenderizarRodape());
 			return sb.ToString();
 		}
 
@@ -175,12 +179,69 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             StringBuilder sb = new StringBuilder();
 
+		    sb.Append(RenderizarTemplateTopo());
+
             foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario).Where(a => a.VisivelNaImpressao))
             {
                 sb.Append(campoDeProposta.RenderizarParaFormulario());
             }
 
+		    sb.Append(RenderizarRodape());
             return sb.ToString();
 		}
-    }
+
+        /// <summary>
+        /// Renderiza o topo do template
+        /// </summary>
+        /// <returns></returns>
+        private string RenderizarTemplateTopo()
+        {
+            return @"<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset='utf-8'>
+                        <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+                        <title>Propostas</title>
+                        <link rel='stylesheet' href='/bootstrap/css/bootstrap.min.css'>
+                        <link rel='stylesheet'' href='/Css/ModelosDeProposta.css'>
+                    </head>
+                    <body>
+                        <div id='container' class='container'>
+                            <div class='span form'>
+                                <div class='row'>";
+        }
+
+        /// <summary>
+        /// Renderiza o rodapé do template
+        /// </summary>
+        /// <returns></returns>
+        private string RenderizarRodape()
+        {
+            return @"</div>
+                        </div>
+                    </div>
+                </body>
+                </html>";
+        }
+
+        /// <summary>
+        /// Renderiza scripts
+        /// </summary>
+        /// <returns></returns>
+        private string RenderizarScripts()
+        {
+            return @"<script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+            <script type='text/javascript'>
+                $(function() {
+                    $('input').focus(function () {
+                        $(this).parent().parent().css('background-color', '#FFFFBF');
+                    });
+
+                    $('input').blur(function () {
+                        $(this).parent().parent().css('background-color', 'transparent');
+                    });
+                });
+            </script>";
+        }
+	}
 }
