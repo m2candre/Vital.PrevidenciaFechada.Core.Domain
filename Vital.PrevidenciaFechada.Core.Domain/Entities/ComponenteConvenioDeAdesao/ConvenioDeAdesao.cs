@@ -136,6 +136,39 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		}
 
 		/// <summary>
+		/// Obtém uma proposta por ID
+		/// </summary>
+		/// <param name="idDaProposta"></param>
+		/// <returns></returns>
+		public virtual Proposta ObterPropostaPorId(Guid idDaProposta)
+		{
+			#region Pré-condições
+
+			Assertion.NotNull(idDaProposta, "O ID da proposta deve ser informado").Validate();
+
+			#endregion
+
+			var proposta = Propostas.SingleOrDefault(p => p.Id == idDaProposta);
+
+			#region Pós-condições
+
+			Assertion.NotNull(proposta, "Não foi encontrada proposta com o ID informado").Validate();
+
+			#endregion
+
+			return proposta;
+		}
+
+		/// <summary>
+		/// Obtém uma lista de propostas em rascunho
+		/// </summary>
+		/// <returns></returns>
+		public virtual IList<Proposta> ObterPropostasEmRascunho()
+		{
+			return Propostas.Where(p => p.Estado == "EmRascunho").ToList();
+		}
+
+		/// <summary>
 		/// Obtem o único modelo de proposta publicado
 		/// </summary>
 		/// <returns>ModeloDeProposta</returns>
