@@ -19,11 +19,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 			PessoaJuridica pj = new Patrocinador { Id = Guid.NewGuid(), RazaoSocial = "Patrocinador_teste" };
 			Plano plano = new Plano { Id = Guid.NewGuid(), Nome = "Plano_teste" };
 
+			ModeloDeProposta modelo = new ModeloDeProposta { Id = Guid.NewGuid() };
+			modelo.AdicionarCampo(new CampoDeProposta { Nome = "Nome" });
+			modelo.Publicar();
+			
 			_convenio = new ConvenioDeAdesao(entidade, pj, plano);
+			_convenio.AdicionarModeloDeProposta(modelo);
 		}
 
 		[Test]
-		public void adicionar_proposta_ao_convenio()
+		public void adicionar_proposta_ao_convenio_com_modelo_publicado()
 		{
 			Proposta proposta1 = new Proposta { Id = Guid.NewGuid() };
 			Proposta proposta2 = new Proposta { Id = Guid.NewGuid() };
@@ -32,6 +37,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 			_convenio.AdicionarProposta(proposta2);
 
 			Assert.That(_convenio.Propostas.Count, Is.EqualTo(2));
+			Assert.IsTrue(proposta1.ModeloDeProposta.Publicada);
+			Assert.IsTrue(proposta2.ModeloDeProposta.Publicada);
 		}
 
 		[Test]
@@ -43,7 +50,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 			_convenio.AdicionarModeloDeProposta(modelo1);
 			_convenio.AdicionarModeloDeProposta(modelo2);
 
-			Assert.That(_convenio.ModelosDeProposta.Count, Is.EqualTo(2));
+			Assert.That(_convenio.ModelosDeProposta.Count, Is.EqualTo(3));
 		}
 
 		[Test]
@@ -51,19 +58,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteConvenioD
 		{
 			Guid idModeloPublicado = Guid.NewGuid();
 
-			ModeloDeProposta modelo1 = new ModeloDeProposta { Id = Guid.NewGuid() };
-			ModeloDeProposta modelo2 = new ModeloDeProposta { Id = idModeloPublicado };
-            var campo = new CampoDeProposta { Nome = "Nome completo" };
-
-            modelo2.AdicionarCampo(campo);
-			modelo2.Publicar();
-
-			_convenio.AdicionarModeloDeProposta(modelo1);
-			_convenio.AdicionarModeloDeProposta(modelo2);
-
 			ModeloDeProposta modeloPublicado = _convenio.ObterModeloDePropostaPublicado();
 
-			Assert.That(modelo2.Id, Is.EqualTo(modeloPublicado.Id));
+			Assert.IsTrue(modeloPublicado.Publicada);
 		}
 	}
 }

@@ -89,6 +89,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
 			IAssertion aPropostaFoiInformada = Assertion.NotNull(proposta, "A proposta não foi informada");
 			IAssertion aListaDePropostasFoiInicializada = Assertion.NotNull(Propostas, "A lista de propostas não foi inicializada");
+			IAssertion existeModeloDePropostaPublicado = Assertion.NotNull(ObterModeloDePropostaPublicado(), "O convênio de adesão não possui modelo de proposta publicado");
 
 			#endregion
 
@@ -96,6 +97,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
 			int quantidadeDePropostasAntesDeAdicionar = Propostas.Count;
 
+			proposta.ModeloDeProposta = ObterModeloDePropostaPublicado();
 			Propostas.Add(proposta);
 
 			#region Pós-Condições

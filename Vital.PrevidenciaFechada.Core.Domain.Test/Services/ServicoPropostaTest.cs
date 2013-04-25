@@ -61,7 +61,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			
 			ConsultaDTO consultaDTO = new ConsultaDTO();
 
+			ModeloDeProposta modelo = new ModeloDeProposta { Id = Guid.NewGuid() };
+			modelo.AdicionarCampo(new CampoDeProposta { Nome = "Nome" });
+			modelo.Publicar();
+
 			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+			convenio.AdicionarModeloDeProposta(modelo);
+
 			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
 			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
 
@@ -83,7 +89,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			ConsultaDTO consultaDTO = new ConsultaDTO();
 
+			ModeloDeProposta modelo = new ModeloDeProposta { Id = Guid.NewGuid() };
+			modelo.AdicionarCampo(new CampoDeProposta { Nome = "Nome" });
+			modelo.Publicar();
+
 			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
+			convenio.AdicionarModeloDeProposta(modelo);
+
 			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
 			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
 
