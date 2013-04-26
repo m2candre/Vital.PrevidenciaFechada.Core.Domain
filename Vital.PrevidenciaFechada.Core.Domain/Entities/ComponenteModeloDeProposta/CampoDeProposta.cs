@@ -204,7 +204,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
                 modelo = modelo.Replace(match.Groups[1].Value, templateCompleto);
             }
 
-            return modelo.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo).Replace("@valor", this.Valor).Replace("@alinhamento", this.Alinhamento).Replace("@indice", this.OrdemFormulario.ToString()).Replace("@nome", this.Nome);
+       
+
+            return modelo.Replace("@Css", TamanhoDoCampo.ObterClasse()).Replace("@titulo", this.Titulo).Replace("@valor", this.Valor).Replace("@alinhamento", this.Alinhamento).Replace("@nome", this.Nome);
         }
     }
 }

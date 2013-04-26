@@ -156,10 +156,24 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             StringBuilder sb = new StringBuilder();
 
             sb.Append(RenderizarTemplateTopo());
+            sb.Append(RenderizarCss());
+
+		    int indice = 0;
 
 		    foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario))
 		    {
-		        sb.Append(campoDeProposta.RenderizarParaFormulario());
+		        string campo = campoDeProposta.RenderizarParaFormulario();
+
+                if (campo.Contains("@indice"))
+                {
+                    sb.Append(campo.Replace("@indice", indice.ToString()));
+                    indice++;
+                }
+                else
+                {
+                    sb.Append(campo);
+                }
+                
 		    }
 
 		    sb.Append(RenderizarScripts());
@@ -180,7 +194,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             StringBuilder sb = new StringBuilder();
 
 		    sb.Append(RenderizarTemplateTopo());
-
+		    sb.Append(RenderizarCss());
             foreach (CampoDeProposta campoDeProposta in Campos.OrderBy(o => o.OrdemFormulario).Where(a => a.VisivelNaImpressao))
             {
                 sb.Append(campoDeProposta.RenderizarParaFormulario());
@@ -190,23 +204,20 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             return sb.ToString();
 		}
 
+
+        private string RenderizarCss()
+        {
+            return @"<link rel='stylesheet' href='/Css/ModelosDeProposta.css'>";
+
+        }
+
         /// <summary>
         /// Renderiza o topo do template
         /// </summary>
         /// <returns></returns>
         private string RenderizarTemplateTopo()
         {
-            return @"<!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset='utf-8'>
-                        <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-                        <title>Propostas</title>
-                        <link rel='stylesheet' href='/bootstrap/css/bootstrap.min.css'>
-                        <link rel='stylesheet'' href='/Css/ModelosDeProposta.css'>
-                    </head>
-                    <body>
-                        <div id='container' class='container'>
+            return @" <div id='container' class='container-modelo-de-proposta'>
                             <div class='span form'>
                                 <div class='row'>";
         }
@@ -220,8 +231,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
             return @"</div>
                         </div>
                     </div>
-                </body>
-                </html>";
+                ";
         }
 
         /// <summary>
