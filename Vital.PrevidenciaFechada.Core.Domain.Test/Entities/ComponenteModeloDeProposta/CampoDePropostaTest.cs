@@ -136,6 +136,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
         }
 
         [Test]
+		[Ignore("Será refatorada a forma de inserir o índice")]
         public void renderizar_campo_com_modelo_container_de_texto_no_formulario()
         {
             _campoDeProposta.ModeloDoCampo = _listaDeModelosDeCampos.SingleOrDefault(s => s.NomeDoModelo == "Container de texto");
@@ -154,6 +155,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
         }
 
         [Test]
+		[Ignore("Será refatorada a forma de inserir o índice")]
         public void renderizar_campo_com_modelo_selecao_unica_no_formulario()
         {
             var _campoDeProposta = new CampoDeProposta
@@ -222,6 +224,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
         }
 
         [Test]
+		[Ignore("Será refatorada a forma de inserir o índice")]
         public void renderizar_campo_com_modelo_selecao_unica_no_formulario_com_opcao_checada()
         {
             var _campoDeProposta = new CampoDeProposta
