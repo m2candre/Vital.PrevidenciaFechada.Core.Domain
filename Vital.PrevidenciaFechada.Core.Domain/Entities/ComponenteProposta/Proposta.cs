@@ -182,15 +182,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <returns></returns>
 		public virtual byte[] Serializar()
 		{
-			#region Pré-condições
-
-			IAssertion aListaDeValoresDosCamposNaoEstaNula = Assertion.NotNull(Valores, "A lista de valores dos campos não pode estar nula");
-			IAssertion aListaDeValoresDosCamposNaoEstarVazia = Assertion.IsTrue(Valores.Count > 0, "A lista de valores dos campos não pode estar vazia");
-
-			#endregion
-
-			aListaDeValoresDosCamposNaoEstaNula.and(aListaDeValoresDosCamposNaoEstarVazia).Validate();
-
 			MemoryStream stream = new MemoryStream();
 
 			XmlSerializer.Serialize(stream, this);
