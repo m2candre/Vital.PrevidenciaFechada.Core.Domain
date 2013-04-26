@@ -4,7 +4,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Vital.InfraStructure.DSL.DesignByContract;
-using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
@@ -59,7 +58,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// <summary>
 		/// Valores dos campos da proposta
 		/// </summary>
-		public virtual List<ValorDeCampo> Valores { get; set; }
+		public virtual List<DadosDaProposta> Valores { get; set; }
 
 		/// <summary>
 		/// Objeto responsável por controlar a transição de estados da proposta
@@ -106,7 +105,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 		/// </summary>
 		public Proposta()
 		{
-			Valores = new List<ValorDeCampo>();
+			Valores = new List<DadosDaProposta>();
 			DataDeCriacao = DateTime.Now;
 		}
 

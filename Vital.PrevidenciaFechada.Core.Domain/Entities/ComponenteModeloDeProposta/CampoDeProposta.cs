@@ -10,7 +10,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
     /// <summary>
     /// Representa um campo dentro de uma Proposta
     /// </summary>
-	[Serializable]
     public class CampoDeProposta
     {
         /// <summary>
@@ -26,102 +25,85 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		/// <summary>
 		/// Valor preenchido no campo
 		/// </summary>
-		[XmlIgnore]
 		public virtual string Valor { get; set; }
 
         /// <summary>
         /// Classe css com o tamanho do campo
         /// </summary>
-		[XmlIgnore]
         public virtual ClasseDeTamanhoDoCampo TamanhoDoCampo { get; set; }
 
         /// <summary>
         /// O campo pode ser um título, imagem, seleção única
         /// </summary>
-		[XmlIgnore]
 		public virtual ModeloDoCampo ModeloDoCampo { get; set; }
 
         /// <summary>
         /// Registra os valores para um modelo
         /// </summary>
-		[XmlIgnore]
 		public virtual IList<ValoresDoCampo> ValoresDoCampo { get; set; }
 
         /// <summary>
         /// Título do campo
         /// </summary>
-		[XmlIgnore]
 		public virtual string Titulo { get; set; }
 		
         /// <summary>
         /// Permite que o campo seja exibido nos grids de proposta
         /// </summary>
-		[XmlIgnore]
 		public virtual bool ExibirNoGrid { get; set; }
 
         /// <summary>
         /// Campo ref. ao DTO de participantes
         /// </summary>
-		[XmlIgnore]
 		public virtual bool CompoeParticipante { get; set; }
 
 
         /// <summary>
         /// Ordena os campos de uma proposta para impressão
         /// </summary>
-		[XmlIgnore]
 		public virtual int OrdemImpressao { get; set; }
 
         /// <summary>
         /// Ordena os campos de uma proposta para o preenchimento do formulário
         /// </summary>
-		[XmlIgnore]
 		public virtual int OrdemFormulario { get; set; }
 
         /// <summary>
         /// Permite que o campo fique visivel na impressão
         /// </summary>
-		[XmlIgnore]
 		public virtual bool VisivelNaImpressao { get; set; }
 
         /// <summary>
         /// Exibe o título de um campo
         /// </summary>
-		[XmlIgnore]
 		public virtual bool ExibirTitulo { get; set; }
 
         /// <summary>
         /// Exibe a borda do layout do campo
         /// </summary>
-		[XmlIgnore]
 		public virtual bool ExibirBorda { get; set; }
 
         /// <summary>
         /// Alinha um campo
         /// </summary>
-		[XmlIgnore]
 		public virtual string Alinhamento { get; set; }
 
         /// <summary>
         /// Exibe a altura
         /// </summary>
-		[XmlIgnore]
 		public virtual bool CampoDuplo { get; set; }
 
         /// <remarks>Determina a altura do campo de acordo com o CSS. ex. .field50</remarks>
         public virtual string Altura { get; set; }
 
-
         /// <summary>
         /// Exibe o sufixo de um campo
         /// </summary>
-		[XmlIgnore]
 		public virtual string Sufixo { get; set; }
 
         /// <summary>
         /// Exibe o prefixo de um campo
         /// </summary>
-		[XmlIgnore]
 		public virtual string Prefixo { get; set; }
 
         public CampoDeProposta()

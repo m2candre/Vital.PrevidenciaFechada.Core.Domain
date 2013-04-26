@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using Vital.InfraStructure.ExceptionHandling;
 using Vital.Interfaces;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteConvenioDeAdesao;
-using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDeProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
@@ -150,10 +149,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			Proposta propostaParaSerializar = new Proposta();
 			propostaParaSerializar.Id = Guid.NewGuid();
 			propostaParaSerializar.Numero = 123456;
-			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			propostaParaSerializar.Valores = new List<DadosDaProposta>
 			{
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "123" },
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio" }
+				new DadosDaProposta { Nome = "CPF", Valor = "123" },
+				new DadosDaProposta { Nome = "Nome" , Valor = "Julio" }
 			};
 
 			ModeloDeProposta modelo = new ModeloDeProposta();
@@ -184,10 +183,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			propostaParaSerializar.Id = Guid.NewGuid();
 			propostaParaSerializar.IdDoArquivoDeDados = idArquivoGerado;
 			propostaParaSerializar.Numero = 123456;
-			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			propostaParaSerializar.Valores = new List<DadosDaProposta>
 			{
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "654687" },
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio Cesar" }
+				new DadosDaProposta { Nome = "CPF", Valor = "123" },
+				new DadosDaProposta { Nome = "Nome" , Valor = "Julio" }
 			};
 
 			ModeloDeProposta modelo = new ModeloDeProposta();
@@ -216,10 +215,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			propostaParaSerializar.Id = idDaProposta;
 			propostaParaSerializar.IdDoArquivoDeDados = idArquivoGerado;
 			propostaParaSerializar.Numero = 123456;
-			propostaParaSerializar.Valores = new List<ValorDeCampo>
+			propostaParaSerializar.Valores = new List<DadosDaProposta>
 			{
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "CPF" }, Valor = "654687" },
-				new ValorDeCampo { Campo = new CampoDeProposta { Nome = "Nome" }, Valor = "Julio Cesar" }
+				new DadosDaProposta { Nome = "CPF", Valor = "123" },
+				new DadosDaProposta { Nome = "Nome" , Valor = "Julio" }
 			};
 			byte[] propostaSerializada = propostaParaSerializar.Serializar();
 
