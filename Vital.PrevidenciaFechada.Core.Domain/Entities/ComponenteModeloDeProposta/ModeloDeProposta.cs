@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Vital.InfraStructure.DSL.DesignByContract;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 {
@@ -142,6 +143,28 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
             return campo;
         }
+
+		/// <summary>
+		/// Preenche os valores dos campos do Modelo de Proposta através dos valores preenchidos na Proposta
+		/// </summary>
+		/// <param name="dadosDaProposta">Dados preenchidos na Proposta</param>
+		public virtual void PreencherValorDeCampos(List<DadosDaProposta> dadosDaProposta)
+		{
+			#region Pré-condições
+
+			IAssertion osDadosDaPropostaEstaoPreenchidos = Assertion.IsTrue(dadosDaProposta.Count > 0, "Os dados da proposta estão vazios");
+			IAssertion existemCamposNoModelo = Assertion.IsTrue(Campos .Count> 0, "Os campos do Modelo de Proposta estão vazios");
+
+			#endregion
+
+			osDadosDaPropostaEstaoPreenchidos.and(existemCamposNoModelo).Validate();
+
+			foreach (var dadoDaProposta in dadosDaProposta)
+			{
+				var campo = ObterCampo(dadoDaProposta.Nome);
+				campo.Valor = dadoDaProposta.Valor;
+			}
+		}
 
 		/// <summary>
 		/// Renderiza um HTML de formulário com base nos campos existentes na proposta

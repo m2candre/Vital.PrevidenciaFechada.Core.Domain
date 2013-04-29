@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano;
 using System.Linq;
+using Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta;
 namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeProposta
 {
     [TestFixture]
@@ -186,5 +187,36 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Entities.ComponenteModeloDeP
             Assert.That(modeloProposta.RenderizarTemplateDeImpressao(), Is.EqualTo("<div class='field45'><span>Nome do proponente</span><span><input type='hidden' name='[0].Nome' value='Nome'/><input type='text' name='[0].Valor' value=''/></span></div><div class='field45'><span>Nome do proponente</span><span><input type='hidden' name='[0].Nome' value='CPF'/><input type='text' name='[0].Valor' value=''/></span></div>"));
         }
 
+		[Test]
+		public void preencher_valor_dos_campos_atraves_de_dados_da_proposta()
+		{
+			var modeloProposta = new ModeloDeProposta();
+
+			var _nomeDoProponente = new CampoDeProposta
+			{
+				Nome = "Nome",
+				TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+			};
+			
+			var _cpf = new CampoDeProposta
+			{
+				Nome = "CPF",
+				TamanhoDoCampo = new ClasseDeTamanhoDoCampo(45),
+			};
+
+			modeloProposta.AdicionarCampo(_nomeDoProponente);
+			modeloProposta.AdicionarCampo(_cpf);
+
+			var valores = new List<DadosDaProposta>
+			{ 
+				new DadosDaProposta { Nome = "CPF", Valor = "123.456.789-90" },
+				new DadosDaProposta { Nome = "Nome", Valor = "Julio" }
+			};
+
+			modeloProposta.PreencherValorDeCampos(valores);
+
+			Assert.That(modeloProposta.ObterCampo("Nome").Valor, Is.EqualTo("Julio"));
+			Assert.That(modeloProposta.ObterCampo("CPF").Valor, Is.EqualTo("123.456.789-90"));
+		}
     }
 }
