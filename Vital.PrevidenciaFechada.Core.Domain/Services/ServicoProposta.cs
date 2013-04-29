@@ -254,11 +254,10 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			IAssertion aPropostaDeserializadaNaoEstaNula = Assertion.NotNull(proposta, "A proposta não foi deserializada corretamente");
 			IAssertion oIDDaPropostaEstaPreenchido = Assertion.NotNull(proposta.Id, "O ID da proposta não foi preenchido na deserialização");
-			IAssertion aListaDeValoresNaoEstaVazia = Assertion.GreaterThan(proposta.Valores.Count, 0, "A lista de valores da proposta não pode estar vazia");
 
 			#endregion
 
-			aPropostaDeserializadaNaoEstaNula.and(oIDDaPropostaEstaPreenchido).and(aListaDeValoresNaoEstaVazia).Validate();
+			aPropostaDeserializadaNaoEstaNula.and(oIDDaPropostaEstaPreenchido).Validate();
 
 			return proposta;
 		}
