@@ -22,10 +22,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// </summary>
         public virtual string Nome { get; set; }
 
-		/// <summary>
-		/// Valor preenchido no campo
-		/// </summary>
-		public virtual string Valor { get; set; }
+        /// <summary>
+        /// Valor preenchido no campo
+        /// </summary>
+        public virtual string Valor { get; set; }
+
+        /// <summary>
+        /// Valor preenchido no campo
+        /// </summary>
+        public virtual string ValorPadrao { get; set; }
 
         /// <summary>
         /// Classe css com o tamanho do campo
