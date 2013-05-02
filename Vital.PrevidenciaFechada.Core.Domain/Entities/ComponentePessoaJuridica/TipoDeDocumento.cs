@@ -17,7 +17,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica
         public virtual Guid Id { get; set; }
 
 		/// <summary>
-		/// ID do convênio de adesão
+		/// Id do Convênio de Adesão
 		/// </summary>
 		public virtual Guid IdDoConvenioDeAdesao { get; set; }
 

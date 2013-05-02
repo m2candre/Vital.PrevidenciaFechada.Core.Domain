@@ -135,7 +135,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
                 especificacoesDeConsulta.MontarCriterios(criterios);
             }
 
-            criterios.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
+			if (consulta.CampoOrdenacao != null)
+				criterios.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
 
             return criterios.List<T>();
         }
@@ -159,9 +160,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
                 especificacoesDeConsulta.MontarCriterios(criteria);
             }
 
-            Order order = new Order(consulta.CampoOrdenacao, consulta.OrdemCrescente);
-
-            criteria.AddOrder(order);
+			if (consulta.CampoOrdenacao != null)
+			{
+				Order order = new Order(consulta.CampoOrdenacao, consulta.OrdemCrescente);
+				criteria.AddOrder(order);
+			}
 
             return criteria.List<T>();
         }
