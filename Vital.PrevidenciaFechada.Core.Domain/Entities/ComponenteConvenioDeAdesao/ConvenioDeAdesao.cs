@@ -97,6 +97,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
 			int quantidadeDePropostasAntesDeAdicionar = Propostas.Count;
 
+			proposta.IdDoConvenioDeAdesao = Id;
 			proposta.ModeloDeProposta = ObterModeloDePropostaPublicado();
 			Propostas.Add(proposta);
 
