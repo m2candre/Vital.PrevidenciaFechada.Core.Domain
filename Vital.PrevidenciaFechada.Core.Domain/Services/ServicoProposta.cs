@@ -113,31 +113,19 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public virtual IList<Proposta> ObterPropostasRegistradasPorPeriodo(Guid idDoConvenioDeAdesao, int quantidadeDeDias, ConsultaDTO consultaDTO)
+		public virtual Expression<Func<Proposta, bool>> ObterCriteriosParaPropostasRegistradasPorPeriodo(int quantidadeDeDias)
 		{
 			#region Pré-condições
 
-			IAssertion oRepositorioFoiInjetadoNoServico = Assertion.NotNull(_repositorioProposta, "O repositório não foi injetado corretamente");
-			IAssertion oDTODeConsultaFoiInformado = Assertion.NotNull(consultaDTO, "O DTO de consulta não foi informado corretamente");
-			IAssertion oIDDoPlanoFoiInformado = Assertion.IsTrue(idDoConvenioDeAdesao != Guid.Empty, "O ID do Convênio de Adesão deve ser informado");
+			IAssertion aQuantidadeDeDiasFoiInformada = Assertion.IsTrue(quantidadeDeDias > 0, "A quantidade de dias deve ser informada");
 
 			#endregion
 
-			oRepositorioFoiInjetadoNoServico.and(oDTODeConsultaFoiInformado).and(oIDDoPlanoFoiInformado).Validate();
+			aQuantidadeDeDiasFoiInformada.Validate();
 
 			DateTime dataDaBusca = dataDaBusca = ObterDataParaConsulta(quantidadeDeDias);
 
-			var convenioDeAdesao = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
-
-			var propostasEncontradas = convenioDeAdesao.Propostas.Where(p => p.DataDeCriacao >= dataDaBusca && p.Estado == "Registrada");
-
-			#region Pós-condições
-
-			Assertion.NotNull(propostasEncontradas, "A lista de propostas encontradas não pode ser nula").Validate();
-
-			#endregion
-
-			return propostasEncontradas.ToList();
+			return proposta => proposta.DataDeCriacao >= dataDaBusca && proposta.Estado == "Registrada";
 		}
 
 		/// <summary>

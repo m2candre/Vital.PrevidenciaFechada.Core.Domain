@@ -53,63 +53,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		}
 
 		[Test]
-		public void obter_propostas_por_estado_e_periodo_retorna_lista_corretamente()
-		{
-			Guid idDoConvenioDeAdesao = Guid.NewGuid();
-			DateTime dataDaBusca = DateTime.Now;
-			
-			ConsultaDTO consultaDTO = new ConsultaDTO();
-
-			ModeloDeProposta modelo = new ModeloDeProposta { Id = Guid.NewGuid() };
-			modelo.AdicionarCampo(new CampoDeProposta { Nome = "Nome" });
-			modelo.Publicar();
-
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.AdicionarModeloDeProposta(modelo);
-
-			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
-			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
-
-			_repositorioConvenio.Expect(x => x.PorId(idDoConvenioDeAdesao)).Return(convenio);
-
-			_servicoProposta.Data = dataDaBusca;
-
-			List<Proposta> propostas = _servicoProposta.ObterPropostasRegistradasPorPeriodo(idDoConvenioDeAdesao, 20, consultaDTO) as List<Proposta>;
-
-			Assert.IsNotNull(propostas);
-			Assert.IsTrue(propostas.All(p => p.Estado == "Registrada" && p.DataDeCriacao >= dataDaBusca.AddDays(-20)));
-		}
-
-		[Test]
-		public void obter_propostas_por_estado_e_periodo_e_quantidade_de_dias_vazia_calculando_trinta_dias_retorna_lista_corretamente()
-		{
-			Guid idDoConvenioDeAdesao = Guid.NewGuid();
-			DateTime dataDaBusca = DateTime.Now;
-
-			ConsultaDTO consultaDTO = new ConsultaDTO();
-
-			ModeloDeProposta modelo = new ModeloDeProposta { Id = Guid.NewGuid() };
-			modelo.AdicionarCampo(new CampoDeProposta { Nome = "Nome" });
-			modelo.Publicar();
-
-			ConvenioDeAdesao convenio = new ConvenioDeAdesao();
-			convenio.AdicionarModeloDeProposta(modelo);
-
-			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-10) });
-			convenio.AdicionarProposta(new Proposta { Estado = "Registrada", DataDeCriacao = DateTime.Now.AddDays(-15) });
-
-			_repositorioConvenio.Expect(x => x.PorId(idDoConvenioDeAdesao)).Return(convenio);
-
-			_servicoProposta.Data = dataDaBusca;
-
-			List<Proposta> propostas = _servicoProposta.ObterPropostasRegistradasPorPeriodo(idDoConvenioDeAdesao, 0, consultaDTO) as List<Proposta>;
-
-			Assert.IsNotNull(propostas);
-
-			Assert.IsTrue(propostas.All(p => p.Estado == "Registrada" && p.DataDeCriacao >= dataDaBusca.AddDays(-30)));
-		}
-
-		[Test]
 		public void criar_nova_proposta_com_ultimo_numero_gerado_mais_um()
 		{
 			Guid idDoConvenioDeAdesao = Guid.NewGuid();
