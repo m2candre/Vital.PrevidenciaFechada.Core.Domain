@@ -81,11 +81,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         /// <returns>Lista de objetos</returns>
         public IList<T> ObterTodosFiltradosComCriterio<T>(System.Linq.Expressions.Expression<Func<T, bool>> criterios, ConsultaDTO consulta) where T : class
         {
-            var criteria = Session.CreateCriteria(typeof(T))
-                 .Add(VitalCriterion.Where<T>(criterios))
-                 .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Linhas))
-                 .SetMaxResults(consulta.Linhas)
-                 .AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
+			var criteria = Session.CreateCriteria(typeof(T))
+				 .Add(VitalCriterion.Where<T>(criterios))
+				 .SetFirstResult(((consulta.PaginaAtual - 1) * consulta.Linhas))
+				 .SetMaxResults(consulta.Linhas);
+
+			if (consulta.CampoOrdenacao != null)
+				criteria.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
 
             return criteria.List<T>();
         }
