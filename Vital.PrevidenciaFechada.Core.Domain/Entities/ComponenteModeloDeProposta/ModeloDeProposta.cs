@@ -230,7 +230,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 
         private string RenderizarCss()
         {
-            return @"<link rel='stylesheet' href='/Css/ModelosDeProposta.css'>";
+            return @"<link rel='stylesheet' href='../Css/ModelosDeProposta.css'>";
 
         }
 
