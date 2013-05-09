@@ -152,12 +152,11 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		{
 			#region Pré-condições
 
-			IAssertion osDadosDaPropostaEstaoPreenchidos = Assertion.IsTrue(dadosDaProposta.Count > 0, "Os dados da proposta estão vazios");
 			IAssertion existemCamposNoModelo = Assertion.IsTrue(Campos .Count> 0, "Os campos do Modelo de Proposta estão vazios");
 
 			#endregion
 
-			osDadosDaPropostaEstaoPreenchidos.and(existemCamposNoModelo).Validate();
+			existemCamposNoModelo.Validate();
 
 			foreach (var dadoDaProposta in dadosDaProposta)
 			{
