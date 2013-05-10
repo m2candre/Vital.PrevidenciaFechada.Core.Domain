@@ -70,10 +70,17 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			_repositorioConvenio.Expect(x => x.UltimoNumeroDeProposta(convenio.Id)).Return(ultimoNumero);
 			_repositorioConvenio.Expect(x => x.PorId(convenio.Id)).Return(convenio);
-
+			
 			_servicoProposta.Data = DateTime.Now;
 			Proposta novaProposta = new Proposta { DataDeCriacao = _servicoProposta.Data };
 
+			Guid idArquivo = Guid.NewGuid();
+			ArquivoUploadDTO dto = new ArquivoUploadDTO { Arquivo = novaProposta.Serializar(), Extensao = "xml" };
+			ArquivoUploadDTO dtoRetorno = new ArquivoUploadDTO { Id = idArquivo, Arquivo = novaProposta.Serializar(), Extensao = "xml" };
+			
+			_gerenciadorDeArquivo.Expect(x => x.Gravar(dto)).Return(dtoRetorno);
+
+			_servicoProposta.ArquivoDTO = dto;
 			_servicoProposta.NovaProposta = novaProposta;
 			_servicoProposta.CriarNovaProposta(idDoConvenioDeAdesao);
 

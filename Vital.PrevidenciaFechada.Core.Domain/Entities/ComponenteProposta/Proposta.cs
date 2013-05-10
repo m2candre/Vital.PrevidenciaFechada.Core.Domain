@@ -202,5 +202,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteProposta
 
 			return arquivo;
 		}
+
+		/// <summary>
+		/// Define o valor do campo fixo Número da Proposta na lista de valores
+		/// </summary>
+		public virtual void DefinirNumeroNaListaDeValores()
+		{
+			Valores.Add(new DadosDaProposta { Nome = "NúmeroDaProposta", Valor = Numero.ToString() });
+		}
 	}
 }

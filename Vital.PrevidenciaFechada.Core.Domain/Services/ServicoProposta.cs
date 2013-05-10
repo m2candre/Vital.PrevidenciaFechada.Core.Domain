@@ -149,21 +149,22 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <summary>
 		/// Cria uma proposta com um novo número e persiste no banco de dados
 		/// </summary>
-		public virtual void CriarNovaProposta(Guid idDoConvenioDeAdesao)
+		public virtual Proposta CriarNovaProposta(Guid idDoConvenioDeAdesao)
 		{
-			int ultimoNumeroDeProposta = _repositorioConvenio.UltimoNumeroDeProposta(idDoConvenioDeAdesao);
-
-			ConvenioDeAdesao convenioDeAdesao = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
-			
-			ModeloDeProposta modeloDePropostaPublicado = convenioDeAdesao.ObterModeloDePropostaPublicado();
-
-			NovaProposta.Numero = ultimoNumeroDeProposta + 1;
-			NovaProposta.ModeloDeProposta = modeloDePropostaPublicado;
-
+			int ultimoNumero = _repositorioConvenio.UltimoNumeroDeProposta(idDoConvenioDeAdesao);
+			NovaProposta.Numero = ultimoNumero + 1;
+			NovaProposta.DefinirNumeroNaListaDeValores();
 			_repositorioProposta.Adicionar(NovaProposta);
-			convenioDeAdesao.AdicionarProposta(NovaProposta);
-			
-			_repositorioConvenio.Adicionar(convenioDeAdesao);
+
+			NovaProposta.IdDoArquivoDeDados = GravarArquivoDeDados(NovaProposta);
+			_repositorioProposta.Adicionar(NovaProposta);
+
+			var convenio = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
+			convenio.AdicionarProposta(NovaProposta);
+
+			_repositorioConvenio.Adicionar(convenio);
+
+			return NovaProposta;
 		}
 
 		/// <summary>
