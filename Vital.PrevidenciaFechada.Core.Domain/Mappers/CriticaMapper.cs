@@ -14,7 +14,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
     /// </summary>
     public class CriticaMapper
     {
-
         /// <summary>
         /// Construtor - Configuração do Mapper
         /// </summary>
