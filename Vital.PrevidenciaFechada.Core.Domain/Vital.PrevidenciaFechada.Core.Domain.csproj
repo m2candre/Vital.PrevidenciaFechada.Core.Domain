@@ -102,6 +102,7 @@
     <Compile Include="Entities\ComponentePessoaJuridica\Patrocinador.cs" />
     <Compile Include="Entities\Comun\Erro.cs" />
     <Compile Include="Mappers\CriticaMapper.cs" />
+    <Compile Include="Mappers\ModeloDePropostaMapper.cs" />
     <Compile Include="Mappers\PropostaMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\QuerySpecification\EspecificacaoAdicionarClausulaLikeParaCamposDeTexto.cs" />
