@@ -171,6 +171,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 			return Propostas.Where(p => p.Estado == "EmRascunho").ToList();
 		}
 
+        /// <summary>
+        /// Obtém o modelo de proposta em rascunho
+        /// </summary>
+        /// <returns></returns>
+        public virtual ModeloDeProposta ObterModeloDePropostaEmRascunho()
+        {
+            return ModelosDeProposta.SingleOrDefault(p => p.Id == Id);
+        }
+
 		/// <summary>
 		/// Obtem o único modelo de proposta publicado
 		/// </summary>
