@@ -117,6 +117,7 @@
     <Compile Include="Services\ServicoObterUltimoCodigoDeErro.cs" />
     <Compile Include="Services\ServicoParticipante.cs" />
     <Compile Include="Services\ServicoProposta.cs" />
+    <Compile Include="Services\ServicoUsuarios.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
