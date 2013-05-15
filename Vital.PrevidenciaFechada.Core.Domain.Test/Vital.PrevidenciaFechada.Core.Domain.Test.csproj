@@ -145,7 +145,6 @@
     <Compile Include="Entities\ComponenteProposta\Regras\CamposObrigatorios\RegraNomeDoParticipanteObrigatorioTest.cs" />
     <Compile Include="Entities\ComponenteProposta\Regras\ValidacoesDeDados\RegraCPFTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\IdentidadeTest.cs" />
-    <Compile Include="Entities\ComponenteUsuario\UsuarioTest.cs" />
     <Compile Include="Entities\EntidadeTest.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />

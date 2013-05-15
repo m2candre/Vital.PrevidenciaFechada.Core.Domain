@@ -3,30 +3,46 @@ using System.Security.Principal;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
 {
-    public class Usuario : IPrincipal
-    {
-        /// <summary>
-        /// Identidade do Usuário 
-        /// </summary>
-        public IIdentity Identity { get; private set; }
+    public class Usuario : IAggregateRoot<Guid>
+	{
+		/// <summary>
+		/// ID do usuário
+		/// </summary>
+		public virtual Guid Id { get; set; }
 
-        /// <summary>
-        /// Construtor com a dependencia Indentidade
-        /// </summary>
-        /// <param name="identity"></param>
-        public Usuario(IIdentity identity)
-        {
-            this.Identity = identity;
-        }
+		/// <summary>
+		/// ID do Convênio de Adesão
+		/// </summary>
+		public virtual Guid IdDoConvenioDeAdesao { get; set; }
 
-        /// <summary>
-        /// Verifica se o Usuário está em determinado perfil
-        /// </summary>
-        /// <param name="role"></param>
-        /// <returns></returns>
-        public bool IsInRole(string role)
-        {
-            throw new NotImplementedException();
-        }
+		/// <summary>
+		/// Hash do token de sessão para habilitar o acesso do usuário
+		/// </summary>
+		public virtual Guid TokenDeSessao { get; set; }
+
+		/// <summary>
+		/// Data/hora da última requisição enviada pelo usuário para controlar limite por tempo ocioso
+		/// </summary>
+		public virtual DateTime? DataHoraDaUltimaRequisicao { get; set; }
+
+		/// <summary>
+		/// Nome do usuário
+		/// </summary>
+		public virtual string Nome { get; set; }
+
+		/// <summary>
+		/// Login do usuário
+		/// </summary>
+		public virtual string NomeDeUsuario { get; set; }
+
+		/// <summary>
+		/// Hash MD5 da senha do usuário
+		/// </summary>
+		public virtual string Senha { get; set; }
+
+		/// <summary>
+		/// E-mail do usuário
+		/// </summary>
+		public virtual string Email { get; set; }
     }
 }
