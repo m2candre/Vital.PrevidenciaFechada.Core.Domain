@@ -114,6 +114,7 @@
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Repository\RepositorioConvenioDeAdesao.cs" />
     <Compile Include="Repository\VitalCriterion.cs" />
+    <Compile Include="Services\ServicoModeloDeProposta.cs" />
     <Compile Include="Services\ServicoObterUltimoCodigoDeErro.cs" />
     <Compile Include="Services\ServicoParticipante.cs" />
     <Compile Include="Services\ServicoProposta.cs" />
