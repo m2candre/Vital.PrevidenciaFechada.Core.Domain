@@ -78,6 +78,7 @@
     <Compile Include="Entities\ComponenteModeloDeProposta\ModeloDoCampo.cs" />
     <Compile Include="Entities\ComponenteModeloDeProposta\ClasseDeTamanhoDoCampo.cs" />
     <Compile Include="Entities\ComponenteModeloDeProposta\ValoresDoCampo.cs" />
+    <Compile Include="Entities\ComponenteParticipante\Participante.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\PessoaJuridica.cs" />
     <Compile Include="Entities\ComponentePessoaJuridica\TipoDeDocumento.cs" />
     <Compile Include="Entities\ComponenteModeloDeProposta\CampoDeProposta.cs" />
@@ -113,7 +114,9 @@
     <Compile Include="Entities\IAggregateRoot.cs" />
     <Compile Include="Repository\RepositorioConvenioDeAdesao.cs" />
     <Compile Include="Repository\VitalCriterion.cs" />
+    <Compile Include="Services\ServicoModeloDeProposta.cs" />
     <Compile Include="Services\ServicoObterUltimoCodigoDeErro.cs" />
+    <Compile Include="Services\ServicoParticipante.cs" />
     <Compile Include="Services\ServicoProposta.cs" />
   </ItemGroup>
   <ItemGroup />

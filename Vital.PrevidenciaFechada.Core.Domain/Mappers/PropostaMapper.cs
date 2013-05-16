@@ -24,7 +24,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
                 .ForMember(dest => dest.Criticas, opcao => opcao.Ignore());
         }
 
-
         /// <summary>
         /// Mapper de propostaDTO para propostaVO
         /// </summary>
