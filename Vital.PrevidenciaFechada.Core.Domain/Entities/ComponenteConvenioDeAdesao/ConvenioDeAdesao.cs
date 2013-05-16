@@ -177,7 +177,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         /// <returns></returns>
         public virtual ModeloDeProposta ObterModeloDePropostaEmRascunho()
         {
-            return ModelosDeProposta.SingleOrDefault(p => p.Id == Id);
+            return ModelosDeProposta.SingleOrDefault(m => m.Publicada == false);
         }
 
 		/// <summary>
