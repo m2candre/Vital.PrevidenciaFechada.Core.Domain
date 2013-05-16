@@ -47,7 +47,6 @@
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\..\Library\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
     <Reference Include="Stateless">
       <HintPath>..\..\..\Library\Stateless.dll</HintPath>
     </Reference>
