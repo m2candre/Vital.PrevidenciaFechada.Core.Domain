@@ -40,7 +40,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteModeloDePropos
         /// </summary>
         /// <param name="campoDaProposta">CampoDeProposta</param>
         /// <returns></returns>
-        public CampoDeProposta ObterCampoDaPropostaDTO(CampoDaPropostaDTO campoDaPropostaDTO)
+        public CampoDeProposta ObterCampoDaProposta(CampoDaPropostaDTO campoDaPropostaDTO)
         {
             CampoDeProposta campoDeProposta = Mapper.Map<CampoDaPropostaDTO, CampoDeProposta>(campoDaPropostaDTO);
             return campoDeProposta;
