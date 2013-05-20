@@ -13,6 +13,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
     {
         public ModeloDePropostaMapper()
         {
+            Mapper.CreateMap<CampoDeProposta, CampoDaPropostaDTO>();
+            Mapper.CreateMap<CampoDaPropostaDTO, CampoDeProposta>();
             Mapper.CreateMap<ModeloDeProposta, ModeloDePropostaDTO>();
             Mapper.CreateMap<ModeloDePropostaDTO, ModeloDeProposta>();
         }
