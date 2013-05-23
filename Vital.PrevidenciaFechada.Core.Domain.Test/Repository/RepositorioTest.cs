@@ -48,7 +48,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.SaveOrUpdate(plano));
 
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             planos.Adicionar(plano);
         }
@@ -64,7 +65,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
                 session.Expect(x => x.SaveOrUpdate(plano)).Throw(new Exception("teste"));
 
-                var planos = new Repositorio<Plano>(session);
+                var planos = new Repositorio<Plano>();
+				planos.Session = session;
 
                 planos.Adicionar(plano);
             }
@@ -79,7 +81,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
         [Test]
         public void adicionar_lista_de_registros_ao_repositorio_com_sucesso()
         {
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             List<IAggregateRoot<Guid>> lista = new List<IAggregateRoot<Guid>> { new Plano() };
 
@@ -95,7 +98,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.Delete(plano));
 
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             planos.Remover(plano);
         }
@@ -114,7 +118,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.CreateCriteria(typeof(Plano))).Return(criteria);
 
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             planos.Todos();
 
@@ -135,7 +140,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.CreateCriteria(typeof(Plano))).Return(criteria);
 
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             planos.Todas();
 
@@ -150,7 +156,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.Get<Plano>(Id)).Return(plano);
 
-            var planos = new Repositorio<Plano>(session);
+            var planos = new Repositorio<Plano>();
+			planos.Session = session;
 
             planos.PorId(Id);
 
@@ -175,7 +182,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.CreateCriteria(typeof(Proposta))).Return(criteria);
 
-            var propostas = new Repositorio<Proposta>(session);
+            var propostas = new Repositorio<Proposta>();
+			propostas.Session = session;
             propostas.VitalCriterion = vitalCriterion;
 
             var consulta = new ConsultaDTO { OrdemCrescente = true, CampoOrdenacao = "Nome"};
@@ -205,7 +213,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             session.Expect(x => x.CreateCriteria(typeof(Proposta))).Return(criteria);
 
-            Repositorio<Proposta> repositorio = new Repositorio<Proposta>(session);
+            Repositorio<Proposta> repositorio = new Repositorio<Proposta>();
+			repositorio.Session = session;
             repositorio.VitalCriterion = vitalCriterion;
 
             repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterio, new ConsultaDTO { OrdemCrescente = true, PaginaAtual = 2, Linhas = 1, CampoOrdenacao = "Numero" });
@@ -225,7 +234,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
 			session.Expect(x => x.CreateCriteria(typeof(Plano))).Return(criteria);
 
-			Repositorio<Plano> repositorio = new Repositorio<Plano>(session);
+			Repositorio<Plano> repositorio = new Repositorio<Plano>();
+			repositorio.Session = session;
 			repositorio.VitalCriterion = vitalCriterion;
 
 			repositorio.ObterPor<Plano>(criterio);

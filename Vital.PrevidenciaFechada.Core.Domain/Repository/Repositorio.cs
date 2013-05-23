@@ -36,12 +36,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
         }
 
-        public Repositorio(ISession session)
-            : base(session)
-        {
-
-        }
-
         public void Adicionar(IAggregateRoot<Guid> entidade)
         {
             base.Salvar(entidade);

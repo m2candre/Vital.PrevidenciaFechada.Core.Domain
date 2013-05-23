@@ -64,7 +64,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			#region Pós-condições
 
-			Assertion.NotNull(usuario, "Não foi encontrado usuário com o Token informado").Validate();
+			Assertion.NotNull(usuario, "Token de sessão inválido! Favor efetuar o login novamente").Validate();
 
 			#endregion
 

@@ -3,6 +3,7 @@ using NHibernate;
 using Vital.PrevidenciaFechada.Core.Domain.Entities;
 using System;
 using Vital.InfraStructure.Persistence.SessionManagement;
+using Vital.InfraStructure.Persistence.Session;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
@@ -11,8 +12,16 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         private ISession _session;
 
         public virtual ISession Session
-        {//TODO:remover acoplamento
-            get { return _session ?? (_session = new SessionBuilder().GetSession()); }
+        {
+            get
+			{
+				if (_session == null)
+				{
+					_session = SessionProvider.GetCurrentSession();
+				}
+				return _session;
+			}
+			set { _session = value; }
         }
 
         #region Métodos Genericos para acesso ao DB
@@ -20,11 +29,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
         public BaseRepository()
         {
 
-        }
-
-        public BaseRepository(ISession session)
-        {
-            _session = session;
         }
 
         public virtual void Salvar(IAggregateRoot<Guid> root)
