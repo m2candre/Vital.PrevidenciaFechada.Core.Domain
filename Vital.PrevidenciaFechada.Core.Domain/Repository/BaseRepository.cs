@@ -7,10 +7,9 @@ using Vital.InfraStructure.Persistence.Session;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
-    public abstract class BaseRepository
+    public abstract class BaseRepository<T>
     {
         private ISession _session;
-
         public virtual ISession Session
         {
             get
@@ -31,31 +30,31 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 
         }
 
-        public virtual void Salvar(IAggregateRoot<Guid> root)
+        public virtual void Salvar(IAggregateRoot<Guid> entidade)
         {
-            Session.SaveOrUpdate(root);
+            Session.SaveOrUpdate(entidade);
         }
 
-        public virtual void SalvarLista(List<IAggregateRoot<Guid>> roots)
+        public virtual void Salvar(List<IAggregateRoot<Guid>> listaDeEntidades)
         {
-            foreach (var root in roots)
+            foreach (var entidade in listaDeEntidades)
             {
-                Session.SaveOrUpdate(root);
+                Session.SaveOrUpdate(entidade);
             }
         }
 
-        public virtual void Deletar(IAggregateRoot<Guid> root)
+        public virtual void Remover(IAggregateRoot<Guid> entidade)
         {
-            Session.Delete(root);
+            Session.Delete(entidade);
         }
 
-        public virtual IList<T> Todos<T>()
+        public virtual IList<T> Todos()
         {
             var objs = Session.CreateCriteria(typeof(T)).List<T>();
             return objs;
         }
 
-        public virtual T Obter<T>(Guid id)
+		public virtual T ObterPorId(Guid id)
         {
             var obj = Session.Get<T>(id);
             return obj;

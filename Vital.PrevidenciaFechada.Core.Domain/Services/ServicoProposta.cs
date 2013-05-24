@@ -135,7 +135,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <returns>Lista de críticas</returns>
 		public virtual IList<CriticaDTO> ObterCriticasDaProposta(PropostaDTO propostaDTO, Guid idDoConvenioDeAdesao)
 		{
-			var convenio = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
+			var convenio = _repositorioConvenio.ObterPorId(idDoConvenioDeAdesao);
 
 			var plano = convenio.Plano;
 
@@ -154,15 +154,15 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			int ultimoNumero = _repositorioConvenio.UltimoNumeroDeProposta(idDoConvenioDeAdesao);
 			NovaProposta.Numero = ultimoNumero + 1;
 			NovaProposta.DefinirNumeroNaListaDeValores();
-			_repositorioProposta.Adicionar(NovaProposta);
+			_repositorioProposta.Salvar(NovaProposta);
 
 			NovaProposta.IdDoArquivoDeDados = GravarArquivoDeDados(NovaProposta);
-			_repositorioProposta.Adicionar(NovaProposta);
+			_repositorioProposta.Salvar(NovaProposta);
 
-			var convenio = _repositorioConvenio.PorId(idDoConvenioDeAdesao);
+			var convenio = _repositorioConvenio.ObterPorId(idDoConvenioDeAdesao);
 			convenio.AdicionarProposta(NovaProposta);
 
-			_repositorioConvenio.Adicionar(convenio);
+			_repositorioConvenio.Salvar(convenio);
 
 			return NovaProposta;
 		}

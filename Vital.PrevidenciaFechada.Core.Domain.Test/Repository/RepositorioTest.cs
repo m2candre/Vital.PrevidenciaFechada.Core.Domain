@@ -51,7 +51,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             var planos = new Repositorio<Plano>();
 			planos.Session = session;
 
-            planos.Adicionar(plano);
+            planos.Salvar(plano);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
                 var planos = new Repositorio<Plano>();
 				planos.Session = session;
 
-                planos.Adicionar(plano);
+                planos.Salvar(plano);
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             List<IAggregateRoot<Guid>> lista = new List<IAggregateRoot<Guid>> { new Plano() };
 
-            planos.AdicionarLista(lista);
+            planos.Salvar(lista);
 
             session.VerifyAllExpectations();
         }
@@ -143,7 +143,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             var planos = new Repositorio<Plano>();
 			planos.Session = session;
 
-            planos.Todas();
+            planos.Todos();
 
             session.VerifyAllExpectations();
         }
@@ -159,40 +159,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             var planos = new Repositorio<Plano>();
 			planos.Session = session;
 
-            planos.PorId(Id);
+            planos.ObterPorId(Id);
 
             session.VerifyAllExpectations();
-        }
-
-        [Test]
-        [Ignore]
-        public void obter_todos_filtrados()
-        {
-            Order order = new Order("Nome", true);
-
-            criteria.Expect(x => x.List<Proposta>()).Return(new List<Proposta>());
-
-            vitalCriterion.Expect(x => x.OrderBy("Nome", true)).Return(order);
-
-            criteria.Expect(x => x.AddOrder(order)).Return(criteria);
-
-            vitalCriterion.Expect(x => x.Like("Nome", "Fulano", MatchMode.Anywhere)).Return(criterion);
-
-            criteria.Expect(x => x.Add(criterion)).Return(criteria);
-
-            session.Expect(x => x.CreateCriteria(typeof(Proposta))).Return(criteria);
-
-            var propostas = new Repositorio<Proposta>();
-			propostas.Session = session;
-            propostas.VitalCriterion = vitalCriterion;
-
-            var consulta = new ConsultaDTO { OrdemCrescente = true, CampoOrdenacao = "Nome"};
-            consulta.Filtros = new List<FiltroDTO> { new FiltroDTO { Campo = "Nome", Valor = "Fulano" } };
-            propostas.FiltrarTodos(consulta);
-
-            session.VerifyAllExpectations();
-            criteria.VerifyAllExpectations();
-            vitalCriterion.VerifyAllExpectations();
         }
 
         [Test]
@@ -215,9 +184,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
             Repositorio<Proposta> repositorio = new Repositorio<Proposta>();
 			repositorio.Session = session;
-            repositorio.VitalCriterion = vitalCriterion;
-
-            repositorio.ObterTodosFiltradosComCriterio<Proposta>(criterio, new ConsultaDTO { OrdemCrescente = true, PaginaAtual = 2, Linhas = 1, CampoOrdenacao = "Numero" });
+            
+			repositorio.ObterLista(criterio, new ConsultaDTO { OrdemCrescente = true, CampoOrdenacao = "Numero", Paginacao = new PaginacaoDTO { PaginaAtual = 2, Linhas = 1 } });
 
             criteria.VerifyAllExpectations();
             vitalCriterion.VerifyAllExpectations();
@@ -236,19 +204,12 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 
 			Repositorio<Plano> repositorio = new Repositorio<Plano>();
 			repositorio.Session = session;
-			repositorio.VitalCriterion = vitalCriterion;
-
-			repositorio.ObterPor<Plano>(criterio);
+			
+			repositorio.ObterLista(criterio);
 
 			criteria.VerifyAllExpectations();
 			vitalCriterion.VerifyAllExpectations();
 			session.VerifyAllExpectations();
 		}
-
-        [Test]
-        public void get_vital_criterion_nao_deve_retornar_nulo()
-        {
-            Assert.NotNull(new Repositorio<Proposta>().VitalCriterion);
-        }
     }
 }

@@ -22,8 +22,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		/// <returns></returns>
 		public int UltimoNumeroDeProposta(Guid idDoConvenioDeAdesao)
         {
-			ConvenioDeAdesao convenio = PorId(idDoConvenioDeAdesao);
-
+			ConvenioDeAdesao convenio = ObterPorId(idDoConvenioDeAdesao);
             int ultimoNumeroDaProposta = convenio.Propostas.Max(x=> x.Numero);
 
             return ultimoNumeroDaProposta;

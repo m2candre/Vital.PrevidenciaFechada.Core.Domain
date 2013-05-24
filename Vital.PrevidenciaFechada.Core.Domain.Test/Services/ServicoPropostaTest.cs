@@ -42,7 +42,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			ConvenioDeAdesao convenio = new ConvenioDeAdesao { Id = idDoConvenioDeAdesao };
 			convenio.Plano = new Plano { Id = Guid.NewGuid(), Nome = "Plano" };
 
-			_repositorioConvenio.Expect(x => x.PorId(convenio.Id)).Return(convenio);
+			_repositorioConvenio.Expect(x => x.ObterPorId(convenio.Id)).Return(convenio);
 
 			var criticas = _servicoProposta.ObterCriticasDaProposta(new PropostaDTO(), idDoConvenioDeAdesao);
 
@@ -69,7 +69,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			convenio.ModelosDeProposta = new List<ModeloDeProposta> { modelo };
 
 			_repositorioConvenio.Expect(x => x.UltimoNumeroDeProposta(convenio.Id)).Return(ultimoNumero);
-			_repositorioConvenio.Expect(x => x.PorId(convenio.Id)).Return(convenio);
+			_repositorioConvenio.Expect(x => x.ObterPorId(convenio.Id)).Return(convenio);
 			
 			_servicoProposta.Data = DateTime.Now;
 			Proposta novaProposta = new Proposta { DataDeCriacao = _servicoProposta.Data };

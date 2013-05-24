@@ -20,7 +20,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 			Expression<Func<Usuario, bool>> criterios = u => u.TokenDeSessao == token;
 
 			var repositorioUsuario = MockRepository.GenerateMock<IRepositorio<Usuario>>();
-			repositorioUsuario.Expect(x => x.ObterPor<Usuario>(criterios)).Return(usuario);
+			repositorioUsuario.Expect(x => x.Obter(criterios)).Return(usuario);
 
 			ServicoUsuarios servico = new ServicoUsuarios(repositorioUsuario);
 			servico.Criterios = criterios;

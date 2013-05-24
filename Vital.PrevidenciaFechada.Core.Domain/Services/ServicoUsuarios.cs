@@ -60,7 +60,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			#endregion
 
 			_token = token;
-			var usuario = _repositorioUsuario.ObterPor<Usuario>(Criterios);
+			var usuario = _repositorioUsuario.Obter(Criterios);
 
 			#region Pós-condições
 
@@ -69,7 +69,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			#endregion
 
 			usuario.DataHoraDaUltimaRequisicao = DateTime.Now;
-			_repositorioUsuario.Adicionar(usuario);
+			_repositorioUsuario.Salvar(usuario);
 
 			return usuario;
 		}
