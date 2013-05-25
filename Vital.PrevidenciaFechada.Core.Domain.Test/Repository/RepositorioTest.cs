@@ -183,6 +183,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
             session.Expect(x => x.CreateCriteria(typeof(Proposta))).Return(criteria);
 
             Repositorio<Proposta> repositorio = new Repositorio<Proposta>();
+			repositorio.VitalCriterion = vitalCriterion;
 			repositorio.Session = session;
             
 			repositorio.ObterLista(criterio, new ConsultaDTO { OrdemCrescente = true, CampoOrdenacao = "Numero", Paginacao = new PaginacaoDTO { PaginaAtual = 2, Linhas = 1 } });
@@ -203,6 +204,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Repository
 			session.Expect(x => x.CreateCriteria(typeof(Plano))).Return(criteria);
 
 			Repositorio<Plano> repositorio = new Repositorio<Plano>();
+			repositorio.VitalCriterion = vitalCriterion;
 			repositorio.Session = session;
 			
 			repositorio.ObterLista(criterio);
