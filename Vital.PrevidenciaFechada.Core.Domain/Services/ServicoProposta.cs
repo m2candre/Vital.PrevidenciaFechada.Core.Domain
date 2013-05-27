@@ -113,7 +113,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 		/// <param name="estado">Estado das propostas</param>
 		/// <param name="quantidadeDeDias">Período em quantidade dias</param>
 		/// <returns></returns>
-		public virtual Expression<Func<Proposta, bool>> ObterCriteriosParaPropostasRegistradasPorPeriodo(int quantidadeDeDias)
+		public virtual Expression<Func<Proposta, bool>> ObterCriteriosParaPropostasRegistradasPorPeriodo(Guid idDoConvenioDeAdesao, int quantidadeDeDias)
 		{
 			#region Pré-condições
 
@@ -125,7 +125,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 
 			DateTime dataDaBusca = dataDaBusca = ObterDataParaConsulta(quantidadeDeDias);
 
-			return proposta => proposta.DataDeCriacao >= dataDaBusca && proposta.Estado == "Registrada";
+			return proposta => proposta.IdDoConvenioDeAdesao == idDoConvenioDeAdesao && proposta.DataDeCriacao >= dataDaBusca && proposta.Estado == "Registrada";
 		}
 
 		/// <summary>
