@@ -81,8 +81,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		public IList<T> ObterLista(Expression<Func<T, bool>> criterios, ConsultaDTO consulta)
 		{
 			var criteria = MontarCriterios<T>(criterios);
-			ConfigurarCriteriosComPaginacao<T>(consulta, criteria);
 			ConfigurarFiltros(consulta, criteria);
+			ConfigurarCriteriosComPaginacao<T>(consulta, criteria);
 			ConfigurarOrdenacao(consulta, criteria);
 
 			return criteria.List<T>();
