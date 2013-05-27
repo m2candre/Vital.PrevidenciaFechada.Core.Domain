@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using NHibernate;
-using Vital.PrevidenciaFechada.Core.Domain.Entities;
+﻿using NHibernate;
 using System;
-using Vital.InfraStructure.Persistence.SessionManagement;
+using System.Collections.Generic;
 using Vital.InfraStructure.Persistence.Session;
+using Vital.PrevidenciaFechada.Core.Domain.Entities;
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 {
