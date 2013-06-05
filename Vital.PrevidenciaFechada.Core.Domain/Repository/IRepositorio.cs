@@ -18,7 +18,8 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		T Obter(Expression<Func<T, bool>> criterios, ConsultaDTO consulta);
 
 		IList<T> Todos();
+        IList<T> ObterLista(ConsultaDTO consulta);
 		IList<T> ObterLista(Expression<Func<T, bool>> criterios);
-		IList<T> ObterLista(Expression<Func<T, bool>> criterios, ConsultaDTO consulta);
+        IList<T> ObterLista(Expression<Func<T, bool>> criterios, ConsultaDTO consulta);
 	}
 }

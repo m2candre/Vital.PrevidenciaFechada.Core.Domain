@@ -59,6 +59,21 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 			return criteria.UniqueResult<T>();
 		}
 
+        /// <summary>
+        /// Obtém uma lista de entidades de acordo com os dados de consulta informados para atender a paginação e filtros
+        /// </summary>
+        /// <param name="consulta"></param>
+        /// <returns></returns>
+        public IList<T> ObterLista(ConsultaDTO consulta)
+        {
+            var criteria = Session.CreateCriteria(typeof(T));
+            ConfigurarFiltros(consulta, criteria);
+            ConfigurarCriteriosComPaginacao<T>(consulta, criteria);
+            ConfigurarOrdenacao(consulta, criteria);
+
+            return criteria.List<T>();
+        }
+
 		/// <summary>
 		/// Obtém uma lista de entidades de acordo com os critérios informados
 		/// </summary>
@@ -161,5 +176,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 			if (consulta.CampoOrdenacao != null)
 				criteria.AddOrder(VitalCriterion.OrderBy(consulta.CampoOrdenacao, consulta.OrdemCrescente));
 		}
-	}
+    }
 }
