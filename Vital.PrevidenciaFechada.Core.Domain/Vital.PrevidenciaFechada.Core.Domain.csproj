@@ -105,6 +105,7 @@
     <Compile Include="Mappers\CriticaMapper.cs" />
     <Compile Include="Mappers\ModeloDePropostaMapper.cs" />
     <Compile Include="Mappers\PropostaMapper.cs" />
+    <Compile Include="Mappers\UsuarioMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\QuerySpecification\EspecificacaoAdicionarClausulaLikeParaCamposDeTexto.cs" />
     <Compile Include="Repository\QuerySpecification\EspecificacaoAdicionarClausulasDeWhereParaCamposDeId.cs" />
