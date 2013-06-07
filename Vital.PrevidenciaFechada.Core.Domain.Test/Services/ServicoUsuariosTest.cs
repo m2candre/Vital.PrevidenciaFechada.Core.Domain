@@ -15,9 +15,9 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 		public void obter_usuario_por_token()
 		{
 			string token = Guid.NewGuid().ToString();
-			Usuario usuario = new Usuario { Id = Guid.NewGuid(), TokenDeSessao = token };
+			Usuario usuario = new Usuario { Id = Guid.NewGuid(), Token = token };
 
-			Expression<Func<Usuario, bool>> criterios = u => u.TokenDeSessao == token;
+            Expression<Func<Usuario, bool>> criterios = u => u.Token == token;
 
 			var repositorioUsuario = MockRepository.GenerateMock<IRepositorio<Usuario>>();
 			repositorioUsuario.Expect(x => x.Obter(criterios)).Return(usuario);
@@ -27,7 +27,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Test.Services
 
 			Usuario usuarioObtido = servico.ObterUsuarioPorToken(token);
 
-			Assert.That(usuarioObtido.TokenDeSessao, Is.EqualTo(token));
+            Assert.That(usuarioObtido.Token, Is.EqualTo(token));
 		}
 	}
 }

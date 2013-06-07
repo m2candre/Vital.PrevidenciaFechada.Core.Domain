@@ -35,7 +35,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			get
 			{
 				if (_criterios == null)
-					_criterios = u => u.TokenDeSessao == _token;
+					_criterios = u => u.Token == _token;
 
 				return _criterios;
 			}

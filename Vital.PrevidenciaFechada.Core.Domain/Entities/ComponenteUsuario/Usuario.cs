@@ -38,7 +38,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
 		/// <summary>
 		/// Hash do token de sessão para habilitar o acesso do usuário
 		/// </summary>
-		public virtual string TokenDeSessao { get; set; }
+		public virtual string Token { get; set; }
 
 		/// <summary>
 		/// Data/hora da última requisição enviada pelo usuário para controlar limite por tempo ocioso
@@ -71,7 +71,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteUsuario
 		/// <returns></returns>
 		public virtual void GerarTokenDeSessao()
 		{
-			TokenDeSessao = Guid.NewGuid().ToString();
+			Token = Guid.NewGuid().ToString();
 		}
 
 		public Usuario()

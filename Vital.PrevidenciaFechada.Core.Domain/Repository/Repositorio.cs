@@ -39,6 +39,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Repository
 		public T Obter(Expression<Func<T, bool>> criterios)
 		{
 			var criteria = Session.CreateCriteria(typeof(T)).Add(VitalCriterion.Where<T>(criterios));
+            //criteria.SetMaxResults(1);
 			return criteria.UniqueResult<T>();
 		}
 
