@@ -57,13 +57,13 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
         /// <summary>
         /// Mapeia uma lista de Convenios de Adesao em uma Lista de Convenio de Adesao DTO
         /// </summary>
-        /// <param name="usuarios">Lista das Identidades dos usuários cadastrados</param>
+        /// <param name="convenioDeAdesao">Lista das Identidades dos Convenios cadastrados</param>
         /// <returns></returns>
         public virtual List<ConvenioDeAdesaoDTO> ObterListaDeConvenioDeAdesaoDTO(List<ConvenioDeAdesao> convenioDeAdesao)
         {
-            var usuariosDTO = new List<ConvenioDeAdesaoDTO>();
-            convenioDeAdesao.ForEach(usr => usuariosDTO.Add(ObterDTO(usr)));
-            return usuariosDTO;
+            var convenioDTO = new List<ConvenioDeAdesaoDTO>();
+            convenioDeAdesao.ForEach(usr => convenioDTO.Add(ObterDTO(usr)));
+            return convenioDTO;
         }
     }
 }
