@@ -12,7 +12,7 @@ using Vital.PrevidenciaFechada.DTO.Messages.Core;
 namespace Vital.PrevidenciaFechada.Core.Domain.Mappers
 {
     /// <summary>
-    /// Mapea Usuários com DTOs específico
+    /// Mapeia entidade Usuário em DTO e vice versa
     /// </summary>
     public class UsuarioMapper
     {
