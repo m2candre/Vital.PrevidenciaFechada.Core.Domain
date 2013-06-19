@@ -27,11 +27,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
 		public virtual string ModeloDePropostaHTML { get; set; }
 
         /// <summary>
-        /// Convênios de Adesão com Patrocinadores e/ou Instituidores
-        /// </summary>
-        public virtual IList<ConvenioDeAdesao> ConveniosDeAdesao { get; set; }
-
-        /// <summary>
         /// Tipos de documento
         /// </summary>
         public virtual IList<TipoDeDocumento> TiposDeDocumento { get; set; }
@@ -48,7 +43,6 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePlano
         public Plano()
         {
             Regulamento = new Regulamento();
-            ConveniosDeAdesao = new List<ConvenioDeAdesao>();
             TiposDeDocumento = new List<TipoDeDocumento>();
         }
 
