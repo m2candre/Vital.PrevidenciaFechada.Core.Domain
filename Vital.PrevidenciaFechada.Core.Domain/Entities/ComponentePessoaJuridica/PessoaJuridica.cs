@@ -21,18 +21,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponentePessoaJuridica
         /// Razão Social
         /// </summary>
         public virtual string RazaoSocial { get; set; }
-
-		/// <summary>
-		/// Convênios de Adesão com Patrocinadores e/ou Instituidores
-		/// </summary>
-		public virtual IList<ConvenioDeAdesao> ConveniosDeAdesao { get; set; }
-
-		/// <summary>
-		/// Construtor inicializando os Convênios de Adesão
-		/// </summary>
-		public PessoaJuridica()
-		{
-			ConveniosDeAdesao = new List<ConvenioDeAdesao>();
-		}
     }
 }
