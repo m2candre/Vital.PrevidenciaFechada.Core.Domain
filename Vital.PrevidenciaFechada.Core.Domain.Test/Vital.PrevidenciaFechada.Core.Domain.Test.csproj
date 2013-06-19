@@ -147,6 +147,7 @@
     <Compile Include="Entities\ComponenteUsuario\IdentidadeTest.cs" />
     <Compile Include="Entities\ComponenteUsuario\UsuarioTest.cs" />
     <Compile Include="Entities\EntidadeTest.cs" />
+    <Compile Include="Mappers\ConvenioDeAdesaoMapperTest.cs" />
     <Compile Include="Mappers\ModeloDePropostaMapperTest.cs" />
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
