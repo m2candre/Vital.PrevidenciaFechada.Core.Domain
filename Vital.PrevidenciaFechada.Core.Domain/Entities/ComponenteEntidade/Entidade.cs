@@ -20,19 +20,5 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.ComponenteEntidade
         /// Nome da Entidade
         /// </summary>
         public virtual string Nome { get; set; }
-
-        /// <summary>
-        /// Lista de Convênios de Adesão
-        /// </summary>
-		/// <remarks>Uma entidade administra plano através de um convênio de adesão</remarks>
-        public virtual IList<ConvenioDeAdesao> ConveniosDeAdesao { get; set; }
-
-        /// <summary>
-        /// Construtor, sem dependencias
-        /// </summary>
-        public Entidade()
-        {
-            ConveniosDeAdesao = new List<ConvenioDeAdesao>();
-        }
     }
 }
