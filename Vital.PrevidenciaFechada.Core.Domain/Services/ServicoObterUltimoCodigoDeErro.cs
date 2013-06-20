@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Vital.PrevidenciaFechada.Core.Domain.Entities.Comun;
 using Vital.PrevidenciaFechada.Core.Domain.Repository;
 
@@ -33,7 +29,7 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Services
 			var erros = _erros.Todos();
 			
 			if (erros == null || erros.Count == 0) return 1;
-            return erros.Max(x => x.Numero) + 1;
+            return erros.Max(x => x.Codigo) + 1;
         }
     }
 }

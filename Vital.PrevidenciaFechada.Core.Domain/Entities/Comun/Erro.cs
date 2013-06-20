@@ -12,28 +12,41 @@ namespace Vital.PrevidenciaFechada.Core.Domain.Entities.Comun
     public class Erro : IAggregateRoot<Guid>
     {
         /// <summary>
-        /// Id
+        /// ID do erro gerado
         /// </summary>
         public virtual Guid Id { get; set; }
 
         /// <summary>
-        /// Número
+        /// Código do erro
         /// </summary>
-        public virtual int Numero { get; set; }
+        public virtual int Codigo { get; set; }
 
         /// <summary>
-        /// Mensagem de Erro
+        /// Mensagens de erro no formato Campo/Mensagem
         /// </summary>
-        public virtual string Mensagem { get; set; }
+        public virtual IList<MensagemDeErro> Mensagens { get; set; }
 
         /// <summary>
-        /// Stack trace
+        /// Mensagem da exceção técnica
+        /// </summary>
+        public virtual string Excecao { get; set; }
+
+        /// <summary>
+        /// Stack Trace
         /// </summary>
         public virtual string StackTrace { get; set; }
 
         /// <summary>
-        /// Data do registro de log
+        /// Data do Registro
         /// </summary>
         public virtual DateTime? DataDoRegistro { get; set; }
+
+        /// <summary>
+        /// Construtor
+        /// </summary>
+        public Erro()
+        {
+            Mensagens = new List<MensagemDeErro>();
+        }
     }
 }
