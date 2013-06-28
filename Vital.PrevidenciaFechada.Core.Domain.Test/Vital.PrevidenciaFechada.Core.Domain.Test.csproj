@@ -152,6 +152,8 @@
     <Compile Include="Repository\RepositorioTest.cs" />
     <Compile Include="Repository\VitalCriterionTest.cs" />
     <Compile Include="Services\IGerenciadorDeArquivoProvider.cs" />
+    <Compile Include="Services\PreInscricao\ObterCamposDaPreInscricaoTest.cs" />
+    <Compile Include="Services\PreInscricao\ServicoResultadoDoPreProcessamentoDaPreInscricaoTest.cs" />
     <Compile Include="Services\ServicoPropostaTest.cs" />
     <Compile Include="Services\ServicoUsuariosTest.cs" />
   </ItemGroup>
