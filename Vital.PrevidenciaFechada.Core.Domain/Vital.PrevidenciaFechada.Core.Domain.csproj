@@ -104,6 +104,7 @@
     <Compile Include="Entities\ComponentePessoaJuridica\Patrocinador.cs" />
     <Compile Include="Entities\Comun\Erro.cs" />
     <Compile Include="Entities\Comun\MensagemDeErro.cs" />
+    <Compile Include="Entities\PreAnalisado.cs" />
     <Compile Include="Entities\PreInscrito.cs" />
     <Compile Include="Mappers\ConvenioDeAdesaoMapper.cs" />
     <Compile Include="Mappers\CriticaMapper.cs" />
