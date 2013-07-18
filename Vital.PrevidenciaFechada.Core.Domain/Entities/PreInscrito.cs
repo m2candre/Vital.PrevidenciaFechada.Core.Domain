@@ -2,6 +2,7 @@
 
 namespace Vital.PrevidenciaFechada.Core.Domain.Entities
 {
+	[Serializable]
 	public class PreInscrito : IAggregateRoot<Guid>
     {
         /// <summary>
